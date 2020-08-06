@@ -1,5 +1,7 @@
 # Liaison Revision
 
+![build](https://github.com/paulbalandan/liaison-revision/workflows/build/badge.svg?branch=develop)
+
 **Liaison Revision** is a software updates library that handles the updating of files in
 your CodeIgniter4 projects. By this it assumes you are using the architecture of
 `codeigniter4/appstarter`.
