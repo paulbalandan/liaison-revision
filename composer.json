@@ -1,0 +1,61 @@
+{
+    "name": "liaison/revision",
+    "type": "library",
+    "description": "Seamless software updates library for CodeIgniter4 projects.",
+    "keywords": [
+        "software",
+        "updates",
+        "revision",
+        "codeigniter4"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "John Paul E. Balandan, CPA",
+            "email": "paulbalandan@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "ext-intl": "*",
+        "ext-mbstring": "*",
+        "sebastian/diff": "^4.0",
+        "symfony/process": "^5.1"
+    },
+    "require-dev": {
+        "codeigniter4/codeigniter4": "dev-develop",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpunit/phpunit": "^9.2"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "1.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Liaison\\Revision\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/codeigniter4/codeigniter4"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-update-cmd": [
+            "@php -r \"file_exists('phpunit.xml') || copy('phpunit.xml.dist', 'phpunit.xml');\""
+        ]
+    },
+    "support": {
+        "issues": "https://github.com/paulbalandan/liaison-revision/issues",
+        "source": "https://github.com/paulbalandan/liaison-revision"
+    }
+}
