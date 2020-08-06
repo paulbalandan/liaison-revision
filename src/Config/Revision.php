@@ -56,5 +56,5 @@ class Revision extends BaseConfig
      *
      * @var bool
      */
-    public $allowGitignoreEntry = true;
+    public $allowGitIgnoreEntry = true;
 }

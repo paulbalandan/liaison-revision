@@ -13,7 +13,6 @@ namespace Liaison\Revision\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
-use Liaison\Revision\Config\Revision;
 
 /**
  * Writes an entry to gitignore
@@ -52,9 +51,12 @@ class WriteGitignoreEntry extends BaseCommand
      */
     public function run(array $params)
     {
-        $config = new Revision();
+        /**
+         * @var \Liaison\Revision\Config\Revision
+         */
+        $config = config('Revision');
 
-        if (!$config->allowGitignoreEntry) {
+        if (!$config->allowGitIgnoreEntry) {
             CLI::error(lang('Revision.gitignoreWriteDenied', [static::class]), 'light_gray', 'red');
             CLI::newLine();
             return;
@@ -64,7 +66,7 @@ class WriteGitignoreEntry extends BaseCommand
 
         $gitignore = rtrim($config->rootPath, '\\/ ') . DIRECTORY_SEPARATOR . '.gitignore';
         if (!is_file($gitignore)) {
-            CLI::write(lang('Revision.gitignoreFileMissing'), 'cyan');
+            CLI::write(lang('Revision.gitignoreFileMissing'), 'yellow');
             if ('n' === CLI::prompt(CLI::color(lang('Revision.createGitignoreFile'), 'yellow'), ['y', 'n'], 'required')) {
                 CLI::error(lang('Revision.createGitignoreEntryFail'), 'light_gray', 'red');
                 CLI::newLine();
@@ -76,12 +78,12 @@ class WriteGitignoreEntry extends BaseCommand
 
         $contents = file_get_contents($gitignore);
         if (preg_match('#writable/revision/#m', $contents)) {
-            CLI::write(lang('Revision.createGitignoreEntryDuplicate'), 'cyan');
+            CLI::write(lang('Revision.createGitignoreEntryDuplicate'), 'yellow');
             CLI::newLine();
             return;
         }
 
-        if (!write_file($gitignore, "\nwritable/revision/", 'ab')) {
+        if (!write_file($gitignore, "#Liaison\Revision temp\nwritable/revision/", 'ab')) {
             CLI::error(lang('Revision.createGitignoreEntryFail'), 'light_gray', 'red');
             CLI::newLine();
             return;
