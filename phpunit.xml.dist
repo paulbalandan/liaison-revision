@@ -27,4 +27,17 @@
         <log type="testdox-text" target="build/logs/testdox.txt"/>
         <log type="junit" target="build/logs/logfile.xml"/>
     </logging>
+
+    <php>
+		<server name="app.baseURL" value="http://example.com"/>
+
+		<!-- Directory containing phpunit.xml -->
+		<const name="HOMEPATH" value="./"/>
+
+		<!-- Directory containing the Paths config file -->
+		<const name="CONFIGPATH" value="./vendor/codeigniter4/codeigniter4/app/Config/"/>
+
+		<!-- Directory containing the front controller (index.php) -->
+		<const name="PUBLICPATH" value="./vendor/codeigniter4/codeigniter4/public/"/>
+	</php>
 </phpunit>
