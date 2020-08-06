@@ -1,0 +1,53 @@
+name: build
+
+on:
+  push:
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - src/**
+      - tests/**
+
+jobs:
+  main:
+    name: Build [PHP ${{ matrix.php-versions }}]
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.3', '7.4']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: composer, pecl, phpunit
+          extensions: curl, intl, json, mbstring, xdebug
+          coverage: xdebug
+
+      - name: Use latest Composer
+        run: composer self-update
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --ansi --no-progress --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Run Liaison Revision Test Suite
+        run: vendor/bin/phpunit -v
