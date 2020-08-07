@@ -26,10 +26,12 @@ class ConfigurationResolver
 
     /**
      * Constructor.
+     *
+     * @param \Liaison\Revision\Config\Revision|null $config
      */
-    public function __construct()
+    public function __construct(?Revision $config = null)
     {
-        $this->config = class_exists(Config\Revision::class, false)
+        $this->config = $config ?? class_exists(Config\Revision::class, false)
             ? new \Config\Revision() // @codeCoverageIgnore
             : new \Liaison\Revision\Config\Revision();
     }
