@@ -21,6 +21,15 @@ interface LogHandlerInterface
     public const EXIT_CONTINUE = 2;
 
     /**
+     * Path to the specific log handler save directory.
+     *
+     * @param string $directory
+     *
+     * @return LogHandlerInterface
+     */
+    public function setDirectory(string $directory): LogHandlerInterface;
+
+    /**
      * Sets the filename of the log file without its extension.
      *
      * @param string $filename
@@ -39,6 +48,13 @@ interface LogHandlerInterface
     public function setExtension(string $ext): LogHandlerInterface;
 
     /**
+     * LogHandler-specific initialization.
+     *
+     * @return LogHandlerInterface
+     */
+    public function initialize(): LogHandlerInterface;
+
+    /**
      * Handles the logging of messages.
      *
      * @param string $level
@@ -47,4 +63,11 @@ interface LogHandlerInterface
      * @return int
      */
     public function handle(string $level, string $message): int;
+
+    /**
+     * Saves the log file to respective directory.
+     *
+     * @return bool
+     */
+    public function save(): bool;
 }
