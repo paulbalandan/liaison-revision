@@ -41,6 +41,11 @@
             "Liaison\\Revision\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Liaison\\Revision\\Tests\\": "tests/src/"
+        }
+    },
     "repositories": [
         {
             "type": "vcs",
