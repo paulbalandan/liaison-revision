@@ -18,4 +18,7 @@ return [
     'createGitignoreEntryFail'      => 'Failed creating entry in .gitignore.',
     'createGitignoreEntryDuplicate' => 'There was already an entry in .gitignore.',
     'createGitignoreEntrySuccess'   => 'Successfully created an entry to .gitignore.',
+
+    // Upgrader
+    'incompatibleUpgraderHandler'   => 'Cannot use {0} as upgrader: "{1}".',
 ];

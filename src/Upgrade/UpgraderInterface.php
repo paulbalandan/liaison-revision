@@ -19,7 +19,10 @@ interface UpgraderInterface
     /**
      * Execute the upgrade process.
      *
+     * @param string $rootPath
+     *
+     * @throws \Liaison\Revision\Exception\RevisionException
      * @return int Exit code
      */
-    public function upgrade(): int;
+    public function upgrade(string $rootPath): int;
 }
