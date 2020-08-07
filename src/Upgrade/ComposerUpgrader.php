@@ -61,11 +61,11 @@ class ComposerUpgrader implements UpgraderInterface
     protected function findComposerPhar(): string
     {
         $phpBinary      = (string) (new PhpExecutableFinder())->find();
-        $composerLocal  = rtrim((new ConfigurationResolver())->rootPath, '\\/ ') . DIRECTORY_SEPARATOR;
+        $composerLocal  = rtrim((new ConfigurationResolver())->rootPath, '\\/ ') . DIRECTORY_SEPARATOR . 'composer.phar';
 
-        if (is_file($composerLocal . 'composer.phar')) {
+        if (is_file($composerLocal)) {
             // @codeCoverageIgnoreStart
-            return sprintf('%s %s', escapeshellarg($phpBinary), escapeshellarg($composerLocal . 'composer.phar'));
+            return sprintf('%s %s', escapeshellarg($phpBinary), escapeshellarg($composerLocal));
             // @codeCoverageIgnoreEnd
         }
 
