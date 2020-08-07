@@ -30,8 +30,18 @@ class ConfigurationResolver
     public function __construct()
     {
         $this->config = class_exists(Config\Revision::class, false)
-            ? new \Config\Revision()
+            ? new \Config\Revision() // @codeCoverageIgnore
             : new \Liaison\Revision\Config\Revision();
+    }
+
+    /**
+     * Gets the current instance of the $config object.
+     *
+     * @return \Liaison\Revision\Config\Revision
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
@@ -43,7 +53,7 @@ class ConfigurationResolver
      */
     public function __get($property)
     {
-        if (property_exists($this->config, $property)) {
+        if ($this->__isset($property)) {
             return $this->config->{$property};
         }
 
