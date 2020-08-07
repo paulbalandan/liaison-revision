@@ -22,7 +22,7 @@ interface PathfinderInterface
      * with the keys `origin` and `destination`
      * and string values.
      *
-     * @return array
+     * @return string[][]
      */
     public function getPaths(): array;
 }

@@ -19,6 +19,10 @@ return [
     'createGitignoreEntryDuplicate' => 'There was already an entry in .gitignore.',
     'createGitignoreEntrySuccess'   => 'Successfully created an entry to .gitignore.',
 
-    // Upgrader
-    'incompatibleUpgraderHandler'   => 'Cannot use {0} as upgrader: "{1}".',
+    // Paths
+    'invalidOriginPathFound' => '"{0}" is not a valid origin file or directory.',
+    'invalidDestPathFound'   => '"{0}" must be a relative path.',
+
+    // Upgrade
+    'incompatibleUpgraderHandler' => 'Cannot use {0} as upgrader: "{1}".',
 ];
