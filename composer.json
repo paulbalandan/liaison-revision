@@ -20,6 +20,7 @@
         "ext-intl": "*",
         "ext-mbstring": "*",
         "sebastian/diff": "^4.0",
+        "symfony/filesystem": "^5.1",
         "symfony/process": "^5.1"
     },
     "require-dev": {
