@@ -56,6 +56,7 @@ return PhpCsFixer\Config::create()
         'no_whitespace_before_comma_in_array' => true,
         'nullable_type_declaration_for_default_null_value' => true,
         'phpdoc_add_missing_param_annotation' => ['only_untyped' => false],
+        'phpdoc_align' => true,
         'phpdoc_order' => true,
         'phpdoc_scalar' => true,
         'phpdoc_var_without_name' => true,

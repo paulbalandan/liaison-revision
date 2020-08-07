@@ -22,7 +22,7 @@ interface UpgraderInterface
      * @param string $rootPath
      *
      * @throws \Liaison\Revision\Exception\RevisionException
-     * @return int Exit code
+     * @return int
      */
     public function upgrade(string $rootPath): int;
 }
