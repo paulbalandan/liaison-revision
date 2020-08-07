@@ -37,7 +37,7 @@ class PublishConfigCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $usage = 'revision:config [<name>] [--] [options]';
+    protected $usage = 'revision:config [options] [--] [<name>]';
 
     /**
      * The Command's description.
