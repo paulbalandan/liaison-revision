@@ -15,8 +15,6 @@ use CodeIgniter\Config\BaseConfig;
 
 /**
  * Revision configuration.
- *
- * @package Liaison\Revision
  */
 class Revision extends BaseConfig
 {
@@ -26,6 +24,13 @@ class Revision extends BaseConfig
      * @var string
      */
     public $rootPath = ROOTPATH;
+
+    /**
+     * Path to project's writable folder.
+     *
+     * @var string
+     */
+    public $writePath = WRITEPATH;
 
     /**
      * Directories to ignore updating.

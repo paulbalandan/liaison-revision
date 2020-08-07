@@ -10,8 +10,8 @@
  */
 
 return [
-    // WriteGitignoreEntryCommand
-    'writablePathNotWritable'       => 'WRITEPATH is not writable by {0}.',
+    // GitignoreCommand
+    'mutExOptionsForWriteGiven'     => 'Cannot have both "-{0}" and "-{1}" options present.',
     'gitignoreWriteDenied'          => '{0} is not allowed to write entries to `.gitignore`.',
     'gitignoreFileMissing'          => '`.gitignore` is missing.',
     'createGitignoreFile'           => 'Create a new .gitgnore file?',
