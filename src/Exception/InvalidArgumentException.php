@@ -13,8 +13,6 @@ namespace Liaison\Revision\Exception;
 
 /**
  * InvalidArgumentException
- *
- * @package Liaison\Revision
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {

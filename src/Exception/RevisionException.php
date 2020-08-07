@@ -15,8 +15,6 @@ namespace Liaison\Revision\Exception;
  * RevisionException
  *
  * Runtime update exceptions.
- *
- * @package Liaison\Revision
  */
 class RevisionException extends \RuntimeException
 {

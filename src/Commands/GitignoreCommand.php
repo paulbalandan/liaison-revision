@@ -18,8 +18,6 @@ use Liaison\Revision\Exception\LogicException;
 
 /**
  * Writes an entry to gitignore
- *
- * @package Liaison\Revision
  */
 class GitignoreCommand extends BaseCommand
 {
