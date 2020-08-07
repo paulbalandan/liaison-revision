@@ -1,0 +1,64 @@
+<?php
+
+/**
+ * This file is part of Liaison Revision.
+ *
+ * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Liaison\Revision\Config;
+
+/**
+ * Resolves the correct configuration to load and
+ * wraps itself to it.
+ */
+class ConfigurationResolver
+{
+    /**
+     * Instance of Revision config.
+     *
+     * @var \Liaison\Revision\Config\Revision
+     */
+    protected $config;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->config = class_exists(Config\Revision::class, false)
+            ? new \Config\Revision()
+            : new \Liaison\Revision\Config\Revision();
+    }
+
+    /**
+     * Allows access to resolved config's properties.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        if (property_exists($this->config, $property)) {
+            return $this->config->{$property};
+        }
+
+        return null;
+    }
+
+    /**
+     * Simple way to know if a property exists on the config.
+     *
+     * @param string $property
+     *
+     * @return bool
+     */
+    public function __isset($property)
+    {
+        return property_exists($this->config, $property);
+    }
+}
