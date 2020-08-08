@@ -163,6 +163,7 @@ abstract class BasePathfinder implements PathfinderInterface
             $ignoredPaths = array_merge($ignoredPaths, [realpath($tempFile)]);
         }
 
+        $ignoredPaths = array_filter($ignoredPaths);
         sort($ignoredPaths);
         $this->ignoredPaths = $ignoredPaths;
     }
