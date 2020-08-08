@@ -20,8 +20,10 @@ return [
     'createGitignoreEntrySuccess'   => 'Successfully created an entry to .gitignore.',
 
     // Paths
-    'invalidOriginPathFound' => '"{0}" is not a valid origin file or directory.',
-    'invalidDestPathFound'   => '"{0}" must be a relative path.',
+    'invalidOriginPathFound'   => '"{0}" is not a valid origin file or directory.',
+    'invalidAbsolutePathFound' => '"{0}" must be a relative path.',
+    'invalidPathNotDirectory'  => '"{0}" is not a valid directory.',
+    'invalidPathNotFile'       => '"{0}" is not a valid file.',
 
     // Upgrade
     'incompatibleUpgraderHandler' => 'Cannot use {0} as upgrader: "{1}".',

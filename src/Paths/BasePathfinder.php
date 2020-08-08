@@ -23,9 +23,16 @@ abstract class BasePathfinder implements PathfinderInterface
     /**
      * Array of parsed and verified paths for update and transfer.
      *
-     * @var array
+     * @var string[][]
      */
     private $parsedPaths = [];
+
+    /**
+     * Array of verified paths to ignore during local merge.
+     *
+     * @var string[]
+     */
+    private $ignoredPaths = [];
 
     /**
      * Array of paths defined by pathfinders. Still for parsing.
@@ -61,6 +68,7 @@ abstract class BasePathfinder implements PathfinderInterface
 
         helper('filesystem');
         $this->verifyPaths();
+        $this->verifyIgnoredPaths();
     }
 
     /**
@@ -77,7 +85,7 @@ abstract class BasePathfinder implements PathfinderInterface
         foreach ($this->paths as $path) {
             // Make sure all destination paths are relative
             if ($this->fs->isAbsolutePath($path['destination'])) {
-                throw new InvalidArgumentException(lang('Revision.invalidDestPathFound', [$path['destination']]));
+                throw new InvalidArgumentException(lang('Revision.invalidAbsolutePathFound', [$path['destination']]));
             }
 
             $path['destination'] = empty($path['destination'])
@@ -85,20 +93,23 @@ abstract class BasePathfinder implements PathfinderInterface
                 : rtrim($path['destination'], '\\/ ') . DIRECTORY_SEPARATOR;
 
             if (is_dir($path['origin'])) {
-                $path['origin'] = rtrim($path['origin'], '\\/ ');
-                $path['origin'] = realpath($path['origin']) . DIRECTORY_SEPARATOR;
+                $path['origin'] = realpath(rtrim($path['origin'], '\\/ ')) . DIRECTORY_SEPARATOR;
 
-                foreach (get_filenames($path['origin'], null, true) as $file) {
-                    $tempPath[] = [
-                        'origin'      => $path['origin'] . $file,
-                        'destination' => str_replace(['\\', '/'], '/', $path['destination'] . $file),
-                    ];
+                foreach (get_filenames($path['origin'], true, true) as $origin) {
+                    if (is_file($origin)) {
+                        $destination = str_replace($path['origin'], $path['destination'], $origin);
+                        $destination = str_replace(['\\', '/'], '/', $destination);
+
+                        $tempPath[] = [
+                            'origin'      => $origin,
+                            'destination' => $destination,
+                        ];
+                    }
                 }
             } elseif (is_file($path['origin'])) {
-                $origin     = realpath($path['origin']);
                 $tempPath[] = [
-                    'origin'      => $origin,
-                    'destination' => str_replace(['\\', '/'], '/', $path['destination'] . basename($origin)),
+                    'origin'      => realpath($path['origin']),
+                    'destination' => str_replace(['\\', '/'], '/', $path['destination'] . basename($path['origin'])),
                 ];
             } else {
                 throw new InvalidArgumentException(lang('Revision.invalidOriginPathFound', [$path['origin']]));
@@ -109,10 +120,68 @@ abstract class BasePathfinder implements PathfinderInterface
     }
 
     /**
+     * Verifies the ignored directories and files defined in
+     * the config file and compiles the valid files.
+     *
+     * @throws \Liaison\Revision\Exception\InvalidArgumentException
+     * @return void
+     */
+    protected function verifyIgnoredPaths()
+    {
+        $ignoredPaths = [];
+        $rootPath     = rtrim($this->config->rootPath, '\\/ ') . DIRECTORY_SEPARATOR;
+        $dirs         = (array) $this->config->ignoredDirs;
+        $files        = (array) $this->config->ignoredFiles;
+
+        foreach ($dirs as $dir) {
+            if ($this->fs->isAbsolutePath($dir)) {
+                throw new InvalidArgumentException(lang('Revision.invalidAbsolutePathFound', [$dir]));
+            }
+
+            $tempDir = $rootPath . trim($dir, '\\/ ');
+            if (!is_dir($tempDir)) {
+                throw new InvalidArgumentException(lang('Revision.invalidPathNotDirectory', [$dir]));
+            }
+
+            foreach (get_filenames($tempDir, true, true) as $file) {
+                if (is_file($file)) {
+                    $ignoredPaths[] = $file;
+                }
+            }
+        }
+
+        foreach ($files as $file) {
+            if ($this->fs->isAbsolutePath($file)) {
+                throw new InvalidArgumentException(lang('Revision.invalidAbsolutePathFound', [$file]));
+            }
+
+            $tempFile = $rootPath . trim($file, '\\/ ');
+            if (!is_file($tempFile)) {
+                throw new InvalidArgumentException(lang('Revision.invalidPathNotFile', [$file]));
+            }
+
+            $ignoredPaths = array_merge($ignoredPaths, [realpath($tempFile)]);
+        }
+
+        sort($ignoredPaths);
+        $this->ignoredPaths = $ignoredPaths;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getPaths(): array
     {
         return $this->parsedPaths;
+    }
+
+    /**
+     * Retrieves the array of paths to be ignored during local merge.
+     *
+     * @return string[]
+     */
+    public function getIgnoredPaths(): array
+    {
+        return $this->ignoredPaths;
     }
 }
