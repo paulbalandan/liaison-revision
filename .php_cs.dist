@@ -25,6 +25,7 @@ return PhpCsFixer\Config::create()
         'binary_operator_spaces' => ['default' => 'align_single_space'],
         'blank_line_after_opening_tag' => true,
         'cast_spaces' => true,
+        'class_keyword_remove' => true,
         'combine_consecutive_unsets' => true,
         'compact_nullable_typehint' => true,
         'concat_space' => ['spacing' => 'one'],
@@ -68,6 +69,7 @@ return PhpCsFixer\Config::create()
         'simplified_null_return' => false,
         'single_blank_line_before_namespace' => true,
         'single_quote' => true,
+        'trailing_comma_in_multiline_array' => true,
         'yoda_style' => true,
     ])
     ->setFinder($finder)

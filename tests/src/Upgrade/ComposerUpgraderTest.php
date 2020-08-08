@@ -16,7 +16,7 @@ class ComposerUpgraderTest extends CIUnitTestCase
 
     public function testComposerUpdateFail()
     {
-        $this->expectException(\Liaison\Revision\Exception\RevisionException::class);
+        $this->expectException('Liaison\Revision\Exception\RevisionException');
         (new ComposerUpgrader())->upgrade(getcwd() . '/inexistent/path');
     }
 }

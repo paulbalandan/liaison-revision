@@ -73,19 +73,19 @@ class Revision extends BaseConfig
     /**
      * Upgrader to use.
      *
-     * This must implement `\Liaison\Revision\Upgrade\UpgraderInterface`.
+     * This must implement `Liaison\Revision\Upgrade\UpgraderInterface`.
      *
      * Available upgraders:
-     * * `\Liaison\Revision\Upgrade\ComposerUpgrader`
+     * * `Liaison\Revision\Upgrade\ComposerUpgrader`
      *
      * @var string
      */
-    public $upgrader = \Liaison\Revision\Upgrade\ComposerUpgrader::class;
+    public $upgrader = 'Liaison\Revision\Upgrade\ComposerUpgrader';
 
     /**
      * Pathfinder to use.
      *
-     * This must be a subclass of `\Liaison\Revision\Paths\BasePathfinder`.
+     * This must be a subclass of `Liaison\Revision\Paths\BasePathfinder`.
      *
      * Available pathfinders:
      * * `\Liaison\Revision\Paths\DefaultPathfinder`
@@ -96,7 +96,7 @@ class Revision extends BaseConfig
      *
      * @var string
      */
-    public $pathfinder = \Liaison\Revision\Paths\DefaultPathfinder::class;
+    public $pathfinder = 'Liaison\Revision\Paths\DefaultPathfinder';
 
     /**
      * Default LogHandlers to use.
@@ -106,7 +106,7 @@ class Revision extends BaseConfig
      * @var string[]
      */
     public $defaultLogHandlers = [
-        \Liaison\Revision\Logs\JsonLogHandler::class,
-        \Liaison\Revision\Logs\PlaintextLogHandler::class,
+        'Liaison\Revision\Logs\JsonLogHandler',
+        'Liaison\Revision\Logs\PlaintextLogHandler',
     ];
 }
