@@ -78,7 +78,7 @@ abstract class BasePathfinder implements PathfinderInterface
      * @throws \Liaison\Revision\Exception\InvalidArgumentException
      * @return void
      */
-    protected function verifyPaths()
+    private function verifyPaths()
     {
         $tempPath = [];
 
@@ -126,7 +126,7 @@ abstract class BasePathfinder implements PathfinderInterface
      * @throws \Liaison\Revision\Exception\InvalidArgumentException
      * @return void
      */
-    protected function verifyIgnoredPaths()
+    private function verifyIgnoredPaths()
     {
         $ignoredPaths = [];
         $rootPath     = rtrim($this->config->rootPath, '\\/ ') . DIRECTORY_SEPARATOR;
