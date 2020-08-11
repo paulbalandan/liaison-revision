@@ -34,14 +34,14 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: composer, pecl, phpunit
-          extensions: curl, intl, json, mbstring, xdebug
+          extensions: curl, intl, mbstring, xdebug
           coverage: xdebug
 
       - name: Use latest Composer
         run: composer self-update
 
-      - name: Setup OAuth token for Composer
-        run: composer config --global github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
+      - name: Validate composer.json
+        run: composer validate --strict
 
       - name: Get composer cache directory
         id: composer-cache
@@ -55,7 +55,10 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer install --ansi --no-progress --no-interaction --prefer-dist --optimize-autoloader
+        run: composer install --ansi --no-scripts --no-progress --no-suggest --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Run Liaison Revision Test Suite
-        run: vendor/bin/phpunit -v
+      - name: Run PHP-CS-Fixer
+        run: vendor/bin/php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run --stop-on-violation --using-cache=no
+
+      - name: Run Liaison Test Suite
+        run: vendor/bin/phpunit --verbose
