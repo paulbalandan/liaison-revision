@@ -26,11 +26,29 @@ class ComposerUpgrader implements UpgraderInterface
     /**
      * {@inheritDoc}
      */
-    public function upgrade(string $rootPath): int
+    public function upgrade(string $rootPath, array $options = []): int
     {
         $composer = $this->findComposerPhar();
 
-        $cmd     = "$composer update --ansi";
+        /**
+         * Default behavior now is to exclude non-system directory.
+         * Add `--prefer-source` to download these.
+         *
+         * @see https://github.com/codeigniter4/CodeIgniter4/pull/3438
+         */
+        $cmd = "$composer update --ansi --prefer-source";
+
+        if (in_array('no-ansi', $options, true))
+        {
+            $cmd = str_replace('--ansi', '--no-ansi', $cmd);
+        }
+
+        if (ENVIRONMENT === 'testing' || in_array('dry-run', $options, true))
+        {
+            // Don't actually update when testing.
+            $cmd .= ' --dry-run';
+        }
+
         $process = Process::fromShellCommandline($cmd, $rootPath, null, null, null);
 
         if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
@@ -65,13 +83,22 @@ class ComposerUpgrader implements UpgraderInterface
 
         if (is_file($composerLocal)) {
             // @codeCoverageIgnoreStart
-            return sprintf('%s %s', escapeshellarg($phpBinary), escapeshellarg($composerLocal));
+            return sprintf(
+                '%s %s',
+                escapeshellarg($phpBinary),
+                escapeshellarg($composerLocal)
+            );
             // @codeCoverageIgnoreEnd
         }
 
         if (null === (new ExecutableFinder())->find('composer')) {
             // @codeCoverageIgnoreStart
-            throw new RevisionException(lang('Revision.incompatibleUpgraderHandler', [static::class, 'No composer executable found.']));
+            throw new RevisionException(lang(
+                'Revision.incompatibleUpgraderHandler', [
+                    static::class,
+                    'No composer executable found.',
+                ])
+            );
             // @codeCoverageIgnoreEnd
         }
 

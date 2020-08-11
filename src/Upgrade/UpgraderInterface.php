@@ -24,5 +24,5 @@ interface UpgraderInterface
      * @throws \Liaison\Revision\Exception\RevisionException
      * @return int
      */
-    public function upgrade(string $rootPath): int;
+    public function upgrade(string $rootPath, array $options = []): int;
 }
