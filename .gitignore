@@ -10,7 +10,6 @@ build/
 # Composer
 #-------------------------
 vendor/
-composer.lock
 
 #-------------------------
 # IDE / Development Files
