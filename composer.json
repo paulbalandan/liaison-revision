@@ -26,6 +26,7 @@
     "require-dev": {
         "codeigniter4/codeigniter4": "dev-develop",
         "friendsofphp/php-cs-fixer": "^2.16",
+        "liaison/cs-config": "^1.0",
         "phpunit/phpunit": "^9.3"
     },
     "config": {
@@ -58,7 +59,13 @@
     "scripts": {
         "post-update-cmd": [
             "@php -r \"file_exists('phpunit.xml') || copy('phpunit.xml.dist', 'phpunit.xml');\""
-        ]
+        ],
+        "changelog-update": "auto-changelog --hide-credit --template keepachangelog --commit-limit false --sort-commits date-desc",
+        "changelog-update-unreleased": "@changelog-update --unreleased"
+    },
+    "scripts-descriptions": {
+        "changelog-update": "Updates CHANGELOG.md without unreleased section.",
+        "changelog-update-unreleased": "Updates CHANGELOG.md with unreleased section."
     },
     "support": {
         "issues": "https://github.com/paulbalandan/liaison-revision/issues",
