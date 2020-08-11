@@ -11,11 +11,13 @@
 
 namespace Liaison\Revision\Exception;
 
+use RuntimeException;
+
 /**
- * RevisionException
+ * RevisionException.
  *
  * Runtime update exceptions.
  */
-class RevisionException extends \RuntimeException
+class RevisionException extends RuntimeException
 {
 }

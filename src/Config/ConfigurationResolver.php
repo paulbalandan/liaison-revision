@@ -27,13 +27,39 @@ class ConfigurationResolver
     /**
      * Constructor.
      *
-     * @param \Liaison\Revision\Config\Revision|null $config
+     * @param null|\Liaison\Revision\Config\Revision $config
      */
     public function __construct(?Revision $config = null)
     {
         $this->config = $config ?? (class_exists('Config\Revision', false)
             ? new \Config\Revision() // @codeCoverageIgnore
             : new \Liaison\Revision\Config\Revision());
+    }
+
+    /**
+     * Allows access to resolved config's properties.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function __get(string $property)
+    {
+        if ($this->__isset($property)) {
+            return $this->config->{$property};
+        }
+    }
+
+    /**
+     * Simple way to know if a property exists on the config.
+     *
+     * @param string $property
+     *
+     * @return bool
+     */
+    public function __isset(string $property)
+    {
+        return property_exists($this->config, $property);
     }
 
     /**
@@ -44,33 +70,5 @@ class ConfigurationResolver
     public function getConfig()
     {
         return $this->config;
-    }
-
-    /**
-     * Allows access to resolved config's properties.
-     *
-     * @param string $property
-     *
-     * @return mixed
-     */
-    public function __get($property)
-    {
-        if ($this->__isset($property)) {
-            return $this->config->{$property};
-        }
-
-        return null;
-    }
-
-    /**
-     * Simple way to know if a property exists on the config.
-     *
-     * @param string $property
-     *
-     * @return bool
-     */
-    public function __isset($property)
-    {
-        return property_exists($this->config, $property);
     }
 }

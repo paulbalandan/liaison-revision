@@ -27,7 +27,7 @@ interface LogHandlerInterface
      *
      * @return LogHandlerInterface
      */
-    public function setDirectory(string $directory): LogHandlerInterface;
+    public function setDirectory(string $directory): self;
 
     /**
      * Sets the filename of the log file without its extension.
@@ -36,7 +36,7 @@ interface LogHandlerInterface
      *
      * @return LogHandlerInterface
      */
-    public function setFilename(string $filename): LogHandlerInterface;
+    public function setFilename(string $filename): self;
 
     /**
      * Sets the file extension of the log file.
@@ -45,14 +45,14 @@ interface LogHandlerInterface
      *
      * @return LogHandlerInterface
      */
-    public function setExtension(string $ext): LogHandlerInterface;
+    public function setExtension(string $ext): self;
 
     /**
      * LogHandler-specific initialization.
      *
      * @return LogHandlerInterface
      */
-    public function initialize(): LogHandlerInterface;
+    public function initialize(): self;
 
     /**
      * Handles the logging of messages.

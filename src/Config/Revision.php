@@ -35,11 +35,9 @@ class Revision extends BaseConfig
     /**
      * Directories to ignore updating.
      * These can include the top directories:
-     *
      * * app
      * * public
-     *
-     * or their subdirectories.
+     * * or their subdirectories.
      *
      * NOTE: Must be relative to `$rootPath`.
      *

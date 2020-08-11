@@ -12,14 +12,14 @@
 namespace Liaison\Revision\Paths;
 
 /**
- * DefaultPathfinder
+ * DefaultPathfinder.
  *
  * Contains the basic paths to update.
  */
 class DefaultPathfinder extends BasePathfinder
 {
     /**
-     * Parseable paths
+     * Parseable paths.
      *
      * @var string[][]
      */

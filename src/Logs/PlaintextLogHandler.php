@@ -16,7 +16,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * PlaintextLogHandler
+ * PlaintextLogHandler.
  */
 class PlaintextLogHandler extends BaseLogHandler
 {
@@ -33,8 +33,8 @@ class PlaintextLogHandler extends BaseLogHandler
      * @param string                                              $directory
      * @param string                                              $filename
      * @param string                                              $extension
-     * @param \Liaison\Revision\Config\ConfigurationResolver|null $config
-     * @param \Symfony\Component\Filesystem\Filesystem|null       $filesystem
+     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
      */
     public function __construct(
         string $directory = 'log',
@@ -48,7 +48,7 @@ class PlaintextLogHandler extends BaseLogHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initialize(): LogHandlerInterface
     {
@@ -57,13 +57,13 @@ class PlaintextLogHandler extends BaseLogHandler
 
         // Headers
         $this->buffer = <<<EOD
- +========================================================+
- | Liaison Revision                                       |
- | Version: $version |
- | Run Date: $date |
- +========================================================+
+             +========================================================+
+             | Liaison Revision                                       |
+             | Version: {$version} |
+             | Run Date: {$date} |
+             +========================================================+
 
-EOD;
+            EOD;
 
         // Settings
         $this->buffer .= "Loaded Configuration\n";
@@ -83,16 +83,17 @@ EOD;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function handle(string $level, string $message): int
     {
         $this->buffer .= '[' . date('Y-m-d H:i:s') . '] ' . mb_strtoupper($level) . ' -- ' . $message . "\n";
+
         return static::EXIT_SUCCESS;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function save(): bool
     {
@@ -101,9 +102,10 @@ EOD;
             $this->buffer = '';
 
             $this->filesystem->dumpFile(
-                $this->directory . DIRECTORY_SEPARATOR . $this->filename . $this->extension,
+                $this->directory . \DIRECTORY_SEPARATOR . $this->filename . $this->extension,
                 $buffer
             );
+
             return true;
         } catch (IOExceptionInterface $e) {
             return false;

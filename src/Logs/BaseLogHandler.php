@@ -15,7 +15,7 @@ use Liaison\Revision\Config\ConfigurationResolver;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * BaseLogHandler
+ * BaseLogHandler.
  */
 abstract class BaseLogHandler implements LogHandlerInterface
 {
@@ -27,7 +27,7 @@ abstract class BaseLogHandler implements LogHandlerInterface
     protected $config;
 
     /**
-     * Instance of Filesystem
+     * Instance of Filesystem.
      *
      * @var \Symfony\Component\Filesystem\Filesystem
      */
@@ -43,8 +43,8 @@ abstract class BaseLogHandler implements LogHandlerInterface
      * @param string                                              $directory
      * @param string                                              $filename
      * @param string                                              $extension
-     * @param \Liaison\Revision\Config\ConfigurationResolver|null $config
-     * @param \Symfony\Component\Filesystem\Filesystem|null       $filesystem
+     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
      */
     public function __construct(
         string $directory,
@@ -61,30 +61,33 @@ abstract class BaseLogHandler implements LogHandlerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDirectory(string $directory): LogHandlerInterface
     {
         $this->directory = rtrim($this->config->writePath, '\\/ ') . '/revision/logs/' . $directory;
         $this->filesystem->mkdir($this->directory);
+
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setFilename(string $filename): LogHandlerInterface
     {
         $this->filename = $filename . date('Y-m-d_His_') . 'UTC' . date('O');
+
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setExtension(string $ext): LogHandlerInterface
     {
         $this->extension = $ext;
+
         return $this;
     }
 
@@ -100,7 +103,7 @@ abstract class BaseLogHandler implements LogHandlerInterface
         switch (true) {
             case \is_object($value):
                 return 'Object(' . \get_class($value) . ')';
-            case \is_null($value):
+            case null === $value:
                 return 'null';
             case \is_bool($value):
                 return $value ? 'true' : 'false';

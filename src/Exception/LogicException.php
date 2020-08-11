@@ -12,7 +12,7 @@
 namespace Liaison\Revision\Exception;
 
 /**
- * LogicException
+ * LogicException.
  */
 class LogicException extends \LogicException
 {

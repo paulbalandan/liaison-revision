@@ -17,7 +17,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * JsonLogHandler
+ * JsonLogHandler.
  */
 class JsonLogHandler extends BaseLogHandler implements JsonSerializable
 {
@@ -34,8 +34,8 @@ class JsonLogHandler extends BaseLogHandler implements JsonSerializable
      * @param string                                              $directory
      * @param string                                              $filename
      * @param string                                              $extension
-     * @param \Liaison\Revision\Config\ConfigurationResolver|null $config
-     * @param \Symfony\Component\Filesystem\Filesystem|null       $filesystem
+     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
      */
     public function __construct(
         string $directory = 'json',
@@ -49,7 +49,7 @@ class JsonLogHandler extends BaseLogHandler implements JsonSerializable
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function jsonSerialize()
     {
@@ -57,7 +57,7 @@ class JsonLogHandler extends BaseLogHandler implements JsonSerializable
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initialize(): LogHandlerInterface
     {
@@ -78,7 +78,7 @@ class JsonLogHandler extends BaseLogHandler implements JsonSerializable
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function handle(string $level, string $message): int
     {
@@ -87,19 +87,21 @@ class JsonLogHandler extends BaseLogHandler implements JsonSerializable
         }
 
         $this->json['logs'][] = '[' . date('Y-m-d H:i:s') . '] ' . mb_strtoupper($level) . ' -- ' . $message;
+
         return static::EXIT_SUCCESS;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function save(): bool
     {
         try {
             $this->fs->dumpFile(
-                $this->directory . DIRECTORY_SEPARATOR . $this->filename . $this->extension,
+                $this->directory . \DIRECTORY_SEPARATOR . $this->filename . $this->extension,
                 json_encode($this, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "\n"
             );
+
             return true;
         } catch (IOExceptionInterface $e) {
             return false;

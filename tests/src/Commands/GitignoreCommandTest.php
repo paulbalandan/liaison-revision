@@ -1,11 +1,26 @@
 <?php
 
+/**
+ * This file is part of Liaison Revision.
+ *
+ * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Liaison\Revision\Tests\Commands;
 
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\Filters\CITestStreamFilter;
+use Throwable;
 
-class GitignoreCommandTest extends CIUnitTestCase
+/**
+ * @internal
+ *
+ * @small
+ */
+final class GitignoreCommandTest extends CIUnitTestCase
 {
     private $streamFilter;
     private $original = ROOTPATH . '.gitignore';
@@ -41,7 +56,7 @@ class GitignoreCommandTest extends CIUnitTestCase
     {
         try {
             command('revision:gitignore -allow-entry -no-allow-entry');
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             ob_end_clean();
             $this->assertInstanceOf('Liaison\Revision\Exception\LogicException', $e);
         }

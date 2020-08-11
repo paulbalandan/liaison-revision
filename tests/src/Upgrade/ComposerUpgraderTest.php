@@ -1,17 +1,31 @@
 <?php
 
+/**
+ * This file is part of Liaison Revision.
+ *
+ * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Liaison\Revision\Tests\Upgrade;
 
 use CodeIgniter\Test\CIUnitTestCase;
 use Liaison\Revision\Upgrade\ComposerUpgrader;
 
-class ComposerUpgraderTest extends CIUnitTestCase
+/**
+ * @internal
+ *
+ * @small
+ */
+final class ComposerUpgraderTest extends CIUnitTestCase
 {
     public function testComposerUpdateSuccess()
     {
         // Use getcwd to run composer update against our own path.
         $exitCode = (new ComposerUpgrader())->upgrade(getcwd());
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 
     public function testComposerUpdateFail()

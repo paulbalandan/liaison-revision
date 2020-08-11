@@ -12,7 +12,7 @@
 namespace Liaison\Revision\Upgrade;
 
 /**
- * UpgraderInterface
+ * UpgraderInterface.
  */
 interface UpgraderInterface
 {
@@ -20,8 +20,10 @@ interface UpgraderInterface
      * Execute the upgrade process.
      *
      * @param string $rootPath
+     * @param array  $options
      *
      * @throws \Liaison\Revision\Exception\RevisionException
+     *
      * @return int
      */
     public function upgrade(string $rootPath, array $options = []): int;

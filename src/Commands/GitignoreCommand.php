@@ -17,7 +17,7 @@ use Liaison\Revision\Config\ConfigurationResolver;
 use Liaison\Revision\Exception\LogicException;
 
 /**
- * Writes an entry to gitignore
+ * Writes an entry to gitignore.
  */
 class GitignoreCommand extends BaseCommand
 {
@@ -84,12 +84,13 @@ class GitignoreCommand extends BaseCommand
         if (!$write) {
             CLI::error(lang('Revision.gitignoreWriteDenied', [static::class]), 'light_gray', 'red');
             CLI::newLine();
+
             return;
         }
 
         helper('filesystem');
 
-        $gitignore = rtrim($config->rootPath, '\\/ ') . DIRECTORY_SEPARATOR . '.gitignore';
+        $gitignore = rtrim($config->rootPath, '\\/ ') . \DIRECTORY_SEPARATOR . '.gitignore';
         if (!is_file($gitignore)) {
             CLI::write(lang('Revision.gitignoreFileMissing'), 'yellow');
             $writeNew = \array_key_exists('write-if-missing', $params) || CLI::getOption('write-if-missing');
@@ -98,6 +99,7 @@ class GitignoreCommand extends BaseCommand
                 // @codeCoverageIgnoreStart
                 CLI::error(lang('Revision.createGitignoreEntryFail'), 'light_gray', 'red');
                 CLI::newLine();
+
                 return;
                 // @codeCoverageIgnoreEnd
             }
@@ -109,12 +111,14 @@ class GitignoreCommand extends BaseCommand
         if (preg_match('#writable/revision/#m', $contents)) {
             CLI::write(lang('Revision.createGitignoreEntryDuplicate'), 'yellow');
             CLI::newLine();
+
             return;
         }
 
-        if (!write_file($gitignore, "\n# Liaison\Revision temp\nwritable/revision/", 'ab')) {
+        if (!write_file($gitignore, "\n# Liaison\\Revision temp\nwritable/revision/", 'ab')) {
             CLI::error(lang('Revision.createGitignoreEntryFail'), 'light_gray', 'red');
             CLI::newLine();
+
             return;
         }
 

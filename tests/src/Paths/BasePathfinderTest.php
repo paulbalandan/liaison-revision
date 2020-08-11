@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of Liaison Revision.
+ *
+ * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Liaison\Revision\Tests\Paths;
 
 use CodeIgniter\Test\CIUnitTestCase;
@@ -9,7 +18,12 @@ use Tests\Support\Pathfinders\AbsoluteDestinationPathfinder;
 use Tests\Support\Pathfinders\InvalidPathfinder;
 use Tests\Support\Pathfinders\SimplePathfinder;
 
-class BasePathfinderTest extends CIUnitTestCase
+/**
+ * @internal
+ *
+ * @small
+ */
+final class BasePathfinderTest extends CIUnitTestCase
 {
     public function testNormalGetPaths()
     {

@@ -16,24 +16,10 @@ use Liaison\Revision\Exception\InvalidArgumentException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * BasePathfinder
+ * BasePathfinder.
  */
 abstract class BasePathfinder implements PathfinderInterface
 {
-    /**
-     * Array of parsed and verified paths for update and transfer.
-     *
-     * @var string[][]
-     */
-    private $parsedPaths = [];
-
-    /**
-     * Array of verified paths to ignore during local merge.
-     *
-     * @var string[]
-     */
-    private $ignoredPaths = [];
-
     /**
      * Array of paths defined by pathfinders. Still for parsing.
      *
@@ -56,10 +42,24 @@ abstract class BasePathfinder implements PathfinderInterface
     protected $fs;
 
     /**
+     * Array of parsed and verified paths for update and transfer.
+     *
+     * @var string[][]
+     */
+    private $parsedPaths = [];
+
+    /**
+     * Array of verified paths to ignore during local merge.
+     *
+     * @var string[]
+     */
+    private $ignoredPaths = [];
+
+    /**
      * Constructor.
      *
-     * @param \Liaison\Revision\Config\ConfigurationResolver|null $config
-     * @param \Symfony\Component\Filesystem\Filesystem|null       $fs
+     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem       $fs
      */
     public function __construct(?ConfigurationResolver $config = null, ?Filesystem $fs = null)
     {
@@ -72,10 +72,29 @@ abstract class BasePathfinder implements PathfinderInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getPaths(): array
+    {
+        return $this->parsedPaths;
+    }
+
+    /**
+     * Retrieves the array of paths to be ignored during local merge.
+     *
+     * @return string[]
+     */
+    public function getIgnoredPaths(): array
+    {
+        return $this->ignoredPaths;
+    }
+
+    /**
      * Verifies paths provided by pathfinders
      * and compiles the parseable files.
      *
      * @throws \Liaison\Revision\Exception\InvalidArgumentException
+     *
      * @return void
      */
     private function verifyPaths()
@@ -90,10 +109,10 @@ abstract class BasePathfinder implements PathfinderInterface
 
             $path['destination'] = empty($path['destination'])
                 ? ''
-                : rtrim($path['destination'], '\\/ ') . DIRECTORY_SEPARATOR;
+                : rtrim($path['destination'], '\\/ ') . \DIRECTORY_SEPARATOR;
 
             if (is_dir($path['origin'])) {
-                $path['origin'] = realpath(rtrim($path['origin'], '\\/ ')) . DIRECTORY_SEPARATOR;
+                $path['origin'] = realpath(rtrim($path['origin'], '\\/ ')) . \DIRECTORY_SEPARATOR;
 
                 foreach (get_filenames($path['origin'], true, true) as $origin) {
                     if (is_file($origin)) {
@@ -124,12 +143,13 @@ abstract class BasePathfinder implements PathfinderInterface
      * the config file and compiles the valid files.
      *
      * @throws \Liaison\Revision\Exception\InvalidArgumentException
+     *
      * @return void
      */
     private function verifyIgnoredPaths()
     {
         $ignoredPaths = [];
-        $rootPath     = rtrim($this->config->rootPath, '\\/ ') . DIRECTORY_SEPARATOR;
+        $rootPath     = rtrim($this->config->rootPath, '\\/ ') . \DIRECTORY_SEPARATOR;
         $dirs         = (array) $this->config->ignoredDirs;
         $files        = (array) $this->config->ignoredFiles;
 
@@ -166,23 +186,5 @@ abstract class BasePathfinder implements PathfinderInterface
         $ignoredPaths = array_filter($ignoredPaths);
         sort($ignoredPaths);
         $this->ignoredPaths = $ignoredPaths;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getPaths(): array
-    {
-        return $this->parsedPaths;
-    }
-
-    /**
-     * Retrieves the array of paths to be ignored during local merge.
-     *
-     * @return string[]
-     */
-    public function getIgnoredPaths(): array
-    {
-        return $this->ignoredPaths;
     }
 }
