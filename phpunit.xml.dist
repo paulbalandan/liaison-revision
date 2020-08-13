@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
          bootstrap="vendor/codeigniter4/codeigniter4/system/Test/bootstrap.php"
          backupGlobals="false"
          colors="true"
@@ -10,32 +11,31 @@
          stopOnFailure="false"
          stopOnIncomplete="false"
          stopOnSkipped="false"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage includeUncoveredFiles="true" processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-    <report>
-      <clover outputFile="build/logs/clover.xml"/>
-      <html outputDirectory="build/logs/html"/>
-    </report>
-  </coverage>
-  <testsuites>
-    <testsuite name="Liaison Revision Test Suite">
-      <directory>tests</directory>
-    </testsuite>
-  </testsuites>
-  <logging>
-    <testdoxText outputFile="build/logs/testdox.txt"/>
-    <junit outputFile="build/logs/logfile.xml"/>
-  </logging>
-  <php>
-    <server name="app.baseURL" value="http://example.com"/>
-    <!-- Directory containing phpunit.xml -->
-    <const name="HOMEPATH" value="./"/>
-    <!-- Directory containing the Paths config file -->
-    <const name="CONFIGPATH" value="./vendor/codeigniter4/codeigniter4/app/Config/"/>
-    <!-- Directory containing the front controller (index.php) -->
-    <const name="PUBLICPATH" value="./vendor/codeigniter4/codeigniter4/public/"/>
-  </php>
+         verbose="true">
+    <testsuites>
+        <testsuite name="default">
+            <directory suffix="Test.php">tests/src</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="build/logs/html"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
+
+    <php>
+        <server name="app.baseURL" value="http://example.com"/>
+        <!-- Directory containing phpunit.xml -->
+        <const name="HOMEPATH" value="./"/>
+        <!-- Directory containing the Paths config file -->
+        <const name="CONFIGPATH" value="vendor/codeigniter4/codeigniter4/app/Config/"/>
+        <!-- Directory containing the front controller (index.php) -->
+        <const name="PUBLICPATH" value="vendor/codeigniter4/codeigniter4/public/"/>
+    </php>
 </phpunit>
