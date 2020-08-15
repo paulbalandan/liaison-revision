@@ -59,7 +59,7 @@ class JsonLogHandler extends BaseLogHandler implements JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function initialize(): LogHandlerInterface
+    public function initialize()
     {
         // Headers
         $this->json = [
@@ -104,6 +104,8 @@ class JsonLogHandler extends BaseLogHandler implements JsonSerializable
 
             return true;
         } catch (IOExceptionInterface $e) {
+            log_message('error', $e->getMessage());
+
             return false;
         }
     }

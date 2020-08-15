@@ -94,8 +94,6 @@ abstract class BasePathfinder implements PathfinderInterface
      * and compiles the parseable files.
      *
      * @throws \Liaison\Revision\Exception\InvalidArgumentException
-     *
-     * @return void
      */
     private function verifyPaths()
     {
@@ -143,8 +141,6 @@ abstract class BasePathfinder implements PathfinderInterface
      * the config file and compiles the valid files.
      *
      * @throws \Liaison\Revision\Exception\InvalidArgumentException
-     *
-     * @return void
      */
     private function verifyIgnoredPaths()
     {

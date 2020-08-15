@@ -63,7 +63,7 @@ abstract class BaseLogHandler implements LogHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function setDirectory(string $directory): LogHandlerInterface
+    public function setDirectory(string $directory)
     {
         $this->directory = rtrim($this->config->writePath, '\\/ ') . '/revision/logs/' . $directory;
         $this->filesystem->mkdir($this->directory);
@@ -74,7 +74,7 @@ abstract class BaseLogHandler implements LogHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function setFilename(string $filename): LogHandlerInterface
+    public function setFilename(string $filename)
     {
         $this->filename = $filename . date('Y-m-d_His_') . 'UTC' . date('O');
 
@@ -84,7 +84,7 @@ abstract class BaseLogHandler implements LogHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function setExtension(string $ext): LogHandlerInterface
+    public function setExtension(string $ext)
     {
         $this->extension = $ext;
 

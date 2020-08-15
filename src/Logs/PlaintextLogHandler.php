@@ -50,20 +50,20 @@ class PlaintextLogHandler extends BaseLogHandler
     /**
      * {@inheritdoc}
      */
-    public function initialize(): LogHandlerInterface
+    public function initialize()
     {
         $version = str_pad('', 45); // change later
         $date    = str_pad(sprintf('%s UTC%s', date('D, d F Y, H:i:s'), date('P')), 44);
 
         // Headers
         $this->buffer = <<<EOD
-             +========================================================+
-             | Liaison Revision                                       |
-             | Version: {$version} |
-             | Run Date: {$date} |
-             +========================================================+
++========================================================+
+| Liaison Revision                                       |
+| Version: {$version} |
+| Run Date: {$date} |
++========================================================+
 
-            EOD;
+EOD;
 
         // Settings
         $this->buffer .= "Loaded Configuration\n";
@@ -108,6 +108,8 @@ class PlaintextLogHandler extends BaseLogHandler
 
             return true;
         } catch (IOExceptionInterface $e) {
+            log_message('error', $e->getMessage());
+
             return false;
         }
     }

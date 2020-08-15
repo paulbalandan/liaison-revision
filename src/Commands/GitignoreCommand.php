@@ -64,8 +64,6 @@ class GitignoreCommand extends BaseCommand
      * Actually executes the command.
      *
      * @param array $params
-     *
-     * @return void
      */
     public function run(array $params)
     {
