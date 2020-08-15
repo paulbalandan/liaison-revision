@@ -64,6 +64,8 @@ class Revision extends BaseConfig
     /**
      * Consolidator to use.
      *
+     * This must implement `Liaison\Revision\Consolidation\ConsolidatorInterface`.
+     *
      * @var string
      */
     public $consolidator = '';
@@ -86,20 +88,29 @@ class Revision extends BaseConfig
      * This must be a subclass of `Liaison\Revision\Paths\BasePathfinder`.
      *
      * Available pathfinders:
-     * * `\Liaison\Revision\Paths\DefaultPathfinder`
-     *
-     * You can create your own pathfinder by extending
-     * `BasePathfinder`, providing your own `$paths` array,
-     * and indicating the class name here.
+     * * `Liaison\Revision\Paths\DefaultPathfinder`
      *
      * @var string
      */
     public $pathfinder = 'Liaison\Revision\Paths\DefaultPathfinder';
 
     /**
+     * The diff output builder to be used by the
+     * `SebastianBergmann\Diff\Differ` class in generating diffs.
+     *
+     * Available builders:
+     * * `SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder`
+     * * `SebastianBergmann\Diff\Output\StrictUnifiedDiffOutputBuilder`
+     * * `SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder`
+     *
+     * @var string
+     */
+    public $diffOutputBuilder = 'SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder';
+
+    /**
      * Default LogHandlers to use.
      *
-     * These must implement `Liaison\Revision\Logs\LogHandlerInterface`.
+     * These must extend `Liaison\Revision\Logs\BaseLogHandler`.
      *
      * @var string[]
      */
