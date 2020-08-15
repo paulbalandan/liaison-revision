@@ -25,4 +25,11 @@ interface PathfinderInterface
      * @return string[][]
      */
     public function getPaths(): array;
+
+    /**
+     * Retrieves the array of paths to be ignored during local merge.
+     *
+     * @return string[]
+     */
+    public function getIgnoredPaths(): array;
 }

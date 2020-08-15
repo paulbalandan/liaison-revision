@@ -80,9 +80,7 @@ abstract class BasePathfinder implements PathfinderInterface
     }
 
     /**
-     * Retrieves the array of paths to be ignored during local merge.
-     *
-     * @return string[]
+     * {@inheritdoc}
      */
     public function getIgnoredPaths(): array
     {
