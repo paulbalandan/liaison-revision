@@ -57,6 +57,9 @@ jobs:
       - name: Install dependencies
         run: composer install --ansi --no-scripts --no-progress --no-suggest --no-interaction
 
+      - name: Setup Composer's GitHub OAuth access
+        run: composer config -g github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
+
       - name: Run PHP-CS-Fixer
         run: vendor/bin/php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run --stop-on-violation --using-cache=no
 
