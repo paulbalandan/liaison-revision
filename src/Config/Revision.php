@@ -66,9 +66,12 @@ class Revision extends BaseConfig
      *
      * This must implement `Liaison\Revision\Consolidation\ConsolidatorInterface`.
      *
+     * Available consolidators:
+     * * `Liaison\Revision\Consolidator\DefaultConsolidator`
+     *
      * @var string
      */
-    public $consolidator = '';
+    public $consolidator = 'Liaison\Revision\Consolidation\DefaultConsolidator';
 
     /**
      * Upgrader to use.
