@@ -88,7 +88,7 @@ class GitignoreCommand extends BaseCommand
 
         helper('filesystem');
 
-        $gitignore = rtrim($config->rootPath, '\\/ ') . \DIRECTORY_SEPARATOR . '.gitignore';
+        $gitignore = $config->rootPath . '.gitignore';
         if (!is_file($gitignore)) {
             CLI::write(lang('Revision.gitignoreFileMissing'), 'yellow');
             $writeNew = \array_key_exists('write-if-missing', $params) || CLI::getOption('write-if-missing');

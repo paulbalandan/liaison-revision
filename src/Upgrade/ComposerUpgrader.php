@@ -80,7 +80,7 @@ class ComposerUpgrader implements UpgraderInterface
     protected function findComposerPhar(): string
     {
         $phpBinary     = (string) (new PhpExecutableFinder())->find();
-        $composerLocal = rtrim((new ConfigurationResolver())->rootPath, '\\/ ') . \DIRECTORY_SEPARATOR . 'composer.phar';
+        $composerLocal = (new ConfigurationResolver())->rootPath . 'composer.phar';
 
         if (is_file($composerLocal)) {
             // @codeCoverageIgnoreStart

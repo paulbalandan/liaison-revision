@@ -113,7 +113,7 @@ abstract class BasePathfinder implements PathfinderInterface
                 foreach (get_filenames($path['origin'], true, true) as $origin) {
                     if (is_file($origin)) {
                         $destination = str_replace($path['origin'], $path['destination'], $origin);
-                        $destination = str_replace(['\\', '/'], '/', $destination);
+                        $destination = str_replace('\\', '/', $destination);
 
                         $tempPath[] = [
                             'origin'      => $origin,
@@ -124,7 +124,7 @@ abstract class BasePathfinder implements PathfinderInterface
             } elseif (is_file($path['origin'])) {
                 $tempPath[] = [
                     'origin'      => realpath($path['origin']),
-                    'destination' => str_replace(['\\', '/'], '/', $path['destination'] . basename($path['origin'])),
+                    'destination' => str_replace('\\', '/', $path['destination'] . basename($path['origin'])),
                 ];
             } else {
                 throw new InvalidArgumentException(lang('Revision.invalidOriginPathFound', [$path['origin']]));
@@ -143,7 +143,7 @@ abstract class BasePathfinder implements PathfinderInterface
     private function verifyIgnoredPaths()
     {
         $ignoredPaths = [];
-        $rootPath     = rtrim($this->config->rootPath, '\\/ ') . \DIRECTORY_SEPARATOR;
+        $rootPath     = $this->config->rootPath;
         $dirs         = (array) $this->config->ignoredDirs;
         $files        = (array) $this->config->ignoredFiles;
 

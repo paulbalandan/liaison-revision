@@ -34,6 +34,8 @@ class ConfigurationResolver
         $this->config = $config ?? (class_exists('Config\Revision', false)
             ? new \Config\Revision() // @codeCoverageIgnore
             : new \Liaison\Revision\Config\Revision());
+
+        $this->normalizePaths();
     }
 
     /**
@@ -70,5 +72,14 @@ class ConfigurationResolver
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     * Ensures all string paths are normalized.
+     */
+    private function normalizePaths()
+    {
+        $this->config->rootPath  = realpath(rtrim($this->config->rootPath, '\\/ ')) . \DIRECTORY_SEPARATOR;
+        $this->config->writePath = realpath(rtrim($this->config->writePath, '\\/ ')) . \DIRECTORY_SEPARATOR;
     }
 }
