@@ -75,7 +75,7 @@ class PublishConfigCommand extends GeneratorCommand
     /**
      * {@inheritdoc}
      */
-    protected function replaceNamespace(string &$template, string $class)
+    protected function setReplacements(string $template, string $class): string
     {
         $search  = 'namespace Liaison\\Revision\\Config;';
         $replace = 'namespace ' . $this->getNamespace($class) . ';';
@@ -93,22 +93,17 @@ class PublishConfigCommand extends GeneratorCommand
 
 EOD;
         $replaceLicense = '';
-        $template       = str_replace([$search, $searchLicense], [$replace, $replaceLicense], $template);
 
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function replaceClass(string $template, string $class): string
-    {
         $searchExtends  = 'extends BaseConfig';
         $replaceExtends = 'extends BaseRevision';
 
         $searchUse  = 'use CodeIgniter\\Config\\BaseConfig;';
         $replaceUse = 'use Liaison\\Revision\\Config\\Revision as BaseRevision;';
 
-        return str_replace([$searchExtends, $searchUse], [$replaceExtends, $replaceUse], $template);
+        return str_replace(
+            [$search, $searchLicense, $searchExtends, $searchUse],
+            [$replace, $replaceLicense, $replaceExtends, $replaceUse],
+            $template
+        );
     }
 }
