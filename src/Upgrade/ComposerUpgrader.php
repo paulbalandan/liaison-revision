@@ -14,7 +14,6 @@ namespace Liaison\Revision\Upgrade;
 use CodeIgniter\CLI\CLI;
 use Liaison\Revision\Config\ConfigurationResolver;
 use Liaison\Revision\Exception\RevisionException;
-use RuntimeException;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -50,14 +49,6 @@ class ComposerUpgrader implements UpgraderInterface
         }
 
         $process = Process::fromShellCommandline($cmd, $rootPath, null, null, null);
-
-        if ('\\' !== \DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
-            try {
-                $process->setTty(true);
-            } catch (RuntimeException $e) {
-                CLI::write('Warning: ' . $e->getMessage(), 'yellow'); // @codeCoverageIgnore
-            }
-        }
 
         try {
             $process->mustRun(static function ($type, $line) {
