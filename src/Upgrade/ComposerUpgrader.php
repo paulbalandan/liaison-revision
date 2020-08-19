@@ -43,7 +43,7 @@ class ComposerUpgrader implements UpgraderInterface
             $cmd = str_replace('--ansi', '--no-ansi', $cmd);
         }
 
-        if (ENVIRONMENT === 'testing' || \in_array('dry-run', $options, true)) {
+        if (\in_array('dry-run', $options, true)) {
             // Don't actually update when testing.
             $cmd .= ' --dry-run';
         }

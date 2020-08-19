@@ -354,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeigniter4/CodeIgniter4.git",
-                "reference": "84464af5679ac3505374c6af682f81167bdd9518"
+                "reference": "6da204ce23f239b3c8f54530f8f0994bd27d80dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeigniter4/CodeIgniter4/zipball/84464af5679ac3505374c6af682f81167bdd9518",
-                "reference": "84464af5679ac3505374c6af682f81167bdd9518",
+                "url": "https://api.github.com/repos/codeigniter4/CodeIgniter4/zipball/6da204ce23f239b3c8f54530f8f0994bd27d80dd",
+                "reference": "6da204ce23f239b3c8f54530f8f0994bd27d80dd",
                 "shasum": ""
             },
             "require": {
@@ -408,7 +408,7 @@
                 "slack": "https://codeigniterchat.slack.com",
                 "issues": "https://github.com/codeigniter4/CodeIgniter4/issues"
             },
-            "time": "2020-08-18T15:28:05+00:00"
+            "time": "2020-08-18T19:35:18+00:00"
         },
         {
             "name": "composer/semver",
@@ -473,16 +473,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51"
+                "reference": "ebd27a9866ae8254e873866f795491f02418c5a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51",
-                "reference": "fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/ebd27a9866ae8254e873866f795491f02418c5a5",
+                "reference": "ebd27a9866ae8254e873866f795491f02418c5a5",
                 "shasum": ""
             },
             "require": {
@@ -527,7 +527,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-04T11:16:35+00:00"
+            "time": "2020-08-19T10:27:58+00:00"
         },
         {
             "name": "doctrine/annotations",

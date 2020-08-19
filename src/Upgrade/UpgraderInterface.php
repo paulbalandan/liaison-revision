@@ -19,8 +19,8 @@ interface UpgraderInterface
     /**
      * Execute the upgrade process.
      *
-     * @param string $rootPath
-     * @param array  $options
+     * @param string   $rootPath
+     * @param string[] $options
      *
      * @throws \Liaison\Revision\Exception\RevisionException
      *

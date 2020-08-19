@@ -24,13 +24,13 @@ final class ComposerUpgraderTest extends CIUnitTestCase
     public function testComposerUpdateSuccess()
     {
         // Use getcwd to run composer update against our own path.
-        $exitCode = (new ComposerUpgrader())->upgrade(getcwd());
+        $exitCode = (new ComposerUpgrader())->upgrade(getcwd(), ['dry-run']);
         $this->assertSame(0, $exitCode);
     }
 
     public function testComposerUpdateFail()
     {
         $this->expectException('Liaison\Revision\Exception\RevisionException');
-        (new ComposerUpgrader())->upgrade(getcwd() . '/inexistent/path', ['no-ansi']);
+        (new ComposerUpgrader())->upgrade(getcwd() . '/inexistent/path', ['no-ansi', 'dry-run']);
     }
 }
