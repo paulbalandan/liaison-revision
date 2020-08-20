@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d6438700784ca9bc0d618f5fe01226f",
+    "content-hash": "c28a60b9f8e35b61f257801420d9e6e1",
     "packages": [
         {
             "name": "sebastian/diff",
@@ -354,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeigniter4/CodeIgniter4.git",
-                "reference": "6da204ce23f239b3c8f54530f8f0994bd27d80dd"
+                "reference": "18f66185115b7c9108dc6a798d21561a3fce09ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeigniter4/CodeIgniter4/zipball/6da204ce23f239b3c8f54530f8f0994bd27d80dd",
-                "reference": "6da204ce23f239b3c8f54530f8f0994bd27d80dd",
+                "url": "https://api.github.com/repos/codeigniter4/CodeIgniter4/zipball/18f66185115b7c9108dc6a798d21561a3fce09ba",
+                "reference": "18f66185115b7c9108dc6a798d21561a3fce09ba",
                 "shasum": ""
             },
             "require": {
@@ -408,7 +408,7 @@
                 "slack": "https://codeigniterchat.slack.com",
                 "issues": "https://github.com/codeigniter4/CodeIgniter4/issues"
             },
-            "time": "2020-08-18T19:35:18+00:00"
+            "time": "2020-08-19T19:26:26+00:00"
         },
         {
             "name": "composer/semver",
@@ -1021,16 +1021,16 @@
         },
         {
             "name": "liaison/cs-config",
-            "version": "v1.0.3",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paulbalandan/liaison-cs-config.git",
-                "reference": "905a2d1246c7ef25bf1ffed03406fd30364b53b0"
+                "reference": "dc69db912d950d56c3336d514a04fff170fb61a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paulbalandan/liaison-cs-config/zipball/905a2d1246c7ef25bf1ffed03406fd30364b53b0",
-                "reference": "905a2d1246c7ef25bf1ffed03406fd30364b53b0",
+                "url": "https://api.github.com/repos/paulbalandan/liaison-cs-config/zipball/dc69db912d950d56c3336d514a04fff170fb61a3",
+                "reference": "dc69db912d950d56c3336d514a04fff170fb61a3",
                 "shasum": ""
             },
             "require": {
@@ -1062,7 +1062,7 @@
                 }
             ],
             "description": "A configuration factory for custom rule sets for friendsofphp/php-cs-fixer.",
-            "time": "2020-08-15T14:06:00+00:00"
+            "time": "2020-08-20T12:47:07+00:00"
         },
         {
             "name": "myclabs/deep-copy",

@@ -89,6 +89,7 @@ class GitignoreCommand extends BaseCommand
         helper('filesystem');
 
         $gitignore = $config->rootPath . '.gitignore';
+
         if (!is_file($gitignore)) {
             CLI::write(lang('Revision.gitignoreFileMissing'), 'yellow');
             $writeNew = \array_key_exists('write-if-missing', $params) || CLI::getOption('write-if-missing');
@@ -106,6 +107,7 @@ class GitignoreCommand extends BaseCommand
         }
 
         $contents = file_get_contents($gitignore);
+
         if (preg_match('#writable/revision/#m', $contents)) {
             CLI::write(lang('Revision.createGitignoreEntryDuplicate'), 'yellow');
             CLI::newLine();

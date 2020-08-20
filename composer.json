@@ -26,7 +26,7 @@
     "require-dev": {
         "codeigniter4/codeigniter4": "dev-develop",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "liaison/cs-config": "^1.0",
+        "liaison/cs-config": "^1.1",
         "phpunit/phpunit": "^8.5"
     },
     "config": {
