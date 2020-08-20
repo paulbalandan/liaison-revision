@@ -11,8 +11,8 @@
 
 namespace Liaison\Revision\Logs;
 
+use Liaison\Revision\Application;
 use Liaison\Revision\Config\ConfigurationResolver;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -52,7 +52,7 @@ class PlaintextLogHandler extends BaseLogHandler
      */
     public function initialize()
     {
-        $version = str_pad('', 45); // change later
+        $version = str_pad(Application::VERSION, 45);
         $date    = str_pad(sprintf('%s UTC%s', date('D, d F Y, H:i:s'), date('P')), 44);
 
         // Headers
@@ -67,14 +67,26 @@ EOD;
 
         // Settings
         $this->buffer .= "Loaded Configuration\n";
-        $config = get_object_vars($this->config);
-        $maxKey = max(array_map('strlen', array_keys($config)));
-        $maxVal = max(array_map([$this, 'stringify'], array_values($config)));
-        $this->buffer .= str_repeat('=', $maxKey + $maxVal + 3) . "\n";
+        $this->buffer .= str_repeat('=', 20) . "\n";
 
-        foreach ($config as $key => $value) {
-            $this->buffer .= str_pad($key, $maxKey) . ' : ' . $this->stringify($value) . "\n";
-        }
+        $dirs  = \count($this->config->ignoreDirs);
+        $files = \count($this->config->ignoreFiles);
+        $allow = $this->config->allowGitIgnoreEntry ? 'true' : 'false';
+        $logs  = implode(', ', $this->config->defaultLogHandlers);
+
+        $this->buffer .= <<<EOD
+Root Path: {$this->config->rootPath}
+Write Path: {$this->config->writePath}
+Ignored Directories Count: {$dirs}
+Ignored Files Count: {$files}
+Allow Gitignore Entry: {$allow}
+Consolidator: {$this->config->consolidator}
+Upgrader: {$this->config->upgrader}
+Pathfinder: {$this->config->pathfinder},
+Diff Output Builder: {$this->config->diffOutputBuilder},
+Default Log Handlers: {$logs},
+
+EOD;
 
         // Add final new line
         $this->buffer .= "\n";
@@ -89,28 +101,20 @@ EOD;
     {
         $this->buffer .= '[' . date('Y-m-d H:i:s') . '] ' . mb_strtoupper($level) . ' -- ' . $message . "\n";
 
-        return static::EXIT_SUCCESS;
+        return LogHandlerInterface::EXIT_SUCCESS;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function save(): bool
+    public function save()
     {
-        try {
-            $buffer       = $this->buffer;
-            $this->buffer = '';
+        $buffer       = $this->buffer;
+        $this->buffer = '';
 
-            $this->filesystem->dumpFile(
-                $this->directory . \DIRECTORY_SEPARATOR . $this->filename . $this->extension,
-                $buffer
-            );
-
-            return true;
-        } catch (IOExceptionInterface $e) {
-            log_message('error', $e->getMessage());
-
-            return false;
-        }
+        $this->filesystem->dumpFile(
+            $this->directory . $this->filename . $this->extension,
+            $buffer
+        );
     }
 }

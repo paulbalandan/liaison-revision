@@ -19,6 +19,9 @@ return [
     'createGitignoreEntryDuplicate' => 'There was already an entry in .gitignore.',
     'createGitignoreEntrySuccess'   => 'Successfully created an entry to .gitignore.',
 
+    // Logs
+    'invalidLogHandler' => 'Log handler "{0}" is not an instance of "{1}". Got instance of "{2}" instead.',
+
     // Paths
     'invalidOriginPathFound'   => '"{0}" is not a valid origin file or directory.',
     'invalidAbsolutePathFound' => '"{0}" must be a relative path.',
@@ -27,4 +30,13 @@ return [
 
     // Upgrade
     'incompatibleUpgraderHandler' => 'Cannot use {0} as upgrader: "{1}".',
+
+    // Application
+    'fileSingular'                       => 'file',
+    'filePlural'                         => 'files',
+    'createdFilesAfterUpdate'            => '{0} created {1} after update.',
+    'modifiedFilesAfterUpdate'           => '{0} modified {1} after update.',
+    'deletedFilesAfterUpdate'            => '{0} deleted {1} after update.',
+    'mergedFilesAfterConsolidation'      => '{0} {1} merged successfully.',
+    'conflictingFilesAfterConsolidation' => '{0} {1} in conflict.',
 ];

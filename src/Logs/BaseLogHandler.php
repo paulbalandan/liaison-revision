@@ -33,8 +33,19 @@ abstract class BaseLogHandler implements LogHandlerInterface
      */
     protected $filesystem;
 
-    protected $filename  = '';
+    /**
+     * @var string
+     */
+    protected $filename = '';
+
+    /**
+     * @var string
+     */
     protected $extension = '';
+
+    /**
+     * @var string
+     */
     protected $directory = '';
 
     /**
@@ -55,9 +66,12 @@ abstract class BaseLogHandler implements LogHandlerInterface
     ) {
         $this->config     = $config     ?? new ConfigurationResolver();
         $this->filesystem = $filesystem ?? new Filesystem();
-        $this->setDirectory($directory);
-        $this->setFilename($filename);
-        $this->setExtension($extension);
+
+        $this
+            ->setDirectory($directory)
+            ->setFilename($filename)
+            ->setExtension($extension)
+        ;
     }
 
     /**
@@ -65,8 +79,9 @@ abstract class BaseLogHandler implements LogHandlerInterface
      */
     public function setDirectory(string $directory)
     {
-        $this->directory = rtrim($this->config->writePath, '\\/ ') . '/revision/logs/' . $directory;
+        $this->directory = $this->config->writePath . 'revision/logs/' . $directory;
         $this->filesystem->mkdir($this->directory);
+        $this->directory = realpath($this->directory) . \DIRECTORY_SEPARATOR;
 
         return $this;
     }
@@ -89,28 +104,5 @@ abstract class BaseLogHandler implements LogHandlerInterface
         $this->extension = $ext;
 
         return $this;
-    }
-
-    /**
-     * Stringify values for logging.
-     *
-     * @param mixed $value
-     *
-     * @return string
-     */
-    protected function stringify($value): string
-    {
-        switch (true) {
-            case \is_object($value):
-                return 'Object(' . \get_class($value) . ')';
-            case null === $value:
-                return 'null';
-            case \is_bool($value):
-                return $value ? 'true' : 'false';
-            case \is_array($value):
-                return \count($value) ? '[...]' : '[]';
-            default:
-                return (string) $value;
-        }
     }
 }

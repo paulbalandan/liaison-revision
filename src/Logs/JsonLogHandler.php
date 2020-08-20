@@ -11,15 +11,14 @@
 
 namespace Liaison\Revision\Logs;
 
-use JsonSerializable;
+use Liaison\Revision\Application;
 use Liaison\Revision\Config\ConfigurationResolver;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * JsonLogHandler.
  */
-class JsonLogHandler extends BaseLogHandler implements JsonSerializable
+class JsonLogHandler extends BaseLogHandler
 {
     /**
      * JSON array to serialize later.
@@ -51,28 +50,28 @@ class JsonLogHandler extends BaseLogHandler implements JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize()
-    {
-        return $this->json;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function initialize()
     {
         // Headers
         $this->json = [
             'application' => 'Liaison Revision',
-            'version'     => '', // change later
-            'run-date'    => date('l, d F Y, H:i:s') . ' UTC' . date('P'),
+            'version'     => Application::VERSION,
+            'run-date'    => date('D, d F Y, H:i:s') . ' UTC' . date('P'),
         ];
 
         // Settings
-        $this->json['settings'] = [];
-        foreach (get_object_vars($this->config) as $key => $value) {
-            $this->json['settings'][$key] = $value;
-        }
+        $this->json['settings'] = [
+            'Root Path'                 => $this->config->rootPath,
+            'Write Path'                => $this->config->writePath,
+            'Ignored Directories Count' => \count($this->config->ignoreDirs),
+            'Ignored Files Count'       => \count($this->config->ignoreFiles),
+            'Allow Gitignore Entry'     => $this->config->allowGitIgnoreEntry,
+            'Consolidator'              => $this->config->consolidator,
+            'Upgrader'                  => $this->config->upgrader,
+            'Pathfinder'                => $this->config->pathfinder,
+            'Diff Output Builder'       => $this->config->diffOutputBuilder,
+            'Default Log Handlers'      => $this->config->defaultLogHandlers,
+        ];
 
         return $this;
     }
@@ -86,27 +85,22 @@ class JsonLogHandler extends BaseLogHandler implements JsonSerializable
             $this->json['logs'] = [];
         }
 
-        $this->json['logs'][] = '[' . date('Y-m-d H:i:s') . '] ' . mb_strtoupper($level) . ' -- ' . $message;
+        $this->json['logs'][] = '[' . date('Y-m-d H:i:s') . '] ' . mb_strtoupper($level) . ' : ' . $message;
 
-        return static::EXIT_SUCCESS;
+        return LogHandlerInterface::EXIT_SUCCESS;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function save(): bool
+    public function save()
     {
-        try {
-            $this->fs->dumpFile(
-                $this->directory . \DIRECTORY_SEPARATOR . $this->filename . $this->extension,
-                json_encode($this, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "\n"
-            );
+        $json       = $this->json;
+        $this->json = [];
 
-            return true;
-        } catch (IOExceptionInterface $e) {
-            log_message('error', $e->getMessage());
-
-            return false;
-        }
+        $this->filesystem->dumpFile(
+            $this->directory . $this->filename . $this->extension,
+            json_encode($json, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "\n"
+        );
     }
 }
