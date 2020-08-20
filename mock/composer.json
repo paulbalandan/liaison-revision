@@ -1,0 +1,14 @@
+{
+    "name": "liaison/mock",
+    "description": "Mock project for testing Liaison Revision.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "John Paul E. Balandan, CPA",
+            "email": "paulbalandan@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
