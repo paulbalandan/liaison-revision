@@ -19,43 +19,52 @@ use Symfony\Component\Filesystem\Filesystem;
 final class FileManager
 {
     /**
+     * Snapshot copy of the vendor files for
+     * monitoring within the update/merge process.
+     *
+     * @var string[]
+     */
+    public $snapshotFiles = [];
+
+    /**
      * Array of paths to created files.
      *
-     * @var array
+     * @var string[]
      */
     public $createdFiles = [];
 
     /**
      * Array of paths to deleted files.
      *
-     * @var array
+     * @var string[]
      */
     public $deletedFiles = [];
 
     /**
      * Array of paths to modified files.
      *
-     * @var array
+     * @var string[]
      */
     public $modifiedFiles = [];
 
     /**
      * Array of paths to successfully merged files.
      *
-     * @var array
+     * @var string[]
      */
     public $mergedFiles = [];
 
     /**
      * Array of paths to files that caused conflicts during consolidation.
      *
-     * @var array
+     * @var string[][]
      */
     public $conflicts = [
         'created' => [],
         'merged'  => [],
         'deleted' => [],
     ];
+
     /**
      * Instance of Filesystem
      *
