@@ -21,7 +21,7 @@ git clone https://github.com/paulbalandan/liaison-revision.git
 
 ## System Requirements
 
-- PHP 7.3+
+- PHP 7.2+
 - Composer installed locally or globally
 - ext-intl
 - ext-mbstring
