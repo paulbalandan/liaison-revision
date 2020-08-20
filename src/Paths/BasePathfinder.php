@@ -153,6 +153,7 @@ abstract class BasePathfinder implements PathfinderInterface
             }
 
             $tempDir = $rootPath . trim($dir, '\\/ ');
+
             if (!is_dir($tempDir)) {
                 throw new InvalidArgumentException(lang('Revision.invalidPathNotDirectory', [$dir]));
             }
@@ -170,6 +171,7 @@ abstract class BasePathfinder implements PathfinderInterface
             }
 
             $tempFile = $rootPath . trim($file, '\\/ ');
+
             if (!is_file($tempFile)) {
                 throw new InvalidArgumentException(lang('Revision.invalidPathNotFile', [$file]));
             }
