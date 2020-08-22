@@ -40,14 +40,14 @@ final class BasePathfinderTest extends CIUnitTestCase
 
     public function testAbsoluteDestinationPathThrowsException()
     {
-        $this->expectException('\\Liaison\\Revision\\Exception\\InvalidArgumentException');
+        $this->expectException('Liaison\Revision\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('"' . ROOTPATH . 'spark" must be a relative path.');
         (new AbsoluteDestinationPathfinder())->getPaths();
     }
 
     public function testInvalidPathsGiven()
     {
-        $this->expectException('\\Liaison\\Revision\\Exception\\InvalidArgumentException');
+        $this->expectException('Liaison\Revision\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('"' . SYSTEMPATH . '../foo/bar" is not a valid origin file or directory.');
         (new InvalidPathfinder())->getPaths();
     }
@@ -83,7 +83,7 @@ final class BasePathfinderTest extends CIUnitTestCase
             array_push($config->getConfig()->ignoredFiles, $invalid);
         }
 
-        $this->expectException('\\Liaison\\Revision\\Exception\\InvalidArgumentException');
+        $this->expectException('Liaison\Revision\Exception\InvalidArgumentException');
         $this->expectExceptionMessage($message);
         (new SimplePathfinder($config))->getIgnoredPaths();
     }

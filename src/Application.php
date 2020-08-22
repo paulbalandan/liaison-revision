@@ -220,8 +220,7 @@ class Application
             $project = $this->config->rootPath . $file['destination'];
 
             // If hashes are different, this can be new or modified.
-            if (!FileManager::areIdenticalFiles($oldCopy, $file['origin']) || ($this->config->fallThroughToPath && !FileManager::areIdenticalFiles($project, $file['origin']))
-            ) {
+            if (!FileManager::areIdenticalFiles($oldCopy, $file['origin']) || ($this->config->fallThroughToPath && !FileManager::areIdenticalFiles($project, $file['origin']))) {
                 $newCopy = $this->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file['destination'];
 
                 try {

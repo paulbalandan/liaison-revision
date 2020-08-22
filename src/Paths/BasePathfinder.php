@@ -39,7 +39,7 @@ abstract class BasePathfinder implements PathfinderInterface
      *
      * @var \Symfony\Component\Filesystem\Filesystem
      */
-    protected $fs;
+    protected $filesystem;
 
     /**
      * Array of parsed and verified paths for update and transfer.
@@ -59,12 +59,12 @@ abstract class BasePathfinder implements PathfinderInterface
      * Constructor.
      *
      * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem       $fs
+     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
      */
-    public function __construct(?ConfigurationResolver $config = null, ?Filesystem $fs = null)
+    public function __construct(?ConfigurationResolver $config = null, ?Filesystem $filesystem = null)
     {
-        $this->config = $config ?? new ConfigurationResolver();
-        $this->fs     = $fs     ?? new Filesystem();
+        $this->config     = $config     ?? new ConfigurationResolver();
+        $this->filesystem = $filesystem ?? new Filesystem();
 
         helper('filesystem');
         $this->verifyPaths();
@@ -99,7 +99,7 @@ abstract class BasePathfinder implements PathfinderInterface
 
         foreach ($this->paths as $path) {
             // Make sure all destination paths are relative
-            if ($this->fs->isAbsolutePath($path['destination'])) {
+            if ($this->filesystem->isAbsolutePath($path['destination'])) {
                 throw new InvalidArgumentException(lang('Revision.invalidAbsolutePathFound', [$path['destination']]));
             }
 
@@ -148,7 +148,7 @@ abstract class BasePathfinder implements PathfinderInterface
         $files        = (array) $this->config->ignoredFiles;
 
         foreach ($dirs as $dir) {
-            if ($this->fs->isAbsolutePath($dir)) {
+            if ($this->filesystem->isAbsolutePath($dir)) {
                 throw new InvalidArgumentException(lang('Revision.invalidAbsolutePathFound', [$dir]));
             }
 
@@ -166,7 +166,7 @@ abstract class BasePathfinder implements PathfinderInterface
         }
 
         foreach ($files as $file) {
-            if ($this->fs->isAbsolutePath($file)) {
+            if ($this->filesystem->isAbsolutePath($file)) {
                 throw new InvalidArgumentException(lang('Revision.invalidAbsolutePathFound', [$file]));
             }
 

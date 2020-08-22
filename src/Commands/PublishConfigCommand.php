@@ -77,7 +77,7 @@ class PublishConfigCommand extends GeneratorCommand
      */
     protected function setReplacements(string $template, string $class): string
     {
-        $search  = 'namespace Liaison\\Revision\\Config;';
+        $search  = 'namespace Liaison\Revision\Config;';
         $replace = 'namespace ' . $this->getNamespace($class) . ';';
 
         $searchLicense = <<<'EOD'
@@ -97,8 +97,8 @@ EOD;
         $searchExtends  = 'extends BaseConfig';
         $replaceExtends = 'extends BaseRevision';
 
-        $searchUse  = 'use CodeIgniter\\Config\\BaseConfig;';
-        $replaceUse = 'use Liaison\\Revision\\Config\\Revision as BaseRevision;';
+        $searchUse  = 'use CodeIgniter\Config\BaseConfig;';
+        $replaceUse = 'use Liaison\Revision\Config\Revision as BaseRevision;';
 
         return str_replace(
             [$search, $searchLicense, $searchExtends, $searchUse],

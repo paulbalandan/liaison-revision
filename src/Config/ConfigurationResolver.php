@@ -31,7 +31,7 @@ class ConfigurationResolver
      */
     public function __construct(?Revision $config = null)
     {
-        $this->config = $config ?? (class_exists('Config\\Revision', false)
+        $this->config = $config ?? (class_exists('Config\Revision', false)
             ? new \Config\Revision() // @codeCoverageIgnore
             : new \Liaison\Revision\Config\Revision());
 

@@ -48,21 +48,14 @@ final class LogManager
     /**
      * Passes the message to the handlers for proper handling.
      *
-     * @param string[] $messages
-     * @param string   $level
+     * @param string|string[] $messages
+     * @param string          $level
      */
-    public function logMessage(array $messages, string $level = 'info')
+    public function logMessage($messages, string $level = 'info')
     {
-        foreach ($messages as $message) {
+        foreach ((array) $messages as $message) {
             foreach ($this->logHandlers as $logHandler) {
-                $return = $logHandler->handle($level, $message);
-
-                if (\in_array($return, [LogHandlerInterface::EXIT_ERROR, LogHandlerInterface::EXIT_CONTINUE], true)) {
-                    if (LogHandlerInterface::EXIT_CONTINUE === $return) {
-                        // The handler has encountered a problem but wishes to continue.
-                        continue;
-                    }
-
+                if (LogHandlerInterface::EXIT_ERROR === $logHandler->handle($level, $message)) {
                     break;
                 }
             }

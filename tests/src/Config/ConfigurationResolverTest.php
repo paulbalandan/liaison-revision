@@ -23,7 +23,7 @@ final class ConfigurationResolverTest extends CIUnitTestCase
 {
     public function testConstructorInstantiation()
     {
-        $this->assertInstanceOf('Liaison\\Revision\\Config\\Revision', (new ConfigurationResolver())->getConfig());
+        $this->assertInstanceOf('Liaison\Revision\Config\Revision', (new ConfigurationResolver())->getConfig());
     }
 
     public function testClassGetters()

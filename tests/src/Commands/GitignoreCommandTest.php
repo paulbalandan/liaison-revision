@@ -58,7 +58,7 @@ final class GitignoreCommandTest extends CIUnitTestCase
             command('revision:gitignore -allow-entry -no-allow-entry');
         } catch (Throwable $e) {
             ob_end_clean();
-            $this->assertInstanceOf('Liaison\\Revision\\Exception\\LogicException', $e);
+            $this->assertInstanceOf('Liaison\Revision\Exception\LogicException', $e);
         }
     }
 

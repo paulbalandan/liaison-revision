@@ -66,6 +66,7 @@ class JsonLogHandler extends BaseLogHandler
             'Ignored Directories Count' => \count($this->config->ignoreDirs),
             'Ignored Files Count'       => \count($this->config->ignoreFiles),
             'Allow Gitignore Entry'     => $this->config->allowGitIgnoreEntry,
+            'Fall Through to Project'   => $this->config->fallThroughToProject,
             'Consolidator'              => $this->config->consolidator,
             'Upgrader'                  => $this->config->upgrader,
             'Pathfinder'                => $this->config->pathfinder,

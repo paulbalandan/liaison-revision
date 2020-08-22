@@ -80,7 +80,7 @@ class Revision extends BaseConfig
      *
      * @var string
      */
-    public $consolidator = 'Liaison\\Revision\\Consolidation\\DefaultConsolidator';
+    public $consolidator = 'Liaison\Revision\Consolidation\DefaultConsolidator';
 
     /**
      * Upgrader to use.
@@ -92,7 +92,7 @@ class Revision extends BaseConfig
      *
      * @var string
      */
-    public $upgrader = 'Liaison\\Revision\\Upgrade\\ComposerUpgrader';
+    public $upgrader = 'Liaison\Revision\Upgrade\ComposerUpgrader';
 
     /**
      * Pathfinder to use.
@@ -104,7 +104,7 @@ class Revision extends BaseConfig
      *
      * @var string
      */
-    public $pathfinder = 'Liaison\\Revision\\Paths\\DefaultPathfinder';
+    public $pathfinder = 'Liaison\Revision\Paths\DefaultPathfinder';
 
     /**
      * The diff output builder to be used by the
@@ -117,7 +117,7 @@ class Revision extends BaseConfig
      *
      * @var string
      */
-    public $diffOutputBuilder = 'SebastianBergmann\\Diff\\Output\\DiffOnlyOutputBuilder';
+    public $diffOutputBuilder = 'SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder';
 
     /**
      * Default LogHandlers to use.
@@ -127,7 +127,7 @@ class Revision extends BaseConfig
      * @var string[]
      */
     public $defaultLogHandlers = [
-        'Liaison\\Revision\\Logs\\JsonLogHandler',
-        'Liaison\\Revision\\Logs\\PlaintextLogHandler',
+        'Liaison\Revision\Logs\JsonLogHandler',
+        'Liaison\Revision\Logs\PlaintextLogHandler',
     ];
 }

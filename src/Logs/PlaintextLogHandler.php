@@ -72,6 +72,7 @@ EOD;
         $dirs  = \count($this->config->ignoreDirs);
         $files = \count($this->config->ignoreFiles);
         $allow = $this->config->allowGitIgnoreEntry ? 'true' : 'false';
+        $fall  = $this->config->fallThroughToProject ? 'true' : 'false';
         $logs  = implode(', ', $this->config->defaultLogHandlers);
 
         $this->buffer .= <<<EOD
@@ -80,6 +81,7 @@ Write Path: {$this->config->writePath}
 Ignored Directories Count: {$dirs}
 Ignored Files Count: {$files}
 Allow Gitignore Entry: {$allow}
+Fall Through to Project: {$fall}
 Consolidator: {$this->config->consolidator}
 Upgrader: {$this->config->upgrader}
 Pathfinder: {$this->config->pathfinder},
