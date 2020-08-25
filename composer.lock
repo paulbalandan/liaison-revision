@@ -354,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeigniter4/CodeIgniter4.git",
-                "reference": "b98eac7268b14a1815290791943b6f185220a922"
+                "reference": "a1aa4e5add152fbfa6a31df6fc6cb95b7d41e759"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeigniter4/CodeIgniter4/zipball/b98eac7268b14a1815290791943b6f185220a922",
-                "reference": "b98eac7268b14a1815290791943b6f185220a922",
+                "url": "https://api.github.com/repos/codeigniter4/CodeIgniter4/zipball/a1aa4e5add152fbfa6a31df6fc6cb95b7d41e759",
+                "reference": "a1aa4e5add152fbfa6a31df6fc6cb95b7d41e759",
                 "shasum": ""
             },
             "require": {
@@ -408,7 +408,7 @@
                 "slack": "https://codeigniterchat.slack.com",
                 "issues": "https://github.com/codeigniter4/CodeIgniter4/issues"
             },
-            "time": "2020-08-22T13:40:18+00:00"
+            "time": "2020-08-25T14:21:02+00:00"
         },
         {
             "name": "composer/semver",

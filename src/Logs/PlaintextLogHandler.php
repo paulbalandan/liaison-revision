@@ -30,21 +30,22 @@ class PlaintextLogHandler extends BaseLogHandler
     /**
      * Constructor.
      *
+     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
      * @param string                                              $directory
      * @param string                                              $filename
      * @param string                                              $extension
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
      */
     public function __construct(
+        ?ConfigurationResolver $config = null,
+        ?Filesystem $filesystem = null,
         string $directory = 'log',
         string $filename = 'revision_',
-        string $extension = '.log',
-        ?ConfigurationResolver $config = null,
-        ?Filesystem $filesystem = null
+        string $extension = '.log'
     ) {
-        parent::__construct($directory, $filename, $extension, $config, $filesystem);
-        $this->initialize();
+        $config     = $config     ?? new ConfigurationResolver();
+        $filesystem = $filesystem ?? new Filesystem();
+        parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
 
     /**
@@ -66,16 +67,12 @@ class PlaintextLogHandler extends BaseLogHandler
 EOD;
 
         // Settings
-        $this->buffer .= "Loaded Configuration\n";
-        $this->buffer .= str_repeat('=', 20) . "\n";
-
-        $dirs  = \count($this->config->ignoreDirs);
-        $files = \count($this->config->ignoreFiles);
-        $allow = $this->config->allowGitIgnoreEntry ? 'true' : 'false';
-        $fall  = $this->config->fallThroughToProject ? 'true' : 'false';
-        $logs  = implode(', ', $this->config->defaultLogHandlers);
-
-        $this->buffer .= <<<EOD
+        $dirs     = \count($this->config->ignoreDirs);
+        $files    = \count($this->config->ignoreFiles);
+        $allow    = $this->config->allowGitIgnoreEntry ? 'Yes' : 'No';
+        $fall     = $this->config->fallThroughToProject ? 'Yes' : 'No';
+        $logs     = implode(', ', $this->config->defaultLogHandlers);
+        $settings = <<<EOD
 Root Path: {$this->config->rootPath}
 Write Path: {$this->config->writePath}
 Ignored Directories Count: {$dirs}
@@ -87,11 +84,12 @@ Upgrader: {$this->config->upgrader}
 Pathfinder: {$this->config->pathfinder},
 Diff Output Builder: {$this->config->diffOutputBuilder},
 Default Log Handlers: {$logs},
-
+\n
 EOD;
 
-        // Add final new line
-        $this->buffer .= "\n";
+        $this->buffer .= "\nLoaded Configuration\n";
+        $this->buffer .= str_repeat('=', 20) . "\n";
+        $this->buffer .= $settings;
 
         return $this;
     }

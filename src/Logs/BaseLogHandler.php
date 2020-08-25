@@ -51,26 +51,27 @@ abstract class BaseLogHandler implements LogHandlerInterface
     /**
      * Constructor.
      *
-     * @param string                                              $directory
-     * @param string                                              $filename
-     * @param string                                              $extension
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
+     * @param \Liaison\Revision\Config\ConfigurationResolver $config
+     * @param \Symfony\Component\Filesystem\Filesystem       $filesystem
+     * @param string                                         $directory
+     * @param string                                         $filename
+     * @param string                                         $extension
      */
     public function __construct(
+        ConfigurationResolver $config,
+        Filesystem $filesystem,
         string $directory,
         string $filename,
-        string $extension,
-        ?ConfigurationResolver $config = null,
-        ?Filesystem $filesystem = null
+        string $extension
     ) {
-        $this->config     = $config     ?? new ConfigurationResolver();
-        $this->filesystem = $filesystem ?? new Filesystem();
+        $this->config     = $config;
+        $this->filesystem = $filesystem;
 
         $this
             ->setDirectory($directory)
             ->setFilename($filename)
             ->setExtension($extension)
+            ->initialize()
         ;
     }
 

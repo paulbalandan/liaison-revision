@@ -60,7 +60,9 @@ final class LogManager
                 }
             }
 
-            log_message($level, $message);
+            if (ENVIRONMENT !== 'testing') {
+                log_message($level, $message); // @codeCoverageIgnore
+            }
         }
     }
 
@@ -73,7 +75,9 @@ final class LogManager
             try {
                 $logHandler->save();
             } catch (IOExceptionInterface $e) {
-                log_message('error', $e->getMessage());
+                if (ENVIRONMENT !== 'testing') {
+                    log_message('error', $e->getMessage()); // @codeCoverageIgnore
+                }
             }
         }
     }
@@ -87,12 +91,12 @@ final class LogManager
     {
         /** @var string $handler */
         foreach ($this->config->defaultLogHandlers as $handler) {
-            $logHandler = new $handler();
+            $logHandler = new $handler($this->config);
 
             if (!$logHandler instanceof BaseLogHandler) {
                 throw new InvalidArgumentException(lang('Revision.invalidLogHandler', [
                     $handler,
-                    'Liaison\\Revision\\Logs\\BaseLogHandler',
+                    'Liaison\Revision\Logs\BaseLogHandler',
                     \get_class($logHandler),
                 ]));
             }

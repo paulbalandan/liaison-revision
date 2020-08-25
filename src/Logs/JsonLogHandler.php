@@ -30,21 +30,22 @@ class JsonLogHandler extends BaseLogHandler
     /**
      * Constructor.
      *
+     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
      * @param string                                              $directory
      * @param string                                              $filename
      * @param string                                              $extension
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
      */
     public function __construct(
+        ?ConfigurationResolver $config = null,
+        ?Filesystem $filesystem = null,
         string $directory = 'json',
         string $filename = 'revision_',
-        string $extension = '.json',
-        ?ConfigurationResolver $config = null,
-        ?Filesystem $filesystem = null
+        string $extension = '.json'
     ) {
-        parent::__construct($directory, $filename, $extension, $config, $filesystem);
-        $this->initialize();
+        $config     = $config     ?? new ConfigurationResolver();
+        $filesystem = $filesystem ?? new Filesystem();
+        parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
 
     /**
@@ -86,7 +87,7 @@ class JsonLogHandler extends BaseLogHandler
             $this->json['logs'] = [];
         }
 
-        $this->json['logs'][] = '[' . date('Y-m-d H:i:s') . '] ' . mb_strtoupper($level) . ' : ' . $message;
+        $this->json['logs'][] = '[' . date('Y-m-d H:i:s') . '] ' . mb_strtoupper($level) . ': ' . $message;
 
         return LogHandlerInterface::EXIT_SUCCESS;
     }
