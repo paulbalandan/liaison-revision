@@ -12,17 +12,19 @@
 namespace Liaison\Revision\Tests\Consolidation;
 
 use CodeIgniter\Test\CIUnitTestCase;
-use Liaison\Revision\Config\ConfigurationResolver;
-use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Consolidation\DefaultConsolidator;
 use Liaison\Revision\Files\FileManager;
-use Symfony\Component\Filesystem\Filesystem;
+use Tests\Support\Traits\BackupTrait;
+use Tests\Support\Traits\PathsTrait;
 
 /**
  * @internal
  */
 final class DefaultConsolidatorTest extends CIUnitTestCase
 {
+    use BackupTrait;
+    use PathsTrait;
+
     /**
      * Backup dir for mock project.
      *
@@ -52,11 +54,8 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
 
     protected function setUp(): void
     {
-        $config             = new Revision();
-        $config->rootPath   = __DIR__ . '/../../../mock';
-        $config->writePath  = __DIR__ . '/../../../mock/writable';
-        $this->config       = new ConfigurationResolver($config);
-        $this->filesystem   = new Filesystem();
+        $this->prepareMockPaths();
+
         $this->fileManager  = new FileManager();
         $workspace          = $this->config->writePath . 'revision' . \DIRECTORY_SEPARATOR;
         $this->consolidator = new DefaultConsolidator($workspace, $this->fileManager, $this->config, $this->filesystem);
@@ -77,16 +76,12 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
             'app/sameOld.txt',
         ];
 
-        $this->backupDir = __DIR__ . '/../../../backup';
-        $this->filesystem->mirror($this->config->rootPath, $this->backupDir);
-        $this->backupDir = realpath($this->backupDir);
+        $this->backupMockProject();
     }
 
     protected function tearDown(): void
     {
-        $this->filesystem->remove($this->config->rootPath);
-        $this->filesystem->mirror($this->backupDir, $this->config->rootPath);
-        $this->filesystem->remove($this->backupDir);
+        $this->restoreMockProject();
     }
 
     public function testMergeOfCreatedFiles()

@@ -12,16 +12,25 @@
 namespace Liaison\Revision\Tests\Logs;
 
 use CodeIgniter\Test\CIUnitTestCase;
-use Liaison\Revision\Config\ConfigurationResolver;
-use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Logs\LogManager;
-use Symfony\Component\Filesystem\Filesystem;
+use Tests\Support\Traits\BackupTrait;
+use Tests\Support\Traits\PathsTrait;
 
 /**
  * @internal
  */
 final class LogManagerTest extends CIUnitTestCase
 {
+    use BackupTrait;
+    use PathsTrait;
+
+    /**
+     * Backup dir for mock project.
+     *
+     * @var string
+     */
+    protected $backupDir = '';
+
     /**
      * @var \Liaison\Revision\Config\ConfigurationResolver
      */
@@ -32,26 +41,15 @@ final class LogManagerTest extends CIUnitTestCase
      */
     protected $filesystem;
 
-    protected $backupDir;
-
     protected function setUp(): void
     {
-        $config            = new Revision();
-        $config->writePath = __DIR__ . '/../../../mock/writable';
-        $config->rootPath  = __DIR__ . '/../../../mock';
-        $this->config      = new ConfigurationResolver($config);
-        $this->filesystem  = new Filesystem();
-
-        $this->backupDir = __DIR__ . '/../../../backup';
-        $this->filesystem->mirror($this->config->rootPath, $this->backupDir);
-        $this->backupDir = realpath($this->backupDir);
+        $this->prepareMockPaths();
+        $this->backupMockProject();
     }
 
     protected function tearDown(): void
     {
-        $this->filesystem->remove($this->config->rootPath);
-        $this->filesystem->mirror($this->backupDir, $this->config->rootPath);
-        $this->filesystem->remove($this->backupDir);
+        $this->restoreMockProject();
     }
 
     public function testLogManagerThrowsExceptionOnWrongLogHandlers()
