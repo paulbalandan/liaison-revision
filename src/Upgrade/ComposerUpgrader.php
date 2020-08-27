@@ -25,40 +25,59 @@ use Throwable;
 class ComposerUpgrader implements UpgraderInterface
 {
     /**
-     * {@inheritdoc}
+     * Instance of ConfigurationResolver
+     *
+     * @var \Liaison\Revision\Config\ConfigurationResolver
      */
-    public function upgrade(string $rootPath, array $options = []): int
-    {
-        $composer = $this->findComposerPhar();
+    protected $config;
 
+    /**
+     * Constructor.
+     *
+     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
+     */
+    public function __construct(?ConfigurationResolver $config = null)
+    {
+        $this->config = $config ?? new ConfigurationResolver();
+    }
+
+    /**
+     * Installs the project.
+     *
+     * @param string $rootPath
+     * @param array  $options
+     *
+     * @return int
+     */
+    public function install(string $rootPath, array $options = []): int
+    {
         /**
          * Default behavior now is to exclude non-system directory.
          * Add `--prefer-source` to download these.
          *
          * @see https://github.com/codeigniter4/CodeIgniter4/pull/3438
          */
-        $cmd = "{$composer} update --ansi --prefer-source";
+        $cmd = $this->findComposerPhar() . ' install --ansi --prefer-source';
+        $cmd = $this->applyCommandOptions($cmd, $options);
 
-        if (\in_array('no-ansi', $options, true)) {
-            $cmd = str_replace('--ansi', '--no-ansi', $cmd);
-        }
+        return $this->runProcess($cmd, $rootPath);
+    }
 
-        if (\in_array('dry-run', $options, true)) {
-            // Don't actually update when testing.
-            $cmd .= ' --dry-run';
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function upgrade(string $rootPath, array $options = []): int
+    {
+        /**
+         * Default behavior now is to exclude non-system directory.
+         * Add `--prefer-source` to download these.
+         *
+         * @see https://github.com/codeigniter4/CodeIgniter4/pull/3438
+         */
+        $cmd = $this->findComposerPhar() . ' update --ansi --prefer-source';
+        $cmd = $this->applyCommandOptions($cmd, $options);
 
-        $process = Process::fromShellCommandline($cmd, $rootPath, null, null, null);
-
-        try {
-            $process->mustRun(static function ($type, $line) {
-                CLI::print($line);
-            });
-        } catch (Throwable $e) {
-            throw new RevisionException($e->getMessage());
-        }
-
-        return EXIT_SUCCESS;
+        return $this->runProcess($cmd, $rootPath);
     }
 
     /**
@@ -70,8 +89,8 @@ class ComposerUpgrader implements UpgraderInterface
      */
     protected function findComposerPhar(): string
     {
-        $phpBinary     = (string) (new PhpExecutableFinder())->find();
-        $composerLocal = (new ConfigurationResolver())->rootPath . 'composer.phar';
+        $phpBinary     = (string) (new PhpExecutableFinder())->find(false);
+        $composerLocal = $this->config->rootPath . 'composer.phar';
 
         if (is_file($composerLocal)) {
             // @codeCoverageIgnoreStart
@@ -90,5 +109,55 @@ class ComposerUpgrader implements UpgraderInterface
         }
 
         return 'composer';
+    }
+
+    /**
+     * Appends additional options to a command string.
+     *
+     * @param string $command
+     * @param array  $options
+     *
+     * @return string
+     */
+    private function applyCommandOptions(string $command, array $options): string
+    {
+        if (\in_array('no-ansi', $options, true)) {
+            $command = str_replace('--ansi', '--no-ansi', $command);
+        }
+
+        if (\in_array('dry-run', $options, true)) {
+            $command .= ' --dry-run';
+        }
+
+        if (ENVIRONMENT === 'testing' && false === mb_strpos($command, '--quiet')) {
+            $command .= ' --quiet';
+        }
+
+        return $command;
+    }
+
+    /**
+     * Runs the command in a subprocess.
+     *
+     * @param string $command
+     * @param string $cwd
+     *
+     * @throws \Liaison\Revision\Exception\RevisionException
+     *
+     * @return int
+     */
+    private function runProcess(string $command, string $cwd): int
+    {
+        $process = Process::fromShellCommandline($command, $cwd, null, null, null);
+
+        try {
+            $process->mustRun(static function ($type, $line) {
+                CLI::print($line); // @codeCoverageIgnore
+            });
+
+            return EXIT_SUCCESS;
+        } catch (Throwable $e) {
+            throw new RevisionException($e->getMessage());
+        }
     }
 }

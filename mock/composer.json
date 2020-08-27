@@ -9,6 +9,9 @@
             "email": "paulbalandan@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {}
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "codeigniter4/framework": "4.0.0-rc.4"
+    }
 }
