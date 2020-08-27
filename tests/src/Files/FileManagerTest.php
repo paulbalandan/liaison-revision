@@ -16,8 +16,6 @@ use Liaison\Revision\Files\FileManager;
 
 /**
  * @internal
- *
- * @small
  */
 final class FileManagerTest extends CIUnitTestCase
 {
