@@ -50,6 +50,8 @@ final class LogManager
      *
      * @param string|string[] $messages
      * @param string          $level
+     *
+     * @return void
      */
     public function logMessage($messages, string $level = 'info')
     {
@@ -68,6 +70,8 @@ final class LogManager
 
     /**
      * Makes the handlers save their logs.
+     *
+     * @return void
      */
     public function save()
     {
@@ -86,6 +90,8 @@ final class LogManager
      * Loads the defined log handlers in the config.
      *
      * @throws \Liaison\Revision\Exception\InvalidArgumentException
+     *
+     * @return void
      */
     private function registerLogHandlers()
     {

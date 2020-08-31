@@ -133,6 +133,10 @@ class ComposerUpgrader implements UpgraderInterface
             $command .= ' --quiet';
         }
 
+        if (\in_array('no-dev', $options, true)) {
+            $command .= ' --no-dev'; // @codeCoverageIgnore
+        }
+
         return $command;
     }
 
