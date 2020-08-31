@@ -47,7 +47,11 @@ class PublishConfigCommand extends GeneratorCommand
     protected $description = 'Publishes Revision\'s main config file.';
 
     /**
-     * {@inheritdoc}
+     * Execute the config generation.
+     *
+     * @param array<int|string, string> $params
+     *
+     * @return void
      */
     public function run(array $params)
     {

@@ -45,7 +45,7 @@ class GitignoreCommand extends BaseCommand
     /**
      * The Command's options.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $options = [
         '-allow-entry'      => 'Override config `$allowGitIgnoreEntry` to force allow write.',
@@ -63,7 +63,7 @@ class GitignoreCommand extends BaseCommand
     /**
      * Actually executes the command.
      *
-     * @param array $params
+     * @param array<int|string, string> $params
      *
      * @return void
      */

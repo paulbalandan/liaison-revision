@@ -44,8 +44,8 @@ class ComposerUpgrader implements UpgraderInterface
     /**
      * Installs the project.
      *
-     * @param string $rootPath
-     * @param array  $options
+     * @param string   $rootPath
+     * @param string[] $options
      *
      * @return int
      */
@@ -114,8 +114,8 @@ class ComposerUpgrader implements UpgraderInterface
     /**
      * Appends additional options to a command string.
      *
-     * @param string $command
-     * @param array  $options
+     * @param string   $command
+     * @param string[] $options
      *
      * @return string
      */

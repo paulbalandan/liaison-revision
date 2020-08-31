@@ -76,6 +76,8 @@ class ConfigurationResolver
 
     /**
      * Ensures all string paths are normalized.
+     *
+     * @return void
      */
     private function normalizePaths()
     {

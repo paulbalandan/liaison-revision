@@ -28,12 +28,6 @@ interface LogHandlerInterface
     public const EXIT_ERROR = 1;
 
     /**
-     * Exit code when things go awry but handler
-     * still wishes other handlers to go on.
-     */
-    public const EXIT_CONTINUE = 2;
-
-    /**
      * Sets the path to the specific log handler save directory.
      *
      * @param string $directory
@@ -81,6 +75,8 @@ interface LogHandlerInterface
      * Saves the log file to respective directory.
      *
      * @throws \Symfony\Component\Filesystem\Exception\IOException
+     *
+     * @return void
      */
     public function save();
 }

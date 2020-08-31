@@ -23,7 +23,7 @@ class JsonLogHandler extends BaseLogHandler
     /**
      * JSON array to serialize later.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     public $json = [];
 

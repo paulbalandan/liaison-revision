@@ -1,6 +1,6 @@
 parameters:
   tmpDir: build/phpstan
-  level: 5
+  level: 6
   paths:
     - src
     - tests
@@ -17,5 +17,8 @@ parameters:
     - vendor/codeigniter4/codeigniter4/app/Config/Constants.php
     - vendor/codeigniter4/codeigniter4/system/bootstrap.php
   ignoreErrors:
-    - '#Call to undefined function CodeIgniter\\CLI\\is_cli\(\)#'
     - '#Access to an undefined property Liaison\\Revision\\Config\\ConfigurationResolver::(.*)#'
+    - '#Call to undefined function CodeIgniter\\CLI\\is_cli\(\)#'
+    - '#Method Liaison\\Revision\\Tests\\(.*) has no return typehint specified.#'
+    - '#Method Liaison\\Revision\\Tests\\(.*) return type has no value type specified in iterable type array.#'
+    - '#Property Liaison\\Revision\\Tests\\(.*) has no typehint specified.#'

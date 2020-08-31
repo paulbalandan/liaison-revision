@@ -315,6 +315,8 @@ class Application
     /**
      * This ensures that paths are filtered,
      * and a snapshot of the current vendor files is created.
+     *
+     * @return void
      */
     public function checkPreflightConditions()
     {
@@ -345,6 +347,8 @@ class Application
     /**
      * After the update process is finished, this checks for any modifications
      * in the snapshot and accordingly sorts them through the FileManager.
+     *
+     * @return void
      */
     public function analyzeModifications()
     {
@@ -423,6 +427,8 @@ class Application
     /**
      * After the consolidation process, this will analyse the merges and
      * conflicts and logs them.
+     *
+     * @return void
      */
     public function analyzeMergesAndConflicts()
     {
@@ -469,6 +475,8 @@ class Application
      * Initializes the application.
      *
      * @param null|string $workspace
+     *
+     * @return void
      */
     protected function initialize(?string $workspace)
     {
@@ -498,8 +506,10 @@ class Application
      * Takes in the paths from pathfinder and filters out those
      * files not included in the ignore list.
      *
-     * @param array $paths
-     * @param array $ignore
+     * @param string[][] $paths
+     * @param string[]   $ignore
+     *
+     * @return void
      */
     protected function filterFilesToCopy(array $paths, array $ignore)
     {
@@ -519,6 +529,8 @@ class Application
      * @param string $destination
      *
      * @throws \Liaison\Revision\Exception\RevisionException
+     *
+     * @return void
      */
     protected function createOldVendorSnapshot(string $destination)
     {
