@@ -49,7 +49,7 @@ class GitignoreCommand extends BaseCommand
      */
     protected $options = [
         '-allow-entry'      => 'Override config `$allowGitIgnoreEntry` to force allow write.',
-        '-no-allow-entry'   => 'Override config `$allowGitIgnoreEntry` to force no allow write.',
+        '-disallow-entry'   => 'Override config `$allowGitIgnoreEntry` to force disallow write.',
         '-write-if-missing' => 'Write a new .gitignore if none is found.',
     ];
 
@@ -72,10 +72,10 @@ class GitignoreCommand extends BaseCommand
         $config = new ConfigurationResolver();
 
         $allow = \array_key_exists('allow-entry', $params)    || CLI::getOption('allow-entry');
-        $deny  = \array_key_exists('no-allow-entry', $params) || CLI::getOption('no-allow-entry');
+        $deny  = \array_key_exists('disallow-entry', $params) || CLI::getOption('disallow-entry');
 
         if ($allow && $deny) {
-            throw new LogicException(lang('Revision.mutExOptionsForWriteGiven', ['allow-entry', 'no-allow-entry']));
+            throw new LogicException(lang('Revision.mutExOptionsForWriteGiven', ['allow-entry', 'disallow-entry']));
         }
 
         $write = $config->allowGitIgnoreEntry;
@@ -109,15 +109,16 @@ class GitignoreCommand extends BaseCommand
         }
 
         $contents = file_get_contents($gitignore);
+        $writable = rtrim(str_replace($config->rootPath, '', $config->writePath), '\\/ ');
 
-        if (preg_match('#writable/revision/#m', $contents)) {
+        if (preg_match("#{$writable}/revision/#m", $contents)) {
             CLI::write(lang('Revision.createGitignoreEntryDuplicate'), 'yellow');
             CLI::newLine();
 
             return;
         }
 
-        if (!write_file($gitignore, "\n# Liaison\\Revision temp\nwritable/revision/", 'ab')) {
+        if (!write_file($gitignore, "\n# Liaison\\Revision temp\n{$writable}/revision/", 'ab')) {
             CLI::error(lang('Revision.createGitignoreEntryFail'), 'light_gray', 'red');
             CLI::newLine();
 
