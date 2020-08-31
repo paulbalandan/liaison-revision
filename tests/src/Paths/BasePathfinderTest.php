@@ -78,9 +78,9 @@ final class BasePathfinderTest extends CIUnitTestCase
         $config = new ConfigurationResolver(new SimpleConfig());
 
         if ('dir' === $type) {
-            array_push($config->getConfig()->ignoredDirs, $invalid);
+            array_push($config->getConfig()->ignoreDirs, $invalid);
         } else {
-            array_push($config->getConfig()->ignoredFiles, $invalid);
+            array_push($config->getConfig()->ignoreFiles, $invalid);
         }
 
         $this->expectException('Liaison\Revision\Exception\InvalidArgumentException');

@@ -27,6 +27,7 @@
         "codeigniter4/codeigniter4": "dev-develop",
         "friendsofphp/php-cs-fixer": "^2.16",
         "liaison/cs-config": "^1.1",
+        "phpstan/phpstan": "^0.12",
         "phpunit/phpunit": "^8.5"
     },
     "config": {
@@ -45,7 +46,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Liaison\\Revision\\Tests\\": "tests/src/"
+            "Liaison\\Revision\\Tests\\": "tests/src/",
+            "Tests\\Support\\": "tests/_support/"
         }
     },
     "repositories": [
@@ -56,11 +58,7 @@
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "scripts": {
-        "post-update-cmd": [
-            "@php -r \"file_exists('phpunit.xml') || copy('phpunit.xml.dist', 'phpunit.xml');\""
-        ]
-    },
+    "scripts": {},
     "support": {
         "issues": "https://github.com/paulbalandan/liaison-revision/issues",
         "source": "https://github.com/paulbalandan/liaison-revision"
