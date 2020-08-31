@@ -71,6 +71,7 @@ final class BasePathfinderTest extends CIUnitTestCase
      * @param string $invalid
      * @param string $type
      * @param string $message
+     *
      * @dataProvider invalidPathsProvider
      */
     public function testInvalidIgnoredPaths(string $invalid, string $type = 'file', string $message = '')
@@ -91,10 +92,10 @@ final class BasePathfinderTest extends CIUnitTestCase
     public function invalidPathsProvider()
     {
         return [
-            [APPPATH, 'dir', '"' . APPPATH . '" must be a relative path.'],
-            ['foo/bar', 'dir', '"foo/bar" is not a valid directory.'],
-            [ROOTPATH . '.gitignore', 'file', '"' . ROOTPATH . '.gitignore" must be a relative path.'],
-            ['.env', 'file', '".env" is not a valid file.'],
+            ['app', 'dir', '"app" must be an absolute path.'],
+            [APPPATH . 'foo/bar', 'dir', '"' . APPPATH . 'foo/bar" is not a valid directory.'],
+            ['.gitignore', 'file', '".gitignore" must be an absolute path.'],
+            [APPPATH . '.env', 'file', '"' . APPPATH . '.env" is not a valid file.'],
         ];
     }
 }

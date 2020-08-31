@@ -147,22 +147,19 @@ abstract class BasePathfinder implements PathfinderInterface
     private function verifyIgnoredPaths()
     {
         $ignoredPaths = [];
-        $rootPath     = $this->config->rootPath;
-        $dirs         = (array) $this->config->ignoredDirs;
-        $files        = (array) $this->config->ignoredFiles;
+        $dirs         = (array) $this->config->ignoreDirs;
+        $files        = (array) $this->config->ignoreFiles;
 
         foreach ($dirs as $dir) {
-            if ($this->filesystem->isAbsolutePath($dir)) {
-                throw new InvalidArgumentException(lang('Revision.invalidAbsolutePathFound', [$dir]));
+            if (!$this->filesystem->isAbsolutePath($dir)) {
+                throw new InvalidArgumentException(lang('Revision.invalidRelativePathFound', [$dir]));
             }
 
-            $tempDir = $rootPath . trim($dir, '\\/ ');
-
-            if (!is_dir($tempDir)) {
+            if (!is_dir($dir)) {
                 throw new InvalidArgumentException(lang('Revision.invalidPathNotDirectory', [$dir]));
             }
 
-            foreach (get_filenames($tempDir, true, true) as $file) {
+            foreach (get_filenames($dir, true, true) as $file) {
                 if (is_file($file)) {
                     $ignoredPaths[] = $file;
                 }
@@ -170,17 +167,15 @@ abstract class BasePathfinder implements PathfinderInterface
         }
 
         foreach ($files as $file) {
-            if ($this->filesystem->isAbsolutePath($file)) {
-                throw new InvalidArgumentException(lang('Revision.invalidAbsolutePathFound', [$file]));
+            if (!$this->filesystem->isAbsolutePath($file)) {
+                throw new InvalidArgumentException(lang('Revision.invalidRelativePathFound', [$file]));
             }
 
-            $tempFile = $rootPath . trim($file, '\\/ ');
-
-            if (!is_file($tempFile)) {
+            if (!is_file($file)) {
                 throw new InvalidArgumentException(lang('Revision.invalidPathNotFile', [$file]));
             }
 
-            $ignoredPaths = array_merge($ignoredPaths, [realpath($tempFile)]);
+            $ignoredPaths = array_merge($ignoredPaths, [realpath($file)]);
         }
 
         $ignoredPaths = array_filter($ignoredPaths);

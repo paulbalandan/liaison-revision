@@ -15,11 +15,11 @@ use Liaison\Revision\Config\Revision;
 
 class SimpleConfig extends Revision
 {
-    public $ignoredDirs = [
-        'app/Config',
+    public $ignoreDirs = [
+        SYSTEMPATH . '../app/Config',
     ];
 
-    public $ignoredFiles = [
-        'app/.htaccess',
+    public $ignoreFiles = [
+        SYSTEMPATH . '../app/.htaccess',
     ];
 }

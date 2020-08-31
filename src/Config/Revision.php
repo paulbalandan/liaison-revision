@@ -39,15 +39,20 @@ class Revision extends BaseConfig
      * * public
      * * or their subdirectories.
      *
-     * NOTE: Must be relative to `$rootPath`.
+     * IMPORTANT: The paths here should be absolute
+     * and point to the **source** directory, not the
+     * project-equivalent directory.
      *
      * @var string[]
      */
     public $ignoreDirs = [];
 
     /**
-     * Specific files to ignore updating. These
-     * must be relative to `$rootPath`.
+     * Specific files to ignore updating.
+     *
+     * IMPORTANT: The paths here should be absolute
+     * and point to the **source** file, not the
+     * project-equivalent file.
      *
      * @var string[]
      */

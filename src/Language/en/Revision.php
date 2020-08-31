@@ -22,9 +22,10 @@ return [
     // Logs
     'invalidLogHandler' => 'Log handler "{0}" is not an instance of "{1}". Got instance of "{2}" instead.',
 
-    // Paths
+    // Pathfinder
     'invalidOriginPathFound'   => '"{0}" is not a valid origin file or directory.',
     'invalidAbsolutePathFound' => '"{0}" must be a relative path.',
+    'invalidRelativePathFound' => '"{0}" must be an absolute path.',
     'invalidPathNotDirectory'  => '"{0}" is not a valid directory.',
     'invalidPathNotFile'       => '"{0}" is not a valid file.',
 
