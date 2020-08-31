@@ -9,7 +9,8 @@ build/
 #-------------------------
 # Composer
 #-------------------------
-/vendor/
+vendor/
+composer.lock
 
 #-------------------------
 # IDE / Development Files
