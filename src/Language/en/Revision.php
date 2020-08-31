@@ -39,4 +39,6 @@ return [
     'deletedFilesAfterUpdate'            => '{0} deleted {1} after update.',
     'mergedFilesAfterConsolidation'      => '{0} {1} merged successfully.',
     'conflictingFilesAfterConsolidation' => '{0} {1} in conflict.',
+    'terminateExecutionSuccess'          => 'Terminating: Application update was successful.',
+    'terminateExecutionFailure'          => 'Terminating: Application errored on "{0}" event.',
 ];

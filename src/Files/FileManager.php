@@ -70,7 +70,7 @@ final class FileManager
      *
      * @var \Symfony\Component\Filesystem\Filesystem
      */
-    private static $filesystem;
+    public static $filesystem;
 
     /**
      * Asserts that two files are identical in contents.

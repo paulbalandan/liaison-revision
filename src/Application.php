@@ -11,8 +11,10 @@
 
 namespace Liaison\Revision;
 
+use CodeIgniter\Events\Events;
 use Liaison\Revision\Config\ConfigurationResolver;
 use Liaison\Revision\Consolidation\ConsolidatorInterface;
+use Liaison\Revision\Events\UpdateEvents;
 use Liaison\Revision\Exception\RevisionException;
 use Liaison\Revision\Files\FileManager;
 use Liaison\Revision\Logs\LogManager;
@@ -106,18 +108,48 @@ class Application
      *
      * @param null|string                                         $workspace
      * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
      */
-    public function __construct(
-        ?string $workspace = null,
-        ?ConfigurationResolver $config = null,
-        ?Filesystem $filesystem = null
-    ) {
-        $this->config      = $config     ?? new ConfigurationResolver();
-        $this->filesystem  = $filesystem ?? new Filesystem();
+    public function __construct(?string $workspace = null, ?ConfigurationResolver $config = null)
+    {
+        $this->config      = $config ?? new ConfigurationResolver();
+        $this->filesystem  = new Filesystem();
         $this->fileManager = new FileManager();
         $this->logManager  = new LogManager($this->config);
+
+        FileManager::$filesystem = &$this->filesystem;
         $this->initialize($workspace);
+
+        Events::trigger(UpdateEvents::INITIALIZE, $this);
+    }
+
+    /**
+     * Gets the current instance of ConfigurationResolver.
+     *
+     * @return \Liaison\Revision\Config\ConfigurationResolver
+     */
+    public function getConfiguration(): ConfigurationResolver
+    {
+        return $this->config;
+    }
+
+    /**
+     * Gets the current instance of FileManager.
+     *
+     * @return \Liaison\Revision\Files\FileManager
+     */
+    public function getFileManager(): FileManager
+    {
+        return $this->fileManager;
+    }
+
+    /**
+     * Gets the current instance of LogManager.
+     *
+     * @return \Liaison\Revision\Logs\LogManager
+     */
+    public function getLogManager(): LogManager
+    {
+        return $this->logManager;
     }
 
     /**
@@ -135,6 +167,16 @@ class Application
     }
 
     /**
+     * Gets the current instance of ConsolidatorInterface.
+     *
+     * @return \Liaison\Revision\Consolidation\ConsolidatorInterface
+     */
+    public function getConsolidator(): ConsolidatorInterface
+    {
+        return $this->consolidator;
+    }
+
+    /**
      * Sets the UpgraderInterface instance.
      *
      * @param \Liaison\Revision\Upgrade\UpgraderInterface $upgrader
@@ -146,6 +188,16 @@ class Application
         $this->upgrader = $upgrader;
 
         return $this;
+    }
+
+    /**
+     * Gets the current instance of UpgraderInterface.
+     *
+     * @return \Liaison\Revision\Upgrade\UpgraderInterface
+     */
+    public function getUpgrader(): UpgraderInterface
+    {
+        return $this->upgrader;
     }
 
     /**
@@ -163,6 +215,16 @@ class Application
     }
 
     /**
+     * Gets the current instance of PathfinderInterface.
+     *
+     * @return \Liaison\Revision\Paths\PathfinderInterface
+     */
+    public function getPathfinder(): PathfinderInterface
+    {
+        return $this->pathfinder;
+    }
+
+    /**
      * Sets the Differ instance
      *
      * @param \SebastianBergmann\Diff\Output\DiffOutputBuilderInterface $diffOutputBuilder
@@ -177,6 +239,80 @@ class Application
     }
 
     /**
+     * Gets the current Differ instance.
+     *
+     * @return \SebastianBergmann\Diff\Differ
+     */
+    public function getDiffer(): Differ
+    {
+        return $this->differ;
+    }
+
+    /**
+     * Executes the application update.
+     *
+     * @return int
+     */
+    public function execute(): int
+    {
+        if (!Events::trigger(UpdateEvents::PREFLIGHT, $this)) {
+            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::PREFLIGHT']), 'error');
+
+            return EXIT_ERROR;
+        }
+
+        $this->checkPreflightConditions();
+
+        if (!Events::trigger(UpdateEvents::PREUPGRADE, $this)) {
+            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::PREUPGRADE']), 'error');
+
+            return EXIT_ERROR;
+        }
+
+        if (EXIT_ERROR === $this->updateInternals()) {
+            $this->terminate(lang('Revision.terminateExecutionFailure', ['Application::updateInternals']), 'error');
+
+            return EXIT_ERROR;
+        }
+
+        $this->analyzeModifications();
+
+        if (!Events::trigger(UpdateEvents::POSTUPGRADE, $this)) {
+            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::POSTUPGRADE']), 'error');
+
+            return EXIT_ERROR;
+        }
+
+        if (!Events::trigger(UpdateEvents::PRECONSOLIDATE, $this)) {
+            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::PRECONSOLIDATE']), 'error');
+
+            return EXIT_ERROR;
+        }
+
+        if (EXIT_ERROR === $this->consolidate()) {
+            $this->terminate(lang('Revision.terminateExecutionFailure', ['Application::consolidate']), 'error');
+
+            return EXIT_ERROR;
+        }
+
+        $this->analyzeMergesAndConflicts();
+
+        if (!Events::trigger(UpdateEvents::POSTCONSOLIDATE, $this)) {
+            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::POSTCONSOLIDATE']), 'error');
+
+            return EXIT_ERROR;
+        }
+
+        if (!Events::trigger(UpdateEvents::TERMINATE, $this)) {
+            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::TERMINATE']), 'error');
+
+            return EXIT_ERROR;
+        }
+
+        return $this->terminate();
+    }
+
+    /**
      * This ensures that paths are filtered,
      * and a snapshot of the current vendor files is created.
      */
@@ -187,7 +323,7 @@ class Application
         $oldSnapshot = $this->workspace . 'oldSnapshot' . \DIRECTORY_SEPARATOR;
 
         $this->filterFilesToCopy($paths, $ignore);
-        $this->createOldVendorSnapshot($oldSnapshot, $this->files);
+        $this->createOldVendorSnapshot($oldSnapshot);
     }
 
     /**
@@ -200,7 +336,7 @@ class Application
         try {
             return $this->upgrader->upgrade($this->config->rootPath);
         } catch (RevisionException $e) {
-            $this->logManager->logMessage([$e->getMessage()], 'error');
+            $this->logManager->logMessage($e->getMessage(), 'error');
 
             return EXIT_ERROR;
         }
@@ -210,7 +346,7 @@ class Application
      * After the update process is finished, this checks for any modifications
      * in the snapshot and accordingly sorts them through the FileManager.
      */
-    public function analyseModifications()
+    public function analyzeModifications()
     {
         $unchanged = [];
 
@@ -220,7 +356,9 @@ class Application
             $project = $this->config->rootPath . $file['destination'];
 
             // If hashes are different, this can be new or modified.
-            if (!FileManager::areIdenticalFiles($oldCopy, $file['origin']) || ($this->config->fallThroughToPath && !FileManager::areIdenticalFiles($project, $file['origin']))) {
+            if (!FileManager::areIdenticalFiles($oldCopy, $file['origin'])
+                || ($this->config->fallThroughToPath && !FileManager::areIdenticalFiles($project, $file['origin']))
+            ) {
                 $newCopy = $this->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file['destination'];
 
                 try {
@@ -232,7 +370,7 @@ class Application
                         $this->fileManager->modifiedFiles[] = $file['destination'];
                     }
                 } catch (IOExceptionInterface $e) {
-                    $this->logManager->logMessage([$e->getMessage()], 'error');
+                    $this->logManager->logMessage($e->getMessage(), 'error');
                 }
             } elseif (is_file($oldCopy)) {
                 $unchanged[] = $file['destination'];
@@ -268,11 +406,15 @@ class Application
     public function consolidate(): int
     {
         try {
-            $this->consolidator->mergeCreatedFiles()->mergeModifiedFiles()->mergeDeletedFiles();
+            $this->consolidator
+                ->mergeCreatedFiles()
+                ->mergeModifiedFiles()
+                ->mergeDeletedFiles()
+            ;
 
             return EXIT_SUCCESS;
         } catch (IOExceptionInterface $e) {
-            $this->logManager->logMessage([$e->getMessage()], 'error');
+            $this->logManager->logMessage($e->getMessage(), 'error');
 
             return EXIT_ERROR;
         }
@@ -282,7 +424,7 @@ class Application
      * After the consolidation process, this will analyse the merges and
      * conflicts and logs them.
      */
-    public function analyseMergesAndConflicts()
+    public function analyzeMergesAndConflicts()
     {
         $mc = \count($this->fileManager->mergedFiles);
         $cc = array_reduce($this->fileManager->conflicts, static function ($carry, $item) {
@@ -298,6 +440,29 @@ class Application
             lang('Revision.mergedFilesAfterConsolidation', [$mc, $ms]),
             lang('Revision.conflictingFilesAfterConsolidation', [$cc, $cs]),
         ]);
+    }
+
+    /**
+     * Terminate the current application and
+     * flush the logs.
+     *
+     * @param null|string $message
+     * @param string      $level
+     *
+     * @return int
+     */
+    public function terminate(?string $message = null, string $level = 'info'): int
+    {
+        if ($message) {
+            // Log any last message before terminating.
+            $this->logManager->logMessage($message, $level);
+        } else {
+            $this->logManager->logMessage(lang('Revision.terminateExecutionSuccess'), 'info');
+        }
+
+        $this->logManager->save();
+
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -324,8 +489,8 @@ class Application
         $this
             ->setConsolidator(new $consolidator($this->workspace, $this->fileManager, $this->config, $this->filesystem))
             ->setDiffer(new $diffOutputBuilder())
-            ->setPathfinder(new $pathfinder())
-            ->setUpgrader(new $upgrader())
+            ->setPathfinder(new $pathfinder($this->config, $this->filesystem))
+            ->setUpgrader(new $upgrader($this->config))
         ;
     }
 
@@ -340,7 +505,7 @@ class Application
     {
         foreach ($paths as $path) {
             if (\in_array($path['origin'], $ignore, true)) {
-                continue;
+                continue; // buggy, will fail for vendor paths
             }
 
             $this->files[] = $path;
@@ -352,16 +517,21 @@ class Application
      * by the pathfinder.
      *
      * @param string $destination
-     * @param array  $paths
+     *
+     * @throws \Liaison\Revision\Exception\RevisionException
      */
-    protected function createOldVendorSnapshot(string $destination, array $paths)
+    protected function createOldVendorSnapshot(string $destination)
     {
-        foreach ($paths as $path) {
+        if (empty($this->files)) {
+            throw new RevisionException('Cannot build snapshot. Files array is empty.'); // @codeCoverageIgnore
+        }
+
+        foreach ($this->files as $path) {
             try {
                 $this->filesystem->copy($path['origin'], $destination . $path['destination'], true);
                 $this->fileManager->snapshotFiles[] = $path['destination'];
             } catch (IOExceptionInterface $e) {
-                $this->logManager->logMessage([$e->getMessage()], 'error');
+                $this->logManager->logMessage($e->getMessage(), 'error');
             }
         }
     }
