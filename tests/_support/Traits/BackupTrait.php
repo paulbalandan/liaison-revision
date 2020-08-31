@@ -23,6 +23,7 @@ trait BackupTrait
 
     protected function restoreMockProject()
     {
+        $this->filesystem->chmod($this->config->rootPath, 0777, 000, true);
         $this->filesystem->remove($this->config->rootPath);
         $this->filesystem->mirror($this->backupDir, $this->config->rootPath);
         $this->filesystem->remove($this->backupDir);
