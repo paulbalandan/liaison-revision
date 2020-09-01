@@ -68,7 +68,7 @@ final class FileManager
     /**
      * Instance of Filesystem
      *
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var null|\Symfony\Component\Filesystem\Filesystem
      */
     public static $filesystem;
 

@@ -28,6 +28,7 @@ final class FileManagerTest extends CIUnitTestCase
      */
     public function testAreIdenticalFiles(bool $expected, string $one, string $two)
     {
+        FileManager::$filesystem = null;
         $this->assertSame($expected, FileManager::areIdenticalFiles($one, $two));
     }
 
