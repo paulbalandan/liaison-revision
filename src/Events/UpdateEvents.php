@@ -12,9 +12,7 @@
 namespace Liaison\Revision\Events;
 
 /**
- * UpdateEvents
- *
- * Contains all events dispatched by the Application.
+ * `UpdateEvents` contains all events dispatched by the Application.
  *
  * All listeners should accept as their sole argument
  * the Application class. This allows you to introspect
@@ -64,7 +62,7 @@ final class UpdateEvents
 
     /**
      * The TERMINATE event is called before the application
-     * will terminate the current process and flush the logs.
+     * will terminate the current process.
      */
     public const TERMINATE = 'revision.terminate';
 }

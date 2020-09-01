@@ -15,7 +15,9 @@ use CodeIgniter\Events\Events;
 use CodeIgniter\Test\CIUnitTestCase;
 use Liaison\Revision\Application;
 use Liaison\Revision\Events\UpdateEvents;
+use Liaison\Revision\Exception\RevisionException;
 use Liaison\Revision\Upgrade\ComposerUpgrader;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Tests\Support\Pathfinders\LiveTestPathfinder;
 use Tests\Support\Traits\BackupTrait;
 use Tests\Support\Traits\PathsTrait;
@@ -36,6 +38,13 @@ final class ApplicationTest extends CIUnitTestCase
      * @var string
      */
     protected $backupDir = '';
+
+    /**
+     * The Revision workspace directory.
+     *
+     * @var string
+     */
+    protected $workspace = '';
 
     /**
      * @var \Liaison\Revision\Config\ConfigurationResolver
@@ -66,7 +75,11 @@ final class ApplicationTest extends CIUnitTestCase
         $this->createCleanSlatePath();
         $this->mockProjectStructure();
 
-        $this->config->getConfig()->ignoreFiles = ['composer.json'];
+        $this->workspace = $this->config->rootPath . 'revision' . \DIRECTORY_SEPARATOR;
+
+        $this->config->getConfig()->ignoreFiles = [
+            $this->config->rootPath . 'vendor/codeigniter4/framework/composer.json',
+        ];
 
         $this->upgrader = new ComposerUpgrader($this->config);
     }
@@ -83,6 +96,7 @@ final class ApplicationTest extends CIUnitTestCase
         $this->instantiateApplication();
 
         $this->assertInstanceOf('Liaison\Revision\Config\ConfigurationResolver', $this->application->getConfiguration());
+        $this->assertInstanceOf('Symfony\Component\Filesystem\Filesystem', $this->application->getFilesystem());
         $this->assertInstanceOf('Liaison\Revision\Files\FileManager', $this->application->getFileManager());
         $this->assertInstanceOf('Liaison\Revision\Logs\LogManager', $this->application->getLogManager());
         $this->assertInstanceOf('Liaison\Revision\Consolidation\ConsolidatorInterface', $this->application->getConsolidator());
@@ -91,6 +105,9 @@ final class ApplicationTest extends CIUnitTestCase
         $this->assertInstanceOf('SebastianBergmann\Diff\Differ', $this->application->getDiffer());
     }
 
+    /**
+     * Live Test
+     */
     public function testApplicationLifeCycleIntrospection()
     {
         // Install first the base version
@@ -98,7 +115,8 @@ final class ApplicationTest extends CIUnitTestCase
         $this->assertDirectoryExists($this->config->rootPath . 'vendor');
 
         // Create an instance of Application
-        $this->instantiateApplication($workspace = $this->config->writePath . 'revision' . \DIRECTORY_SEPARATOR);
+        $workspace = $this->config->writePath . 'revision' . \DIRECTORY_SEPARATOR;
+        $this->instantiateApplication($workspace, false);
 
         // Create the old snapshot copy
         $this->application->checkPreflightConditions();
@@ -113,27 +131,60 @@ final class ApplicationTest extends CIUnitTestCase
         // Consolidate the changes
         $exitcode = $this->application->consolidate();
         $this->application->analyzeMergesAndConflicts();
-        $this->assertSame(0, $exitcode);
+        $this->assertSame(EXIT_SUCCESS, $exitcode);
 
         // Terminate the process
-        $this->assertSame(0, $this->application->terminate());
+        $this->assertSame(EXIT_SUCCESS, $this->application->terminate());
     }
 
     public function testApplicationFailsOnUpdate()
     {
-        $oldRootPath = $this->config->rootPath;
-        $newRootPath = $oldRootPath . 'inexistent/path';
-
-        Events::on(UpdateEvents::PREUPGRADE, static function (Application $app) use ($newRootPath) {
-            $app->getConfiguration()->getConfig()->rootPath = $newRootPath;
+        Events::on(UpdateEvents::PREUPGRADE, function (Application $app) {
+            /** @var \Liaison\Revision\Upgrade\UpgraderInterface&\PHPUnit\Framework\MockObject\MockObject */
+            $upgrader = $this->createMock('Liaison\Revision\Upgrade\ComposerUpgrader');
+            $upgrader->method('upgrade')->willThrowException(new RevisionException(''));
+            $app->setUpgrader($upgrader);
         });
 
         $this->mockVendorDirectory();
-        $this->instantiateApplication($this->config->writePath . 'revision' . \DIRECTORY_SEPARATOR);
+        $this->instantiateApplication($this->workspace);
         $this->assertSame(EXIT_ERROR, $this->application->execute());
 
         Events::removeAllListeners(UpdateEvents::PREUPGRADE);
-        $this->config->getConfig()->rootPath = $oldRootPath;
+    }
+
+    public function testStageACreatedFileInModificationAnalysis()
+    {
+        Events::on(UpdateEvents::PREUPGRADE, function (Application $app) {
+            $stagedCreatedFile = array_shift($app->getFileManager()->snapshotFiles);
+            $this->filesystem->remove($this->workspace . 'oldSnapshot/' . $stagedCreatedFile);
+
+            $chmodFile = array_shift($app->getFileManager()->snapshotFiles);
+            array_unshift($app->getFileManager()->snapshotFiles, $chmodFile);
+            $this->filesystem->chmod($this->workspace . 'oldSnapshot/' . $chmodFile, 0444);
+        });
+
+        $this->mockVendorDirectory();
+        $this->instantiateApplication($this->workspace);
+        $this->assertSame(EXIT_SUCCESS, $this->application->execute());
+
+        Events::removeAllListeners(UpdateEvents::PREUPGRADE);
+    }
+
+    public function testErroredInConsolidation()
+    {
+        Events::on(UpdateEvents::PRECONSOLIDATE, function (Application $app) {
+            /** @var \Liaison\Revision\Consolidation\ConsolidatorInterface&\PHPUnit\Framework\MockObject\MockObject */
+            $consolidator = $this->createMock('Liaison\Revision\Consolidation\DefaultConsolidator');
+            $consolidator->method('mergeCreatedFiles')->willThrowException(new IOException(''));
+            $app->setConsolidator($consolidator);
+        });
+
+        $this->mockVendorDirectory();
+        $this->instantiateApplication($this->workspace);
+        $this->assertSame(EXIT_ERROR, $this->application->execute());
+
+        Events::removeAllListeners(UpdateEvents::PRECONSOLIDATE);
     }
 
     /**
@@ -148,7 +199,7 @@ final class ApplicationTest extends CIUnitTestCase
         });
 
         $this->mockVendorDirectory();
-        $this->instantiateApplication($this->config->writePath . 'revision' . \DIRECTORY_SEPARATOR);
+        $this->instantiateApplication($this->workspace);
         $this->assertSame(EXIT_ERROR, $this->application->execute());
 
         Events::removeAllListeners($event);
@@ -166,18 +217,17 @@ final class ApplicationTest extends CIUnitTestCase
         ];
     }
 
-    protected function instantiateApplication(?string $workspace = null)
+    protected function instantiateApplication(?string $workspace = null, bool $mockUpgrader = true)
     {
         $this->application = new Application($workspace, $this->config);
         $this->application->setPathfinder(new LiveTestPathfinder($this->config, $this->filesystem));
-    }
 
-    protected function mockVendorDirectory()
-    {
-        $this->filesystem->mirror(
-            VENDORPATH . 'codeigniter4/codeigniter4',
-            $this->config->rootPath . 'vendor/codeigniter4/framework'
-        );
+        if ($mockUpgrader) {
+            /** @var \Liaison\Revision\Upgrade\UpgraderInterface&\PHPUnit\Framework\MockObject\MockObject */
+            $upgrader = $this->createMock('Liaison\Revision\Upgrade\ComposerUpgrader');
+            $upgrader->method('upgrade')->willReturn(EXIT_SUCCESS);
+            $this->application->setUpgrader($upgrader);
+        }
     }
 
     protected function getComposerJsonContents()
@@ -205,14 +255,5 @@ final class ApplicationTest extends CIUnitTestCase
             $this->config->rootPath . 'composer.json',
             json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n"
         );
-    }
-
-    protected function mockProjectStructure()
-    {
-        $this->filesystem->mirror(SYSTEMPATH . '../app', $this->config->rootPath . 'app');
-        $this->filesystem->mirror(SYSTEMPATH . '../public', $this->config->rootPath . 'public');
-        $this->filesystem->mirror(SYSTEMPATH . '../writable', $this->config->rootPath . 'writable');
-        $this->filesystem->copy(SYSTEMPATH . '../env', $this->config->rootPath . 'env');
-        $this->filesystem->copy(SYSTEMPATH . '../spark', $this->config->rootPath . 'spark');
     }
 }

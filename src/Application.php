@@ -133,6 +133,16 @@ class Application
     }
 
     /**
+     * Gets the current instance of Filesystem.
+     *
+     * @return \Symfony\Component\Filesystem\Filesystem
+     */
+    public function getFilesystem(): Filesystem
+    {
+        return $this->filesystem;
+    }
+
+    /**
      * Gets the current instance of FileManager.
      *
      * @return \Liaison\Revision\Files\FileManager
@@ -373,8 +383,11 @@ class Application
                     } else {
                         $this->fileManager->modifiedFiles[] = $file['destination'];
                     }
+
+                    // @codeCoverageIgnoreStart
                 } catch (IOExceptionInterface $e) {
                     $this->logManager->logMessage($e->getMessage(), 'error');
+                    // @codeCoverageIgnoreEnd
                 }
             } elseif (is_file($oldCopy)) {
                 $unchanged[] = $file['destination'];
@@ -449,8 +462,7 @@ class Application
     }
 
     /**
-     * Terminate the current application and
-     * flush the logs.
+     * Terminates the current application.
      *
      * @param null|string $message
      * @param string      $level
@@ -459,6 +471,10 @@ class Application
      */
     public function terminate(?string $message = null, string $level = 'info'): int
     {
+        // Remove the current workspace.
+        $this->filesystem->chmod($this->workspace, 0777, 0000, true);
+        $this->filesystem->remove($this->workspace);
+
         if ($message) {
             // Log any last message before terminating.
             $this->logManager->logMessage($message, $level);
@@ -466,6 +482,7 @@ class Application
             $this->logManager->logMessage(lang('Revision.terminateExecutionSuccess'), 'info');
         }
 
+        // Flush the logs.
         $this->logManager->save();
 
         return EXIT_SUCCESS;
@@ -515,7 +532,7 @@ class Application
     {
         foreach ($paths as $path) {
             if (\in_array($path['origin'], $ignore, true)) {
-                continue; // buggy, will fail for vendor paths
+                continue;
             }
 
             $this->files[] = $path;
@@ -542,8 +559,10 @@ class Application
             try {
                 $this->filesystem->copy($path['origin'], $destination . $path['destination'], true);
                 $this->fileManager->snapshotFiles[] = $path['destination'];
+                // @codeCoverageIgnoreStart
             } catch (IOExceptionInterface $e) {
                 $this->logManager->logMessage($e->getMessage(), 'error');
+                // @codeCoverageIgnoreEnd
             }
         }
     }
