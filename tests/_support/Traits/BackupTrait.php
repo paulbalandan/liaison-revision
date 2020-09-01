@@ -12,7 +12,9 @@
 namespace Tests\Support\Traits;
 
 /**
- * Handles the backup of original copy of mock directory.
+ * BackupTrait handles the backup of original copy of mock directory.
+ *
+ * @property \Symfony\Component\Filesystem\Filesystem $filesystem
  */
 trait BackupTrait
 {

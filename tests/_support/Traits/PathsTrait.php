@@ -17,6 +17,10 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * PathsTrait deals with the mock project paths.
+ *
+ * @property string $backupDir
+ * @property \Liaison\Revision\Config\ConfigurationResolver $config
+ * @property \Symfony\Component\Filesystem\Filesystem $filesystem
  */
 trait PathsTrait
 {
@@ -44,5 +48,22 @@ trait PathsTrait
 
         $this->filesystem->remove($paths);
         $this->filesystem->mkdir($paths);
+    }
+
+    protected function mockProjectStructure()
+    {
+        $this->filesystem->mirror(SYSTEMPATH . '../app', $this->config->rootPath . 'app');
+        $this->filesystem->mirror(SYSTEMPATH . '../public', $this->config->rootPath . 'public');
+        $this->filesystem->mirror(SYSTEMPATH . '../writable', $this->config->rootPath . 'writable');
+        $this->filesystem->copy(SYSTEMPATH . '../env', $this->config->rootPath . 'env');
+        $this->filesystem->copy(SYSTEMPATH . '../spark', $this->config->rootPath . 'spark');
+    }
+
+    protected function mockVendorDirectory()
+    {
+        $this->filesystem->mirror(
+            VENDORPATH . 'codeigniter4/codeigniter4',
+            $this->config->rootPath . 'vendor/codeigniter4/framework'
+        );
     }
 }
