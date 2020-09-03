@@ -28,6 +28,16 @@ final class LogManager
     private $logHandlers = [];
 
     /**
+     * Default Log Handlers to use.
+     *
+     * @var string[]
+     */
+    private static $defaultLogHandlers = [
+        'Liaison\Revision\Logs\JsonLogHandler',
+        'Liaison\Revision\Logs\PlaintextLogHandler',
+    ];
+
+    /**
      * Instance of ConfigurationResolver
      *
      * @var \Liaison\Revision\Config\ConfigurationResolver
@@ -95,8 +105,10 @@ final class LogManager
      */
     private function registerLogHandlers()
     {
-        /** @var string $handler */
-        foreach ($this->config->defaultLogHandlers as $handler) {
+        /** @var string[] $handlers */
+        $handlers = array_merge(self::$defaultLogHandlers, $this->config->logHandlers);
+
+        foreach ($handlers as $handler) {
             $logHandler = new $handler($this->config);
 
             if (!$logHandler instanceof BaseLogHandler) {

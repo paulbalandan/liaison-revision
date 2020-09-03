@@ -54,7 +54,7 @@ final class LogManagerTest extends CIUnitTestCase
 
     public function testLogManagerThrowsExceptionOnWrongLogHandlers()
     {
-        $this->config->getConfig()->defaultLogHandlers = ['Liaison\Revision\Files\FileManager'];
+        $this->config->getConfig()->logHandlers = ['Liaison\Revision\Files\FileManager'];
 
         $this->expectException('Liaison\Revision\Exception\InvalidArgumentException');
         new LogManager($this->config);
@@ -62,9 +62,7 @@ final class LogManagerTest extends CIUnitTestCase
 
     public function testLogManagerManagesTheLogging()
     {
-        $this->config->getConfig()->defaultLogHandlers = [
-            'Liaison\Revision\Logs\JsonLogHandler',
-            'Liaison\Revision\Logs\PlaintextLogHandler',
+        $this->config->getConfig()->logHandlers = [
             'Tests\Support\Logs\FirstNullHandler',
             'Tests\Support\Logs\NullLogHandler',
         ];
@@ -73,6 +71,7 @@ final class LogManagerTest extends CIUnitTestCase
         $log->logMessage('Test message');
         $log->logMessage('Error message', 'error');
         $log->save();
-        $this->assertTrue(true);
+
+        $this->assertDirectoryExists($this->config->writePath . 'revision/logs');
     }
 }

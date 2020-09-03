@@ -125,14 +125,15 @@ class Revision extends BaseConfig
     public $diffOutputBuilder = 'SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder';
 
     /**
-     * Default LogHandlers to use.
+     * Log Handlers to use.
      *
      * These must extend `Liaison\Revision\Logs\BaseLogHandler`.
      *
+     * Available log handlers:
+     * * `Liaison\Revision\Logs\JsonLogHandler` (enabled by default)
+     * * `Liaison\Revision\Logs\PlaintextLogHandler` (enabled by default)
+     *
      * @var string[]
      */
-    public $defaultLogHandlers = [
-        'Liaison\Revision\Logs\JsonLogHandler',
-        'Liaison\Revision\Logs\PlaintextLogHandler',
-    ];
+    public $logHandlers = [];
 }

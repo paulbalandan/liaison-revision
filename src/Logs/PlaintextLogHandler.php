@@ -67,12 +67,14 @@ class PlaintextLogHandler extends BaseLogHandler
 EOD;
 
         // Settings
+        $config   = \get_class($this->config->getConfig());
         $dirs     = \count($this->config->ignoreDirs);
         $files    = \count($this->config->ignoreFiles);
         $allow    = $this->config->allowGitIgnoreEntry ? 'Yes' : 'No';
         $fall     = $this->config->fallThroughToProject ? 'Yes' : 'No';
-        $logs     = implode(', ', $this->config->defaultLogHandlers);
+        $logs     = \count($this->config->logHandlers);
         $settings = <<<EOD
+Config Class: {$config}
 Root Path: {$this->config->rootPath}
 Write Path: {$this->config->writePath}
 Ignored Directories Count: {$dirs}
@@ -83,7 +85,7 @@ Consolidator: {$this->config->consolidator}
 Upgrader: {$this->config->upgrader}
 Pathfinder: {$this->config->pathfinder},
 Diff Output Builder: {$this->config->diffOutputBuilder},
-Default Log Handlers: {$logs},
+Log Handlers Count: {$logs},
 \n
 EOD;
 

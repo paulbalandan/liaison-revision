@@ -62,6 +62,7 @@ class JsonLogHandler extends BaseLogHandler
 
         // Settings
         $this->json['settings'] = [
+            'Config class'              => \get_class($this->config->getConfig()),
             'Root Path'                 => $this->config->rootPath,
             'Write Path'                => $this->config->writePath,
             'Ignored Directories Count' => \count($this->config->ignoreDirs),
@@ -72,7 +73,7 @@ class JsonLogHandler extends BaseLogHandler
             'Upgrader'                  => $this->config->upgrader,
             'Pathfinder'                => $this->config->pathfinder,
             'Diff Output Builder'       => $this->config->diffOutputBuilder,
-            'Default Log Handlers'      => $this->config->defaultLogHandlers,
+            'Log Handlers'              => $this->config->logHandlers,
         ];
 
         return $this;
