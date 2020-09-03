@@ -53,13 +53,14 @@ class PlaintextLogHandler extends BaseLogHandler
      */
     public function initialize()
     {
+        $name    = Application::NAME;
         $version = str_pad(Application::VERSION, 45);
         $date    = str_pad(sprintf('%s UTC%s', date('D, d F Y, H:i:s'), date('P')), 44);
 
         // Headers
         $this->buffer = <<<EOD
 +========================================================+
-| Liaison Revision                                       |
+| {$name}                                       |
 | Version: {$version} |
 | Run Date: {$date} |
 +========================================================+
@@ -83,9 +84,9 @@ Allow Gitignore Entry: {$allow}
 Fall Through to Project: {$fall}
 Consolidator: {$this->config->consolidator}
 Upgrader: {$this->config->upgrader}
-Pathfinder: {$this->config->pathfinder},
-Diff Output Builder: {$this->config->diffOutputBuilder},
-Log Handlers Count: {$logs},
+Pathfinder: {$this->config->pathfinder}
+Diff Output Builder: {$this->config->diffOutputBuilder}
+Log Handlers Count: {$logs}
 \n
 EOD;
 

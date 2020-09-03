@@ -11,6 +11,7 @@
 
 namespace Liaison\Revision;
 
+use CodeIgniter\CLI\CLI;
 use CodeIgniter\Events\Events;
 use Liaison\Revision\Config\ConfigurationResolver;
 use Liaison\Revision\Consolidation\ConsolidatorInterface;
@@ -30,6 +31,8 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class Application
 {
+    public const NAME = 'Liaison Revision';
+
     public const VERSION = '1.0.0';
 
     /**
@@ -37,7 +40,7 @@ class Application
      *
      * @var string
      */
-    protected $workspace = '';
+    public $workspace = '';
 
     /**
      * Array of paths to files to monitor. This
@@ -266,7 +269,7 @@ class Application
     public function execute(): int
     {
         if (!Events::trigger(UpdateEvents::PREFLIGHT, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::PREFLIGHT']), 'error');
+            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PREFLIGHT]), 'error');
 
             return EXIT_ERROR;
         }
@@ -274,7 +277,7 @@ class Application
         $this->checkPreflightConditions();
 
         if (!Events::trigger(UpdateEvents::PREUPGRADE, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::PREUPGRADE']), 'error');
+            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PREUPGRADE]), 'error');
 
             return EXIT_ERROR;
         }
@@ -288,13 +291,13 @@ class Application
         $this->analyzeModifications();
 
         if (!Events::trigger(UpdateEvents::POSTUPGRADE, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::POSTUPGRADE']), 'error');
+            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::POSTUPGRADE]), 'error');
 
             return EXIT_ERROR;
         }
 
         if (!Events::trigger(UpdateEvents::PRECONSOLIDATE, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::PRECONSOLIDATE']), 'error');
+            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PRECONSOLIDATE]), 'error');
 
             return EXIT_ERROR;
         }
@@ -308,13 +311,13 @@ class Application
         $this->analyzeMergesAndConflicts();
 
         if (!Events::trigger(UpdateEvents::POSTCONSOLIDATE, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::POSTCONSOLIDATE']), 'error');
+            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::POSTCONSOLIDATE]), 'error');
 
             return EXIT_ERROR;
         }
 
         if (!Events::trigger(UpdateEvents::TERMINATE, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', ['UpdateEvents::TERMINATE']), 'error');
+            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::TERMINATE]), 'error');
 
             return EXIT_ERROR;
         }
@@ -467,6 +470,8 @@ class Application
      * @param null|string $message
      * @param string      $level
      *
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     *
      * @return int
      */
     public function terminate(?string $message = null, string $level = 'info'): int
@@ -475,17 +480,45 @@ class Application
         $this->filesystem->chmod($this->workspace, 0777, 0000, true);
         $this->filesystem->remove($this->workspace);
 
-        if ($message) {
-            // Log any last message before terminating.
-            $this->logManager->logMessage($message, $level);
-        } else {
-            $this->logManager->logMessage(lang('Revision.terminateExecutionSuccess'), 'info');
+        // Log termination message
+        $message = $message ?? lang('Revision.terminateExecutionSuccess');
+        $this->logManager->logMessage($message, $level);
+
+        // @codeCoverageIgnoreStart
+        if (\defined('SPARKED') && ENVIRONMENT !== 'testing' && is_cli()) {
+            CLI::newLine();
+
+            if ('error' !== $level) {
+                CLI::write($message, 'green');
+            } else {
+                CLI::error($message, 'light_gray', 'red');
+            }
         }
+        // @codeCoverageIgnoreEnd
 
         // Flush the logs.
         $this->logManager->save();
 
         return EXIT_SUCCESS;
+    }
+
+    /**
+     * Calculates the diff of `$file` using the old
+     * and new snapshot.
+     *
+     * @param string $file Relative path to file
+     *
+     * @return string
+     */
+    public function calculateDiff(string $file): string
+    {
+        $old = $this->workspace . 'oldSnapshot' . \DIRECTORY_SEPARATOR . $file;
+        $new = $this->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file;
+
+        $oldContents = file_get_contents($old) ?: '';
+        $newContents = file_get_contents($new) ?: '';
+
+        return $this->differ->diff($oldContents, $newContents);
     }
 
     /**

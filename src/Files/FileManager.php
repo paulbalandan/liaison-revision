@@ -57,12 +57,12 @@ final class FileManager
     /**
      * Array of paths to files that caused conflicts during consolidation.
      *
-     * @var string[][]
+     * @var array<string, string[]>
      */
     public $conflicts = [
-        'created' => [],
-        'merged'  => [],
-        'deleted' => [],
+        'created'  => [],
+        'modified' => [],
+        'deleted'  => [],
     ];
 
     /**

@@ -55,7 +55,7 @@ class JsonLogHandler extends BaseLogHandler
     {
         // Headers
         $this->json = [
-            'application' => 'Liaison Revision',
+            'application' => Application::NAME,
             'version'     => Application::VERSION,
             'run-date'    => date('D, d F Y, H:i:s') . ' UTC' . date('P'),
         ];
