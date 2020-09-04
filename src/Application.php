@@ -520,7 +520,7 @@ class Application
                 CLI::error($message, 'light_gray', 'red');
             }
 
-            CLI::write(lang('Revision.stopUpdateText', [$this->getRelativeTime($elapsed)]));
+            CLI::write(lang('Revision.stopUpdateText', [$this->getRelativeTime($elapsed)]), 'green');
         }
         // @codeCoverageIgnoreEnd
 

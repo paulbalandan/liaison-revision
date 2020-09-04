@@ -57,7 +57,7 @@ class ComposerUpgrader implements UpgraderInterface
          *
          * @see https://github.com/codeigniter4/CodeIgniter4/pull/3438
          */
-        $cmd = $this->findComposerPhar() . ' install --ansi --prefer-source';
+        $cmd = $this->findComposerPhar() . ' install --ansi --prefer-source --no-interaction';
         $cmd = $this->applyCommandOptions($cmd, $options);
 
         return $this->runProcess($cmd, $rootPath);
@@ -74,7 +74,7 @@ class ComposerUpgrader implements UpgraderInterface
          *
          * @see https://github.com/codeigniter4/CodeIgniter4/pull/3438
          */
-        $cmd = $this->findComposerPhar() . ' update --ansi --prefer-source';
+        $cmd = $this->findComposerPhar() . ' update --ansi --prefer-source --no-interaction';
         $cmd = $this->applyCommandOptions($cmd, $options);
 
         return $this->runProcess($cmd, $rootPath);
