@@ -12,6 +12,7 @@
 namespace Liaison\Revision;
 
 use CodeIgniter\CLI\CLI;
+use CodeIgniter\Debug\Timer;
 use CodeIgniter\Events\Events;
 use Liaison\Revision\Config\ConfigurationResolver;
 use Liaison\Revision\Consolidation\ConsolidatorInterface;
@@ -107,6 +108,15 @@ class Application
     protected $logManager;
 
     /**
+     * Instance of Timer
+     *
+     * @internal
+     *
+     * @var \CodeIgniter\Debug\Timer
+     */
+    private $timer;
+
+    /**
      * Constructor.
      *
      * @param null|string                                         $workspace
@@ -118,11 +128,15 @@ class Application
         $this->filesystem  = new Filesystem();
         $this->fileManager = new FileManager();
         $this->logManager  = new LogManager($this->config);
+        $this->timer       = new Timer();
 
         FileManager::$filesystem = &$this->filesystem;
         $this->initialize($workspace);
-
         Events::trigger(UpdateEvents::INITIALIZE, $this);
+
+        $this->timer->start('revision');
+        $this->logManager->logMessage(lang('Revision.appInitialized'));
+        $this->logManager->logMessage(lang('Revision.startUpdateText'));
     }
 
     /**
@@ -348,6 +362,8 @@ class Application
      */
     public function updateInternals(): int
     {
+        $this->logManager->logMessage(lang('Revision.updateInternals'));
+
         try {
             return $this->upgrader->upgrade($this->config->rootPath);
         } catch (RevisionException $e) {
@@ -366,6 +382,7 @@ class Application
     public function analyzeModifications()
     {
         $unchanged = [];
+        $this->logManager->logMessage(lang('Revision.analyzeModifications'));
 
         foreach ($this->files as $file) {
             // Compare the previous snapshot with the new snapshot from update.
@@ -425,6 +442,8 @@ class Application
      */
     public function consolidate(): int
     {
+        $this->logManager->logMessage(lang('Revision.consolidate'));
+
         try {
             $this->consolidator
                 ->mergeCreatedFiles()
@@ -448,6 +467,8 @@ class Application
      */
     public function analyzeMergesAndConflicts()
     {
+        $this->logManager->logMessage(lang('Revision.analyzeMergesAndConflicts'));
+
         $mc = \count($this->fileManager->mergedFiles);
         $cc = array_reduce($this->fileManager->conflicts, static function ($carry, $item) {
             $carry += \count($item);
@@ -480,9 +501,14 @@ class Application
         $this->filesystem->chmod($this->workspace, 0777, 0000, true);
         $this->filesystem->remove($this->workspace);
 
+        // Stop the timer
+        $this->timer->stop('revision');
+        $elapsed = (float) $this->timer->getElapsedTime('revision', 3);
+
         // Log termination message
         $message = $message ?? lang('Revision.terminateExecutionSuccess');
         $this->logManager->logMessage($message, $level);
+        $this->logManager->logMessage(lang('Revision.stopUpdateText', [$this->getRelativeTime($elapsed)]));
 
         // @codeCoverageIgnoreStart
         if (\defined('SPARKED') && ENVIRONMENT !== 'testing' && is_cli()) {
@@ -493,6 +519,8 @@ class Application
             } else {
                 CLI::error($message, 'light_gray', 'red');
             }
+
+            CLI::write(lang('Revision.stopUpdateText', [$this->getRelativeTime($elapsed)]));
         }
         // @codeCoverageIgnoreEnd
 
@@ -570,6 +598,8 @@ class Application
      */
     protected function filterFilesToCopy(array $paths, array $ignore)
     {
+        $this->logManager->logMessage(lang('Revision.filterFilesToCopy'));
+
         foreach ($paths as $path) {
             if (\in_array($path['origin'], $ignore, true)) {
                 continue;
@@ -595,6 +625,8 @@ class Application
             throw new RevisionException('Cannot build snapshot. Files array is empty.'); // @codeCoverageIgnore
         }
 
+        $this->logManager->logMessage(lang('Revision.createOldVendorSnap'));
+
         foreach ($this->files as $path) {
             try {
                 $this->filesystem->copy($path['origin'], $destination . $path['destination'], true);
@@ -605,5 +637,25 @@ class Application
                 // @codeCoverageIgnoreEnd
             }
         }
+    }
+
+    /**
+     * Formats the seconds to its relative time.
+     *
+     * @param float $seconds
+     *
+     * @return string
+     */
+    protected function getRelativeTime(float $seconds): string
+    {
+        if ($seconds < MINUTE) {
+            return lang('Revision.seconds', [$seconds]);
+        }
+
+        if ($seconds < HOUR) {
+            return lang('Revision.minutes', [number_format($seconds / MINUTE, 3)]);
+        }
+
+        return lang('Revision.hours', [number_format($seconds / HOUR, 3)]);
     }
 }

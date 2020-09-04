@@ -14,7 +14,6 @@ namespace Liaison\Revision\Commands;
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\Events\Events;
-use Config\Services;
 use Liaison\Revision\Application;
 use Liaison\Revision\Events\UpdateEvents;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
@@ -95,21 +94,12 @@ class UpdateCommand extends BaseCommand
             ['Log Handlers Count', \count($config->logHandlers)],
         ], [CLI::color('Key', 'green'), CLI::color('Value', 'green')]);
 
-        // Start our timer...
-        $timer = Services::timer();
-        $timer->start('revision');
-
         CLI::write(lang('Revision.startUpdateText'), 'green');
         CLI::newLine();
 
         $this->registerCommandLineEvents();
         $this->application->execute();
         $this->unregisterCommandLineEvents();
-
-        $timer->stop('revision');
-        $elapsed = $timer->getElapsedTime('revision', 3);
-
-        CLI::write(lang('Revision.stopUpdateText', [$this->getRelativeTime((float) $elapsed)]), 'green');
     }
 
     /**
@@ -214,6 +204,7 @@ class UpdateCommand extends BaseCommand
         }
 
         $files = 1 === $count ? lang('Revision.fileSingular') : lang('Revision.filePlural');
+        CLI::newLine();
         CLI::write(lang('Revision.someFilesInConflict', [$count, $files]), 'yellow');
         CLI::write(CLI::color('[l] ', 'green') . lang('Revision.listAllInConflict'));
         CLI::write(CLI::color('[o] ', 'green') . lang('Revision.conflictsOverwriteAll'));
@@ -349,7 +340,7 @@ class UpdateCommand extends BaseCommand
 
                 CLI::newLine();
                 CLI::write(lang('Revision.displayDiffPrompt', [CLI::color($file, 'yellow')]));
-                CLI::write(implode("\n", $coloredDiff));
+                CLI::write(trim(implode("\n", $coloredDiff)));
 
                 break;
             case 'o':
@@ -443,25 +434,5 @@ class UpdateCommand extends BaseCommand
         }
 
         return $this;
-    }
-
-    /**
-     * Formats the seconds to its relative time.
-     *
-     * @param float $seconds
-     *
-     * @return string
-     */
-    protected function getRelativeTime(float $seconds): string
-    {
-        if ($seconds < MINUTE) {
-            return lang('Revision.seconds', [$seconds]);
-        }
-
-        if ($seconds < HOUR) {
-            return lang('Revision.minutes', [number_format($seconds / MINUTE, 3)]);
-        }
-
-        return lang('Revision.hours', [number_format($seconds / HOUR, 3)]);
     }
 }

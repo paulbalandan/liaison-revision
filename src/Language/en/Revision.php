@@ -59,8 +59,15 @@ return [
     'renderDiffLabel'             => 'Diff',
 
     // Logs
-    'invalidLogHandler'   => 'Log handler "{0}" is not an instance of "{1}". Got instance of "{2}" instead.',
-    'cannotUseLogHandler' => 'Cannot use "{0}" as "{1}" is not installed.',
+    'invalidLogHandler'         => 'Log handler "{0}" is not an instance of "{1}". Got instance of "{2}" instead.',
+    'cannotUseLogHandler'       => 'Cannot use "{0}" as "{1}" is not installed.',
+    'appInitialized'            => 'Application and dependencies initialized.',
+    'filterFilesToCopy'         => 'Generating array of files to monitor in update...',
+    'createOldVendorSnap'       => 'Creating old vendor snapshot in workspace...',
+    'updateInternals'           => 'Starting configured upgrade mechanism...',
+    'analyzeModifications'      => 'Analysing and sorting files after update...',
+    'consolidate'               => 'Starting configured consolidation mechanism...',
+    'analyzeMergesAndConflicts' => 'Analysing and sorting files merged and in conflict...',
 
     // Pathfinder
     'invalidOriginPathFound'   => '"{0}" is not a valid origin file or directory.',
