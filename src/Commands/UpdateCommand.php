@@ -429,8 +429,14 @@ class UpdateCommand extends BaseCommand
         $output = $output ?? [];
 
         foreach ($files as $file) {
-            $diffCount = \count(explode("\n", $this->application->calculateDiff($file))) ?: 0;
-            $output[]  = [$file, $status, $diffCount];
+            $diffCount = \count(explode("\n", $this->application->calculateDiff($file)));
+
+            if ($diffCount >= 3) {
+                // don't count the diff labels and the final trailing whitespace
+                $diffCount -= 3;
+            }
+
+            $output[] = [$file, $status, $diffCount];
         }
 
         return $this;
