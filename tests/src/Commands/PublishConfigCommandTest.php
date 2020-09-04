@@ -16,8 +16,6 @@ use CodeIgniter\Test\Filters\CITestStreamFilter;
 
 /**
  * @internal
- *
- * @small
  */
 final class PublishConfigCommandTest extends CIUnitTestCase
 {
@@ -34,6 +32,8 @@ final class PublishConfigCommandTest extends CIUnitTestCase
 
     protected function tearDown(): void
     {
+        parent::tearDown();
+
         stream_filter_remove($this->streamFilter);
 
         $result = str_replace(["\033[0;32m", "\033[0m", "\n"], '', CITestStreamFilter::$buffer);

@@ -54,6 +54,7 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->prepareMockPaths();
 
         $this->fileManager  = new FileManager();
@@ -81,6 +82,7 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
 
     protected function tearDown(): void
     {
+        parent::tearDown();
         $this->restoreMockProject();
     }
 

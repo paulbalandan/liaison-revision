@@ -16,8 +16,6 @@ use Liaison\Revision\Config\ConfigurationResolver;
 
 /**
  * @internal
- *
- * @small
  */
 final class ConfigurationResolverTest extends CIUnitTestCase
 {

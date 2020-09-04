@@ -41,6 +41,8 @@ final class GitignoreCommandTest extends CIUnitTestCase
 
     protected function tearDown(): void
     {
+        parent::tearDown();
+
         stream_filter_remove($this->streamFilter);
 
         if (is_file($this->original)) {
