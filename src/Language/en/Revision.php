@@ -52,6 +52,7 @@ return [
     'conflictsSkipOne'            => 'Skip this file.',
     'conflictsEachResolve'        => 'Resolve each conflict.',
     'conflictsDisplayDiff'        => 'Display diff.',
+    'displayDiffPrompt'           => 'Displaying diff for: {0}',
     'emptyFilesToRender'          => 'No files to render!',
     'renderFileLabel'             => 'File',
     'renderStatusLabel'           => 'Status',

@@ -108,6 +108,9 @@ final class LogManager
         /** @var string[] $handlers */
         $handlers = array_merge(self::$defaultLogHandlers, $this->config->logHandlers);
 
+        // reassign so that this can be displayed
+        $this->config->getConfig()->logHandlers = $handlers;
+
         foreach ($handlers as $handler) {
             $logHandler = new $handler($this->config);
 

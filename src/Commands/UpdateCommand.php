@@ -107,7 +107,7 @@ class UpdateCommand extends BaseCommand
         $this->unregisterCommandLineEvents();
 
         $timer->stop('revision');
-        $elapsed = $timer->getElapsedTime('revision');
+        $elapsed = $timer->getElapsedTime('revision', 3);
 
         CLI::write(lang('Revision.stopUpdateText', [$this->getRelativeTime((float) $elapsed)]), 'green');
     }
@@ -138,7 +138,7 @@ class UpdateCommand extends BaseCommand
             return 'p' === CLI::prompt(CLI::color(lang('Revision.confirmQuestionPrompt'), 'yellow'), ['p', 'a']);
         }
 
-        $files = $count ? lang('Revision.fileSingular') : lang('Revision.filePlural');
+        $files = 1 === $count ? lang('Revision.fileSingular') : lang('Revision.filePlural');
         CLI::write(lang('Revision.someFilesToConsolidate', [$count, $files]), 'yellow');
         CLI::write(CLI::color('[p] ', 'green') . lang('Revision.proceedAction'));
         CLI::write(CLI::color('[l] ', 'green') . lang('Revision.listAllToConsolidate'));
@@ -322,7 +322,8 @@ class UpdateCommand extends BaseCommand
      */
     protected function conflictResolutionChoice(string $file, string $status): bool
     {
-        CLI::write(lang('Revision.conflicts' . ucfirst($status) . 'File'));
+        CLI::newLine();
+        CLI::write(lang('Revision.conflicts' . ucfirst($status) . 'File'), 'yellow');
         CLI::write($file);
         CLI::newLine();
         CLI::write(CLI::color('[d] ', 'green') . lang('Revision.conflictsDisplayDiff'));
@@ -333,7 +334,22 @@ class UpdateCommand extends BaseCommand
 
         switch (CLI::prompt(CLI::color(lang('Revision.confirmQuestionPrompt'), 'yellow'), ['d', 'o', 's', 'a'])) {
             case 'd':
-                CLI::write($this->application->calculateDiff($file));
+                $diff        = explode("\n", $this->application->calculateDiff($file));
+                $coloredDiff = [];
+
+                foreach ($diff as $line) {
+                    if (0 === mb_strpos($line, '-')) {
+                        $coloredDiff[] = CLI::color($line, 'red');
+                    } elseif (0 === mb_strpos($line, '+')) {
+                        $coloredDiff[] = CLI::color($line, 'green');
+                    } else {
+                        $coloredDiff[] = $line;
+                    }
+                }
+
+                CLI::newLine();
+                CLI::write(lang('Revision.displayDiffPrompt', [CLI::color($file, 'yellow')]));
+                CLI::write(implode("\n", $coloredDiff));
 
                 break;
             case 'o':
@@ -443,9 +459,9 @@ class UpdateCommand extends BaseCommand
         }
 
         if ($seconds < HOUR) {
-            return lang('Revision.minutes', [number_format($seconds / MINUTE, 4)]);
+            return lang('Revision.minutes', [number_format($seconds / MINUTE, 3)]);
         }
 
-        return lang('Revision.hours', [number_format($seconds / HOUR, 4)]);
+        return lang('Revision.hours', [number_format($seconds / HOUR, 3)]);
     }
 }

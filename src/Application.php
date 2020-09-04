@@ -374,7 +374,7 @@ class Application
 
             // If hashes are different, this can be new or modified.
             if (!FileManager::areIdenticalFiles($oldCopy, $file['origin'])
-                || ($this->config->fallThroughToPath && !FileManager::areIdenticalFiles($project, $file['origin']))
+                || ($this->config->fallThroughToProject && !FileManager::areIdenticalFiles($project, $file['origin']))
             ) {
                 $newCopy = $this->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file['destination'];
 
@@ -503,8 +503,7 @@ class Application
     }
 
     /**
-     * Calculates the diff of `$file` using the old
-     * and new snapshot.
+     * Calculates the diff of `$file`.
      *
      * @param string $file Relative path to file
      *
@@ -512,13 +511,21 @@ class Application
      */
     public function calculateDiff(string $file): string
     {
-        $old = $this->workspace . 'oldSnapshot' . \DIRECTORY_SEPARATOR . $file;
-        $new = $this->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file;
+        $old  = $this->workspace . 'oldSnapshot' . \DIRECTORY_SEPARATOR . $file;
+        $new  = $this->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file;
+        $proj = $this->config->rootPath . $file;
 
-        $oldContents = file_get_contents($old) ?: '';
-        $newContents = file_get_contents($new) ?: '';
+        $oldContents  = file_get_contents($old) ?: '';
+        $newContents  = file_get_contents($new) ?: '';
+        $projContents = file_get_contents($proj) ?: '';
 
-        return $this->differ->diff($oldContents, $newContents);
+        $diff = $this->differ->diff($oldContents, $newContents);
+
+        if (\count(explode("\n", $diff)) <= 3 && $this->config->fallThroughToProject) {
+            return $this->differ->diff($projContents, $newContents);
+        }
+
+        return $diff;
     }
 
     /**
