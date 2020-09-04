@@ -30,6 +30,9 @@
         "phpstan/phpstan": "^0.12",
         "phpunit/phpunit": "^8.5"
     },
+    "suggest": {
+        "ext-dom": "For using the XmlLogHandler."
+    },
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true

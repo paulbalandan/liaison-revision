@@ -132,6 +132,7 @@ class Revision extends BaseConfig
      * Available log handlers:
      * * `Liaison\Revision\Logs\JsonLogHandler` (enabled by default)
      * * `Liaison\Revision\Logs\PlaintextLogHandler` (enabled by default)
+     * * `Liaison\Revision\Logs\XmlLogHandler`
      *
      * @var string[]
      */

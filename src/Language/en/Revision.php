@@ -58,7 +58,8 @@ return [
     'renderDiffLabel'             => 'Diff',
 
     // Logs
-    'invalidLogHandler' => 'Log handler "{0}" is not an instance of "{1}". Got instance of "{2}" instead.',
+    'invalidLogHandler'   => 'Log handler "{0}" is not an instance of "{1}". Got instance of "{2}" instead.',
+    'cannotUseLogHandler' => 'Cannot use "{0}" as "{1}" is not installed.',
 
     // Pathfinder
     'invalidOriginPathFound'   => '"{0}" is not a valid origin file or directory.',

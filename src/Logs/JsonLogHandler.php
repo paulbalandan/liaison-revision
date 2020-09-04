@@ -13,10 +13,11 @@ namespace Liaison\Revision\Logs;
 
 use Liaison\Revision\Application;
 use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Exception\RevisionException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * JsonLogHandler.
+ * Logs into JSON files.
  */
 class JsonLogHandler extends BaseLogHandler
 {
@@ -43,6 +44,10 @@ class JsonLogHandler extends BaseLogHandler
         string $filename = 'revision_',
         string $extension = '.json'
     ) {
+        if (!\extension_loaded('json')) {
+            throw new RevisionException(lang('Revision.cannotUseLogHandler', [static::class, 'ext-json'])); // @codeCoverageIgnore
+        }
+
         $config     = $config     ?? new ConfigurationResolver();
         $filesystem = $filesystem ?? new Filesystem();
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
@@ -54,10 +59,10 @@ class JsonLogHandler extends BaseLogHandler
     public function initialize()
     {
         // Headers
-        $this->json = [
-            'application' => Application::NAME,
-            'version'     => Application::VERSION,
-            'run-date'    => date('D, d F Y, H:i:s') . ' UTC' . date('P'),
+        $this->json['application'] = [
+            'name'     => Application::NAME,
+            'version'  => Application::VERSION,
+            'run-date' => date('D, d F Y, H:i:s') . ' UTC' . date('P'),
         ];
 
         // Settings

@@ -43,12 +43,14 @@ final class LogManagerTest extends CIUnitTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->prepareMockPaths();
         $this->backupMockProject();
     }
 
     protected function tearDown(): void
     {
+        parent::tearDown();
         $this->restoreMockProject();
     }
 
@@ -63,6 +65,7 @@ final class LogManagerTest extends CIUnitTestCase
     public function testLogManagerManagesTheLogging()
     {
         $this->config->getConfig()->logHandlers = [
+            'Liaison\Revision\Logs\XmlLogHandler',
             'Tests\Support\Logs\FirstNullHandler',
             'Tests\Support\Logs\NullLogHandler',
         ];
