@@ -14,6 +14,8 @@ namespace Liaison\Revision\Config;
 /**
  * Resolves the correct configuration to load and
  * wraps itself to it.
+ *
+ * @mixin \Liaison\Revision\Config\Revision
  */
 class ConfigurationResolver
 {

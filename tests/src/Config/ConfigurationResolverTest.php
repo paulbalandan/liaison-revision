@@ -29,8 +29,9 @@ final class ConfigurationResolverTest extends CIUnitTestCase
         $config = new ConfigurationResolver();
 
         $this->assertIsString($config->rootPath);
+        $this->assertIsString($config->writePath);
         $this->assertIsArray($config->ignoreDirs);
         $this->assertIsBool($config->allowGitIgnoreEntry);
-        $this->assertNull($config->inexistent);
+        $this->assertIsBool($config->fallThroughToProject);
     }
 }
