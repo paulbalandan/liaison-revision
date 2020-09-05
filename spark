@@ -1,0 +1,6 @@
+#!/usr/bin/env php
+<?php
+
+defined('COMPOSER_PATH') || define('COMPOSER_PATH', realpath(__DIR__ . '/vendor/autoload.php'));
+
+require __DIR__ . '/vendor/codeigniter4/codeigniter4/spark';
