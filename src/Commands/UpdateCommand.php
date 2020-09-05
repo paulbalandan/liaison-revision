@@ -227,7 +227,7 @@ class UpdateCommand extends BaseCommand
             case 'o':
                 foreach ($manager->conflicts as $status => $files) {
                     foreach ($files as $file) {
-                        if (!$this->conflictResolutionExecution($file, $status)) {
+                        if (!$this->conflictsResolutionExecution($file, $status)) {
                             CLI::newLine();
 
                             return false;
@@ -244,7 +244,7 @@ class UpdateCommand extends BaseCommand
             case 'r':
                 foreach ($manager->conflicts as $status => $files) {
                     foreach ($files as $file) {
-                        if (!$this->conflictResolutionChoice($file, $status)) {
+                        if (!$this->conflictsResolutionChoice($file, $status)) {
                             CLI::newLine();
 
                             return false;
@@ -311,7 +311,7 @@ class UpdateCommand extends BaseCommand
      *
      * @return bool
      */
-    protected function conflictResolutionChoice(string $file, string $status): bool
+    protected function conflictsResolutionChoice(string $file, string $status): bool
     {
         CLI::newLine();
         CLI::write(lang('Revision.conflicts' . ucfirst($status) . 'File'), 'yellow');
@@ -344,14 +344,14 @@ class UpdateCommand extends BaseCommand
 
                 break;
             case 'o':
-                return $this->conflictResolutionExecution($file, $status);
+                return $this->conflictsResolutionExecution($file, $status);
             case 's':
                 return true;
             case 'a':
                 return false;
         }
 
-        return $this->conflictResolutionChoice($file, $status);
+        return $this->conflictsResolutionChoice($file, $status);
     }
 
     /**
@@ -362,7 +362,7 @@ class UpdateCommand extends BaseCommand
      *
      * @return bool
      */
-    protected function conflictResolutionExecution(string $file, string $status): bool
+    protected function conflictsResolutionExecution(string $file, string $status): bool
     {
         $fs  = $this->application->getFilesystem();
         $new = $this->application->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file;
@@ -373,8 +373,8 @@ class UpdateCommand extends BaseCommand
             $status = ucfirst($status);
 
             if ('Deleted' === $status) {
-                $fs->chmod($file, 0777);
-                $fs->remove($file);
+                $fs->chmod($own, 0777);
+                $fs->remove($own);
             } else {
                 $fs->copy($new, $own, true);
             }
