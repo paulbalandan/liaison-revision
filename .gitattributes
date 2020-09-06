@@ -4,6 +4,6 @@
 # specific files so user has a clean download.
 
 .gitattributes export-ignore
-.github/ export-ignore
+.github/workflows/ export-ignore
 mock/ export-ignore
 tests/ export-ignore
