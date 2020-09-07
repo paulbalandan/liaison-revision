@@ -29,4 +29,4 @@ Contributions must adhere to the [Contributing Guidelines](.github/CONTRIBUTING.
 
 ## Code of Conduct
 
-Please have a look at [CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md).
+Please have a look at [Code of Conduct](.github/CODE_OF_CONDUCT.md).
