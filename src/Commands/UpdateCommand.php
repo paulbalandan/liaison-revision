@@ -72,7 +72,7 @@ class UpdateCommand extends BaseCommand
         // Boot our application
         $this->application = new Application();
 
-        CLI::write(CLI::color(Application::NAME, 'green'));
+        CLI::write(Application::NAME, 'green');
         CLI::write('Version: ' . CLI::color(Application::VERSION, 'yellow'));
         CLI::write('Run Date: ' . CLI::color(date('D, d F Y, H:i:s') . ' UTC' . date('P'), 'yellow'));
         CLI::newLine();
