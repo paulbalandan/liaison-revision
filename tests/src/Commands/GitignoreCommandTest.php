@@ -57,7 +57,7 @@ final class GitignoreCommandTest extends CIUnitTestCase
     public function testBothOptionsProvidedThrowsExceptions()
     {
         try {
-            command('revision:gitignore -allow-entry -disallow-entry');
+            command('revision:gitignore --allow-entry --disallow-entry');
         } catch (Throwable $e) {
             ob_end_clean();
             $this->assertInstanceOf('Liaison\Revision\Exception\LogicException', $e);
@@ -66,14 +66,14 @@ final class GitignoreCommandTest extends CIUnitTestCase
 
     public function testDeniedWriteToGitignore()
     {
-        command('revision:gitignore -disallow-entry');
+        command('revision:gitignore --disallow-entry');
         $this->assertStringContainsString('not allowed to write', CITestStreamFilter::$buffer);
     }
 
     public function testWriteNewGitignoreIfMissing()
     {
         unlink($this->original);
-        command('revision:gitignore -write-if-missing');
+        command('revision:gitignore --write-if-missing');
         $this->assertStringContainsString('Successfully created', CITestStreamFilter::$buffer);
     }
 

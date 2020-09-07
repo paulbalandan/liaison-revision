@@ -57,6 +57,7 @@ class PublishConfigCommand extends GeneratorCommand
     {
         $params[0]   = 'Revision';
         $params['n'] = 'Config';
+
         parent::run($params);
     }
 

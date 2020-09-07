@@ -48,9 +48,9 @@ class GitignoreCommand extends BaseCommand
      * @var array<string, string>
      */
     protected $options = [
-        '-allow-entry'      => 'Override config `$allowGitIgnoreEntry` to force allow write.',
-        '-disallow-entry'   => 'Override config `$allowGitIgnoreEntry` to force disallow write.',
-        '-write-if-missing' => 'Write a new .gitignore if none is found.',
+        '--allow-entry'      => 'Override config `$allowGitIgnoreEntry` to force allow write.',
+        '--disallow-entry'   => 'Override config `$allowGitIgnoreEntry` to force disallow write.',
+        '--write-if-missing' => 'Write a new .gitignore if none is found.',
     ];
 
     /**
