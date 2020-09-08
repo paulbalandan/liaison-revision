@@ -417,7 +417,11 @@ class Application
         // Remove the unchanged files from snapshot copy
         $this->fileManager->snapshotFiles = array_diff($this->fileManager->snapshotFiles, $unchanged);
         // Get the deleted files, if any
-        $this->fileManager->deletedFiles = array_diff($this->fileManager->snapshotFiles, $this->fileManager->modifiedFiles);
+        $this->fileManager->deletedFiles = array_diff(
+            $this->fileManager->snapshotFiles,
+            $this->fileManager->createdFiles,
+            $this->fileManager->modifiedFiles
+        );
 
         // Log the update results
         $cc = \count($this->fileManager->createdFiles);
@@ -543,9 +547,9 @@ class Application
         $new  = $this->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file;
         $proj = $this->config->rootPath . $file;
 
-        $oldContents  = file_get_contents($old) ?: '';
-        $newContents  = file_get_contents($new) ?: '';
-        $projContents = file_get_contents($proj) ?: '';
+        $oldContents  = @file_get_contents($old) ?: '';
+        $newContents  = @file_get_contents($new) ?: '';
+        $projContents = @file_get_contents($proj) ?: '';
 
         $diff = $this->differ->diff($oldContents, $newContents);
 
