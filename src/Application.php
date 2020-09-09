@@ -573,14 +573,13 @@ class Application
         $this->filesystem->mkdir($workspace);
         $this->workspace = realpath($workspace) . \DIRECTORY_SEPARATOR;
 
-        $consolidator      = $this->config->consolidator;
-        $diffOutputBuilder = $this->config->diffOutputBuilder;
-        $pathfinder        = $this->config->pathfinder;
-        $upgrader          = $this->config->upgrader;
+        $consolidator = $this->config->consolidator;
+        $pathfinder   = $this->config->pathfinder;
+        $upgrader     = $this->config->upgrader;
 
         $this
             ->setConsolidator(new $consolidator($this->workspace, $this->fileManager, $this->config, $this->filesystem))
-            ->setDiffer(new $diffOutputBuilder())
+            ->setDiffer($this->getDiffOutputBuilder())
             ->setPathfinder(new $pathfinder($this->config, $this->filesystem))
             ->setUpgrader(new $upgrader($this->config))
         ;
@@ -655,5 +654,32 @@ class Application
         }
 
         return lang('Revision.hours', [number_format($seconds / HOUR, 3)]);
+    }
+
+    /**
+     * Creates the right instance of the DiffOutputBuilderInterface.
+     *
+     * @throws \Liaison\Revision\Exception\RevisionException
+     *
+     * @return \SebastianBergmann\Diff\Output\DiffOutputBuilderInterface
+     */
+    private function getDiffOutputBuilder(): DiffOutputBuilderInterface
+    {
+        $builder = $this->config->diffOutputBuilder;
+        $setting = $this->config->diffOutputSettings;
+
+        if ('SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder' === $builder) {
+            return new $builder(...$setting['uniDiff']);
+        }
+
+        if ('SebastianBergmann\Diff\Output\StrictUnifiedDiffOutputBuilder' === $builder) {
+            return new $builder($setting['strictUniDiff']);
+        }
+
+        if ('SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder' === $builder) {
+            return new $builder(...$setting['diffOnly']);
+        }
+
+        throw new RevisionException("{$builder} is not a configured \$diffOutputBuilder.");
     }
 }

@@ -125,6 +125,33 @@ class Revision extends BaseConfig
     public $diffOutputBuilder = 'SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder';
 
     /**
+     * Settings to supply in the constructor
+     * of the diff output builder of choice.
+     *
+     * @var array<string, mixed[]>
+     *
+     * @see http://github.com/sebastianbergmann/diff for the details.
+     */
+    public $diffOutputSettings = [
+        'uniDiff' => [
+            "--- Original\n+++ New\n", // string $header
+            true, // bool $addLineNumbers
+        ],
+        'strictUniDiff' => [
+            'collapseRanges'      => true, // bool
+            'commonLineThreshold' => 6, // int >= 0
+            'contextLines'        => 3, // int > 0
+            'fromFile'            => null, // string
+            'fromFileDate'        => null, // null|string
+            'toFile'              => null, // string
+            'toFileDate'          => null, // null/string
+        ],
+        'diffOnly' => [
+            "--- Original\n+++ New\n", // string $header
+        ],
+    ];
+
+    /**
      * Log Handlers to use.
      *
      * These must extend `Liaison\Revision\Logs\BaseLogHandler`.
