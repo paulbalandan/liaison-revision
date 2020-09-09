@@ -153,24 +153,6 @@ final class ApplicationTest extends CIUnitTestCase
         Events::removeAllListeners(UpdateEvents::PREUPGRADE);
     }
 
-    public function testStageACreatedFileInModificationAnalysis()
-    {
-        Events::on(UpdateEvents::PREUPGRADE, function (Application $app) {
-            $stagedCreatedFile = array_shift($app->getFileManager()->snapshotFiles);
-            $this->filesystem->remove($this->workspace . 'oldSnapshot/' . $stagedCreatedFile);
-
-            $chmodFile = array_shift($app->getFileManager()->snapshotFiles);
-            array_unshift($app->getFileManager()->snapshotFiles, $chmodFile);
-            $this->filesystem->chmod($this->workspace . 'oldSnapshot/' . $chmodFile, 0444);
-        });
-
-        $this->mockVendorDirectory();
-        $this->instantiateApplication($this->workspace);
-        $this->assertSame(EXIT_SUCCESS, $this->application->execute());
-
-        Events::removeAllListeners(UpdateEvents::PREUPGRADE);
-    }
-
     public function testErroredInConsolidation()
     {
         Events::on(UpdateEvents::PRECONSOLIDATE, function (Application $app) {

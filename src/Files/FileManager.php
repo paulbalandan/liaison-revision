@@ -19,14 +19,6 @@ use Symfony\Component\Filesystem\Filesystem;
 final class FileManager
 {
     /**
-     * Snapshot copy of the vendor files for
-     * monitoring within the update/merge process.
-     *
-     * @var string[]
-     */
-    public $snapshotFiles = [];
-
-    /**
      * Array of paths to created files.
      *
      * @var string[]

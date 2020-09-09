@@ -381,13 +381,13 @@ class Application
      */
     public function analyzeModifications()
     {
-        $unchanged = [];
         $this->logManager->logMessage(lang('Revision.analyzeModifications'));
 
         foreach ($this->files as $file) {
             // Compare the previous snapshot with the new snapshot from update.
             $oldCopy = $this->workspace . 'oldSnapshot' . \DIRECTORY_SEPARATOR . $file['destination'];
             $project = $this->config->rootPath . $file['destination'];
+            $doCopy  = true;
 
             // If hashes are different, this can be new or modified.
             if (!FileManager::areIdenticalFiles($oldCopy, $file['origin'])
@@ -396,12 +396,18 @@ class Application
                 $newCopy = $this->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file['destination'];
 
                 try {
-                    $this->filesystem->copy($file['origin'], $newCopy, true);
-
                     if (!is_file($oldCopy) || !is_file($project)) {
                         $this->fileManager->createdFiles[] = $file['destination'];
-                    } else {
+                    } elseif (is_file($file['origin'])) {
                         $this->fileManager->modifiedFiles[] = $file['destination'];
+                    } else {
+                        $this->fileManager->deletedFiles[] = $file['destination'];
+
+                        $doCopy = false;
+                    }
+
+                    if ($doCopy) {
+                        $this->filesystem->copy($file['origin'], $newCopy, true);
                     }
 
                     // @codeCoverageIgnoreStart
@@ -409,19 +415,8 @@ class Application
                     $this->logManager->logMessage($e->getMessage(), 'error');
                     // @codeCoverageIgnoreEnd
                 }
-            } elseif (is_file($oldCopy)) {
-                $unchanged[] = $file['destination'];
             }
         }
-
-        // Remove the unchanged files from snapshot copy
-        $this->fileManager->snapshotFiles = array_diff($this->fileManager->snapshotFiles, $unchanged);
-        // Get the deleted files, if any
-        $this->fileManager->deletedFiles = array_diff(
-            $this->fileManager->snapshotFiles,
-            $this->fileManager->createdFiles,
-            $this->fileManager->modifiedFiles
-        );
 
         // Log the update results
         $cc = \count($this->fileManager->createdFiles);
@@ -634,7 +629,6 @@ class Application
         foreach ($this->files as $path) {
             try {
                 $this->filesystem->copy($path['origin'], $destination . $path['destination'], true);
-                $this->fileManager->snapshotFiles[] = $path['destination'];
                 // @codeCoverageIgnoreStart
             } catch (IOExceptionInterface $e) {
                 $this->logManager->logMessage($e->getMessage(), 'error');
