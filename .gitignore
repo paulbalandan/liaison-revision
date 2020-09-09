@@ -5,6 +5,7 @@ phpunit
 build/
 /phpunit*.xml
 /.phpunit.*.cache
+backup/
 
 #-------------------------
 # Composer
