@@ -47,6 +47,15 @@ class PublishConfigCommand extends GeneratorCommand
     protected $description = 'Publishes Revision\'s main config file.';
 
     /**
+     * The Command's arguments.
+     *
+     * @var array<string, string>
+     */
+    protected $arguments = [
+        'name' => '[NOT USED] Config class name.',
+    ];
+
+    /**
      * Execute the config generation.
      *
      * @param array<int|string, string> $params
