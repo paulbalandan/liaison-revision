@@ -122,7 +122,7 @@ class Revision extends BaseConfig
      *
      * @var string
      */
-    public $diffOutputBuilder = 'SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder';
+    public $diffOutputBuilder = 'SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder';
 
     /**
      * Settings to supply in the constructor
