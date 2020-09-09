@@ -118,7 +118,7 @@ class GitignoreCommand extends BaseCommand
             return;
         }
 
-        if (!write_file($gitignore, "\n# Liaison\\Revision temp\n{$writable}/revision/", 'ab')) {
+        if (!write_file($gitignore, "\n# Liaison\\Revision temp\n{$writable}/revision/\n", 'ab')) {
             CLI::error(lang('Revision.createGitignoreEntryFail'), 'light_gray', 'red');
             CLI::newLine();
 
