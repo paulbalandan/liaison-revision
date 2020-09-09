@@ -432,7 +432,7 @@ class UpdateCommand extends BaseCommand
             $diffCount = \count(explode("\n", $this->application->calculateDiff($file)));
 
             if ($diffCount >= 3) {
-                // don't count the diff labels and the final trailing whitespace
+                // don't count the diff labels and the final trailing new line
                 $diffCount -= 3;
             }
 

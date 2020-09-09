@@ -74,7 +74,9 @@ class PublishConfigCommand extends GeneratorCommand
      */
     protected function getTemplate(): string
     {
-        return @file_get_contents(__DIR__ . '/../Config/Revision.php') ?: '';
+        $file = __DIR__ . '/../Config/Revision.php';
+
+        return is_file($file) ? file_get_contents($file) : '';
     }
 
     /**

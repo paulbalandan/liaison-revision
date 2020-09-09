@@ -543,18 +543,18 @@ class Application
      */
     public function calculateDiff(string $file): string
     {
-        $old  = $this->workspace . 'oldSnapshot' . \DIRECTORY_SEPARATOR . $file;
-        $new  = $this->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file;
-        $proj = $this->config->rootPath . $file;
+        $old = $this->workspace . 'oldSnapshot' . \DIRECTORY_SEPARATOR . $file;
+        $new = $this->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file;
+        $own = $this->config->rootPath . $file;
 
-        $oldContents  = @file_get_contents($old) ?: '';
-        $newContents  = @file_get_contents($new) ?: '';
-        $projContents = @file_get_contents($proj) ?: '';
+        $oldContents = is_file($old) ? file_get_contents($old) : '';
+        $newContents = is_file($new) ? file_get_contents($new) : '';
+        $ownContents = is_file($own) ? file_get_contents($own) : '';
 
         $diff = $this->differ->diff($oldContents, $newContents);
 
         if (\count(explode("\n", $diff)) <= 3 && $this->config->fallThroughToProject) {
-            return $this->differ->diff($projContents, $newContents);
+            return $this->differ->diff($ownContents, $newContents);
         }
 
         return $diff;
