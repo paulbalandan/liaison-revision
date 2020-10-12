@@ -35,6 +35,7 @@
     },
     "config": {
         "optimize-autoloader": true,
+        "preferred-install": "dist",
         "sort-packages": true
     },
     "extra": {
@@ -61,7 +62,6 @@
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "scripts": {},
     "support": {
         "issues": "https://github.com/paulbalandan/liaison-revision/issues",
         "source": "https://github.com/paulbalandan/liaison-revision"

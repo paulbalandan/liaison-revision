@@ -5,7 +5,7 @@ parameters:
     - src
     - tests
   bootstrapFiles:
-    - phpstan-bootstrap.php
+    - vendor/codeigniter4/codeigniter4/system/Test/bootstrap.php
   parallel:
     processTimeout: 300.0
   dynamicConstantNames:
@@ -17,7 +17,6 @@ parameters:
     - vendor/codeigniter4/codeigniter4/app/Config/Constants.php
     - vendor/codeigniter4/codeigniter4/system/bootstrap.php
   ignoreErrors:
-    - '/Call to undefined function CodeIgniter\\CLI\\is_cli\(\)/'
     - '/^Method Liaison\\Revision\\Tests\\(.*) has no return typehint specified\.$/'
     - '/^Method Liaison\\Revision\\Tests\\(.*) return type has no value type specified in iterable type array\.$/'
     - '/^Property Liaison\\Revision\\Tests\\(.*) has no typehint specified\.$/'

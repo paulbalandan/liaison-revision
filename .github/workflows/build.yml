@@ -7,6 +7,7 @@ on:
     paths:
       - src/**
       - tests/**
+      - .github/workflows/build.yml
   pull_request:
     branches:
       - develop
@@ -33,7 +34,7 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: composer, pecl, phpunit
+          tools: composer
           extensions: curl, intl, mbstring, xdebug
           coverage: xdebug
 
@@ -68,10 +69,10 @@ jobs:
           restore-keys: ${{ runner.os }}-phpstan-
 
       - name: Install dependencies
-        run: composer install --ansi --no-scripts --no-progress --no-suggest --no-interaction
+        run: composer update --ansi --no-scripts --no-progress --no-interaction
 
       - name: Setup Composer's GitHub OAuth access
-        run: composer config -g github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
+        run: composer config --global github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
 
       - name: Run PHP-CS-Fixer
         run: vendor/bin/php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run --stop-on-violation --using-cache=no
@@ -80,4 +81,25 @@ jobs:
         run: vendor/bin/phpstan analyse
 
       - name: Run Liaison Revision Test Suite
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --colors=always
+
+      - name: Run Coveralls
+        run: |
+          composer global require --ansi php-coveralls/php-coveralls
+          php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: PHP ${{ matrix.php-versions }}
+
+  coveralls-finish:
+    name: Coveralls Finished
+    needs: [main]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Upload to Coveralls API
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true

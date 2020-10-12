@@ -20,10 +20,19 @@ use Throwable;
  */
 final class GitignoreCommandTest extends CIUnitTestCase
 {
+    /**
+     * @var resource
+     */
     private $streamFilter;
 
+    /**
+     * @var string
+     */
     private $original = ROOTPATH . '.gitignore';
 
+    /**
+     * @var string
+     */
     private $backup = ROOTPATH . 'backup.gitignore';
 
     protected function setUp(): void
@@ -31,10 +40,12 @@ final class GitignoreCommandTest extends CIUnitTestCase
         parent::setUp();
 
         CITestStreamFilter::$buffer = '';
-        $this->streamFilter         = stream_filter_append(STDOUT, 'CITestStreamFilter');
-        $this->streamFilter         = stream_filter_append(STDERR, 'CITestStreamFilter');
 
-        if (is_file($this->original)) {
+        $this->streamFilter = stream_filter_append(STDOUT, 'CITestStreamFilter');
+        $this->streamFilter = stream_filter_append(STDERR, 'CITestStreamFilter');
+
+        if (!is_file($this->original)) {
+            copy(__DIR__ . '/../../../.gitignore', $this->original);
             copy($this->original, $this->backup);
         }
     }
@@ -50,7 +61,7 @@ final class GitignoreCommandTest extends CIUnitTestCase
         }
 
         if (is_file($this->backup)) {
-            rename($this->backup, $this->original);
+            unlink($this->backup);
         }
     }
 
