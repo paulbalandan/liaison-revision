@@ -21,7 +21,9 @@ to be installed. Additionally, you can have the `ext-dom` extension enabled to u
 
 To install Liaison Revision via Composer, require this package into your project:
 
-> $ composer require liaison/revision
+```bash
+    composer require liaison/revision
+```
 
 ### Manual installation
 
