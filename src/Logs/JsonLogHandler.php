@@ -12,7 +12,7 @@
 namespace Liaison\Revision\Logs;
 
 use Liaison\Revision\Application;
-use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Exception\RevisionException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -31,14 +31,14 @@ class JsonLogHandler extends BaseLogHandler
     /**
      * Constructor.
      *
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
-     * @param string                                              $directory
-     * @param string                                              $filename
-     * @param string                                              $extension
+     * @param null|\Liaison\Revision\Config\Revision        $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param string                                        $directory
+     * @param string                                        $filename
+     * @param string                                        $extension
      */
     public function __construct(
-        ?ConfigurationResolver $config = null,
+        ?Revision $config = null,
         ?Filesystem $filesystem = null,
         string $directory = 'json',
         string $filename = 'revision_',
@@ -48,7 +48,7 @@ class JsonLogHandler extends BaseLogHandler
             throw new RevisionException(lang('Revision.cannotUseLogHandler', [static::class, 'ext-json'])); // @codeCoverageIgnore
         }
 
-        $config     = $config     ?? new ConfigurationResolver();
+        $config     = $config     ?? config('Revision');
         $filesystem = $filesystem ?? new Filesystem();
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
@@ -67,7 +67,7 @@ class JsonLogHandler extends BaseLogHandler
 
         // Settings
         $this->json['settings'] = [
-            'Config class'              => \get_class($this->config->getConfig()),
+            'Config class'              => \get_class($this->config),
             'Root Path'                 => $this->config->rootPath,
             'Write Path'                => $this->config->writePath,
             'Ignored Directories Count' => \count($this->config->ignoreDirs),

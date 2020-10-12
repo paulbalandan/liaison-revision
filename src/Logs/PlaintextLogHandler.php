@@ -12,7 +12,7 @@
 namespace Liaison\Revision\Logs;
 
 use Liaison\Revision\Application;
-use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Config\Revision;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -30,20 +30,20 @@ class PlaintextLogHandler extends BaseLogHandler
     /**
      * Constructor.
      *
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
-     * @param string                                              $directory
-     * @param string                                              $filename
-     * @param string                                              $extension
+     * @param null|\Liaison\Revision\Config\Revision        $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param string                                        $directory
+     * @param string                                        $filename
+     * @param string                                        $extension
      */
     public function __construct(
-        ?ConfigurationResolver $config = null,
+        ?Revision $config = null,
         ?Filesystem $filesystem = null,
         string $directory = 'log',
         string $filename = 'revision_',
         string $extension = '.log'
     ) {
-        $config     = $config     ?? new ConfigurationResolver();
+        $config     = $config     ?? config('Revision');
         $filesystem = $filesystem ?? new Filesystem();
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
@@ -68,7 +68,7 @@ class PlaintextLogHandler extends BaseLogHandler
 EOD;
 
         // Settings
-        $config   = \get_class($this->config->getConfig());
+        $config   = \get_class($this->config);
         $dirs     = \count($this->config->ignoreDirs);
         $files    = \count($this->config->ignoreFiles);
         $allow    = $this->config->allowGitIgnoreEntry ? 'Yes' : 'No';

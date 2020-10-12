@@ -11,7 +11,7 @@
 
 namespace Liaison\Revision\Logs;
 
-use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Config\Revision;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -20,9 +20,9 @@ use Symfony\Component\Filesystem\Filesystem;
 abstract class BaseLogHandler implements LogHandlerInterface
 {
     /**
-     * Instance of ConfigurationResolver.
+     * Instance of Revision configuration.
      *
-     * @var \Liaison\Revision\Config\ConfigurationResolver
+     * @var \Liaison\Revision\Config\Revision
      */
     protected $config;
 
@@ -51,14 +51,14 @@ abstract class BaseLogHandler implements LogHandlerInterface
     /**
      * Constructor.
      *
-     * @param \Liaison\Revision\Config\ConfigurationResolver $config
-     * @param \Symfony\Component\Filesystem\Filesystem       $filesystem
-     * @param string                                         $directory
-     * @param string                                         $filename
-     * @param string                                         $extension
+     * @param \Liaison\Revision\Config\Revision        $config
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param string                                   $directory
+     * @param string                                   $filename
+     * @param string                                   $extension
      */
     public function __construct(
-        ConfigurationResolver $config,
+        Revision $config,
         Filesystem $filesystem,
         string $directory,
         string $filename,

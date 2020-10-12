@@ -14,7 +14,7 @@ namespace Liaison\Revision;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\Debug\Timer;
 use CodeIgniter\Events\Events;
-use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Consolidation\ConsolidatorInterface;
 use Liaison\Revision\Events\UpdateEvents;
 use Liaison\Revision\Exception\RevisionException;
@@ -32,8 +32,18 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class Application
 {
+    /**
+     * Application name.
+     *
+     * @var string
+     */
     public const NAME = 'Liaison Revision';
 
+    /**
+     * Application version.
+     *
+     * @var string
+     */
     public const VERSION = '1.0.0';
 
     /**
@@ -52,9 +62,9 @@ class Application
     protected $files = [];
 
     /**
-     * Instance of ConfigurationResolver
+     * Instance of Revision configuration.
      *
-     * @var \Liaison\Revision\Config\ConfigurationResolver
+     * @var \Liaison\Revision\Config\Revision
      */
     protected $config;
 
@@ -119,12 +129,12 @@ class Application
     /**
      * Constructor.
      *
-     * @param null|string                                         $workspace
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
+     * @param null|string                            $workspace
+     * @param null|\Liaison\Revision\Config\Revision $config
      */
-    public function __construct(?string $workspace = null, ?ConfigurationResolver $config = null)
+    public function __construct(?string $workspace = null, ?Revision $config = null)
     {
-        $this->config      = $config ?? new ConfigurationResolver();
+        $this->config      = $config ?? config('Revision');
         $this->filesystem  = new Filesystem();
         $this->fileManager = new FileManager();
         $this->logManager  = new LogManager($this->config);
@@ -140,11 +150,11 @@ class Application
     }
 
     /**
-     * Gets the current instance of ConfigurationResolver.
+     * Gets the current instance of Revision configuration.
      *
-     * @return \Liaison\Revision\Config\ConfigurationResolver
+     * @return \Liaison\Revision\Config\Revision
      */
-    public function getConfiguration(): ConfigurationResolver
+    public function getConfiguration(): Revision
     {
         return $this->config;
     }
@@ -556,6 +566,26 @@ class Application
     }
 
     /**
+     * Formats the seconds to its relative time.
+     *
+     * @param float $seconds
+     *
+     * @return string
+     */
+    public function getRelativeTime(float $seconds): string
+    {
+        if ($seconds < MINUTE) {
+            return lang('Revision.seconds', [$seconds]);
+        }
+
+        if ($seconds < HOUR) {
+            return lang('Revision.minutes', [number_format($seconds / MINUTE, 3)]);
+        }
+
+        return lang('Revision.hours', [number_format($seconds / HOUR, 3)]);
+    }
+
+    /**
      * Initializes the application.
      *
      * @param null|string $workspace
@@ -637,31 +667,13 @@ class Application
     }
 
     /**
-     * Formats the seconds to its relative time.
-     *
-     * @param float $seconds
-     *
-     * @return string
-     */
-    protected function getRelativeTime(float $seconds): string
-    {
-        if ($seconds < MINUTE) {
-            return lang('Revision.seconds', [$seconds]);
-        }
-
-        if ($seconds < HOUR) {
-            return lang('Revision.minutes', [number_format($seconds / MINUTE, 3)]);
-        }
-
-        return lang('Revision.hours', [number_format($seconds / HOUR, 3)]);
-    }
-
-    /**
      * Creates the right instance of the DiffOutputBuilderInterface.
      *
      * @throws \Liaison\Revision\Exception\RevisionException
      *
      * @return \SebastianBergmann\Diff\Output\DiffOutputBuilderInterface
+     *
+     * @codeCoverageIgnore
      */
     private function getDiffOutputBuilder(): DiffOutputBuilderInterface
     {

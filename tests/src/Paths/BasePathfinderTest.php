@@ -12,7 +12,6 @@
 namespace Liaison\Revision\Tests\Paths;
 
 use CodeIgniter\Test\CIUnitTestCase;
-use Liaison\Revision\Config\ConfigurationResolver;
 use Tests\Support\Configurations\SimpleConfig;
 use Tests\Support\Pathfinders\AbsoluteDestinationPathfinder;
 use Tests\Support\Pathfinders\InvalidPathfinder;
@@ -59,8 +58,7 @@ final class BasePathfinderTest extends CIUnitTestCase
 
     public function testArrayIgnoredPaths()
     {
-        $config = new ConfigurationResolver(new SimpleConfig());
-        $finder = new SimplePathfinder($config);
+        $finder = new SimplePathfinder(new SimpleConfig());
 
         $this->assertIsArray($finder->getIgnoredPaths());
         $this->assertContains(realpath(ROOTPATH . 'app/.htaccess'), $finder->getIgnoredPaths());
@@ -76,12 +74,12 @@ final class BasePathfinderTest extends CIUnitTestCase
      */
     public function testInvalidIgnoredPaths(string $invalid, string $type = 'file', string $message = '')
     {
-        $config = new ConfigurationResolver(new SimpleConfig());
+        $config = new SimpleConfig();
 
         if ('dir' === $type) {
-            array_push($config->getConfig()->ignoreDirs, $invalid);
+            array_push($config->ignoreDirs, $invalid);
         } else {
-            array_push($config->getConfig()->ignoreFiles, $invalid);
+            array_push($config->ignoreFiles, $invalid);
         }
 
         $this->expectException('Liaison\Revision\Exception\InvalidArgumentException');

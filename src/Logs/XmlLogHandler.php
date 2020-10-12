@@ -14,7 +14,7 @@ namespace Liaison\Revision\Logs;
 use DOMDocument;
 use DOMElement;
 use Liaison\Revision\Application;
-use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Exception\RevisionException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -47,14 +47,14 @@ class XmlLogHandler extends BaseLogHandler
     /**
      * Constructor.
      *
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
-     * @param string                                              $directory
-     * @param string                                              $filename
-     * @param string                                              $extension
+     * @param null|\Liaison\Revision\Config\Revision        $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param string                                        $directory
+     * @param string                                        $filename
+     * @param string                                        $extension
      */
     public function __construct(
-        ?ConfigurationResolver $config = null,
+        ?Revision $config = null,
         ?Filesystem $filesystem = null,
         string $directory = 'xml',
         string $filename = 'revision_',
@@ -66,7 +66,7 @@ class XmlLogHandler extends BaseLogHandler
 
         helper('inflector');
 
-        $config     = $config     ?? new ConfigurationResolver();
+        $config     = $config     ?? config('Revision');
         $filesystem = $filesystem ?? new Filesystem();
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
@@ -137,7 +137,7 @@ class XmlLogHandler extends BaseLogHandler
     protected function createConfigurationNode(): DOMElement
     {
         $settings = [
-            'Config class'              => \get_class($this->config->getConfig()),
+            'Config class'              => \get_class($this->config),
             'Root Path'                 => $this->config->rootPath,
             'Write Path'                => $this->config->writePath,
             'Ignored Directories Count' => \count($this->config->ignoreDirs),

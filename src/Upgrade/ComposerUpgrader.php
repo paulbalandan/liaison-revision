@@ -12,7 +12,7 @@
 namespace Liaison\Revision\Upgrade;
 
 use CodeIgniter\CLI\CLI;
-use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Exception\RevisionException;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -25,20 +25,20 @@ use Throwable;
 class ComposerUpgrader implements UpgraderInterface
 {
     /**
-     * Instance of ConfigurationResolver
+     * Instance of Revision configuration.
      *
-     * @var \Liaison\Revision\Config\ConfigurationResolver
+     * @var \Liaison\Revision\Config\Revision
      */
     protected $config;
 
     /**
      * Constructor.
      *
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
+     * @param null|\Liaison\Revision\Config\Revision $config
      */
-    public function __construct(?ConfigurationResolver $config = null)
+    public function __construct(?Revision $config = null)
     {
-        $this->config = $config ?? new ConfigurationResolver();
+        $this->config = $config ?? config('Revision');
     }
 
     /**

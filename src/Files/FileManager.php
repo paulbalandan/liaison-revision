@@ -79,6 +79,6 @@ final class FileManager
         }
 
         return self::$filesystem->exists([$pathOne, $pathTwo])
-            && sha1_file($pathOne) === sha1_file($pathTwo);
+            && hash_equals(sha1_file($pathOne), sha1_file($pathTwo));
     }
 }

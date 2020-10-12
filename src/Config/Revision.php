@@ -164,4 +164,25 @@ class Revision extends BaseConfig
      * @var string[]
      */
     public $logHandlers = [];
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->normalizePaths();
+    }
+
+    /**
+     * Resolves paths and remove relative links.
+     *
+     * @return $this
+     */
+    public function normalizePaths()
+    {
+        $this->rootPath  = realpath(rtrim($this->rootPath, '\\/ ')) . \DIRECTORY_SEPARATOR;
+        $this->writePath = realpath(rtrim($this->writePath, '\\/ ')) . \DIRECTORY_SEPARATOR;
+
+        return $this;
+    }
 }

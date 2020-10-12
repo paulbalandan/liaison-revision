@@ -11,7 +11,7 @@
 
 namespace Liaison\Revision\Paths;
 
-use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Exception\InvalidArgumentException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -28,9 +28,9 @@ abstract class BasePathfinder implements PathfinderInterface
     protected $paths = [];
 
     /**
-     * Instance of ConfigurationResolver.
+     * Instance of Revision configuration.
      *
-     * @var \Liaison\Revision\Config\ConfigurationResolver
+     * @var \Liaison\Revision\Config\Revision
      */
     protected $config;
 
@@ -58,12 +58,12 @@ abstract class BasePathfinder implements PathfinderInterface
     /**
      * Constructor.
      *
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
+     * @param null|\Liaison\Revision\Config\Revision        $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
      */
-    public function __construct(?ConfigurationResolver $config = null, ?Filesystem $filesystem = null)
+    public function __construct(?Revision $config = null, ?Filesystem $filesystem = null)
     {
-        $this->config     = $config     ?? new ConfigurationResolver();
+        $this->config     = $config     ?? config('Revision');
         $this->filesystem = $filesystem ?? new Filesystem();
 
         helper('filesystem');
@@ -147,8 +147,8 @@ abstract class BasePathfinder implements PathfinderInterface
     private function verifyIgnoredPaths()
     {
         $ignoredPaths = [];
-        $dirs         = (array) $this->config->ignoreDirs;
-        $files        = (array) $this->config->ignoreFiles;
+        $dirs         = $this->config->ignoreDirs;
+        $files        = $this->config->ignoreFiles;
 
         foreach ($dirs as $dir) {
             if (!$this->filesystem->isAbsolutePath($dir)) {

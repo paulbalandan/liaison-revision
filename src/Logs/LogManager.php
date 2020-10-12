@@ -11,7 +11,7 @@
 
 namespace Liaison\Revision\Logs;
 
-use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Exception\InvalidArgumentException;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
@@ -38,20 +38,20 @@ final class LogManager
     ];
 
     /**
-     * Instance of ConfigurationResolver
+     * Instance of Revision configuration.
      *
-     * @var \Liaison\Revision\Config\ConfigurationResolver
+     * @var \Liaison\Revision\Config\Revision
      */
     private $config;
 
     /**
      * Constructor.
      *
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
+     * @param null|\Liaison\Revision\Config\Revision $config
      */
-    public function __construct(?ConfigurationResolver $config = null)
+    public function __construct(?Revision $config = null)
     {
-        $this->config = $config ?? new ConfigurationResolver();
+        $this->config = $config ?? config('Revision');
         $this->registerLogHandlers();
     }
 
@@ -109,7 +109,7 @@ final class LogManager
         $handlers = array_merge(self::$defaultLogHandlers, $this->config->logHandlers);
 
         // reassign so that this can be displayed
-        $this->config->getConfig()->logHandlers = $handlers;
+        $this->config->logHandlers = $handlers;
 
         foreach ($handlers as $handler) {
             $logHandler = new $handler($this->config);

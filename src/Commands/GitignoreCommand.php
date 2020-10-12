@@ -13,7 +13,6 @@ namespace Liaison\Revision\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
-use Liaison\Revision\Config\ConfigurationResolver;
 use Liaison\Revision\Exception\LogicException;
 
 /**
@@ -69,7 +68,8 @@ class GitignoreCommand extends BaseCommand
      */
     public function run(array $params)
     {
-        $config = new ConfigurationResolver();
+        /** @var \Liaison\Revision\Config\Revision */
+        $config = config('Revision');
 
         $allow = \array_key_exists('allow-entry', $params)    || CLI::getOption('allow-entry');
         $deny  = \array_key_exists('disallow-entry', $params) || CLI::getOption('disallow-entry');

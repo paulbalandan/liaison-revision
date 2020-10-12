@@ -11,13 +11,19 @@
 
 namespace Tests\Support\Pathfinders;
 
-use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Paths\DefaultPathfinder;
 use Symfony\Component\Filesystem\Filesystem;
 
 class LiveTestPathfinder extends DefaultPathfinder
 {
-    public function __construct(ConfigurationResolver $config, ?Filesystem $filesystem = null)
+    /**
+     * Constructor.
+     *
+     * @param \Liaison\Revision\Config\Revision             $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
+     */
+    public function __construct(Revision $config, ?Filesystem $filesystem = null)
     {
         $paths      = [];
         $systemPath = $config->rootPath . 'vendor/codeigniter4/framework/system/';

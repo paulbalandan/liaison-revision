@@ -32,7 +32,7 @@ final class LogManagerTest extends CIUnitTestCase
     protected $backupDir = '';
 
     /**
-     * @var \Liaison\Revision\Config\ConfigurationResolver
+     * @var \Liaison\Revision\Config\Revision
      */
     protected $config;
 
@@ -56,7 +56,7 @@ final class LogManagerTest extends CIUnitTestCase
 
     public function testLogManagerThrowsExceptionOnWrongLogHandlers()
     {
-        $this->config->getConfig()->logHandlers = ['Liaison\Revision\Files\FileManager'];
+        $this->config->logHandlers = ['Liaison\Revision\Files\FileManager'];
 
         $this->expectException('Liaison\Revision\Exception\InvalidArgumentException');
         new LogManager($this->config);
@@ -64,7 +64,7 @@ final class LogManagerTest extends CIUnitTestCase
 
     public function testLogManagerManagesTheLogging()
     {
-        $this->config->getConfig()->logHandlers = [
+        $this->config->logHandlers = [
             'Liaison\Revision\Logs\XmlLogHandler',
             'Tests\Support\Logs\FirstNullHandler',
             'Tests\Support\Logs\NullLogHandler',

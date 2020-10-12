@@ -11,7 +11,6 @@
 
 namespace Tests\Support\Traits;
 
-use Liaison\Revision\Config\ConfigurationResolver;
 use Liaison\Revision\Config\Revision;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -19,7 +18,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * PathsTrait deals with the mock project paths.
  *
  * @property string $backupDir
- * @property \Liaison\Revision\Config\ConfigurationResolver $config
+ * @property \Liaison\Revision\Config\Revision $config
  * @property \Symfony\Component\Filesystem\Filesystem $filesystem
  */
 trait PathsTrait
@@ -35,7 +34,7 @@ trait PathsTrait
         $config            = new Revision();
         $config->rootPath  = __DIR__ . '/../../../mock';
         $config->writePath = __DIR__ . '/../../../mock/writable';
-        $this->config      = new ConfigurationResolver($config);
+        $this->config      = $config->normalizePaths();
     }
 
     protected function createCleanSlatePath()

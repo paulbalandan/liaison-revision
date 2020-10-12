@@ -11,7 +11,7 @@
 
 namespace Tests\Support\Logs;
 
-use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Logs\BaseLogHandler;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -21,20 +21,20 @@ class NullLogHandler extends BaseLogHandler
     /**
      * Constructor.
      *
-     * @param string                                              $directory
-     * @param string                                              $filename
-     * @param string                                              $extension
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
+     * @param string                                        $directory
+     * @param string                                        $filename
+     * @param string                                        $extension
+     * @param null|\Liaison\Revision\Config\Revision        $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
      */
     public function __construct(
-        ?ConfigurationResolver $config = null,
+        ?Revision $config = null,
         ?Filesystem $filesystem = null,
         string $directory = '',
         string $filename = '',
         string $extension = ''
     ) {
-        $config     = $config     ?? new ConfigurationResolver();
+        $config     = $config     ?? config('Revision');
         $filesystem = $filesystem ?? new Filesystem();
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }

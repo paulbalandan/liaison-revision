@@ -47,7 +47,7 @@ final class ApplicationTest extends CIUnitTestCase
     protected $workspace = '';
 
     /**
-     * @var \Liaison\Revision\Config\ConfigurationResolver
+     * @var \Liaison\Revision\Config\Revision
      */
     protected $config;
 
@@ -77,7 +77,7 @@ final class ApplicationTest extends CIUnitTestCase
 
         $this->workspace = $this->config->rootPath . 'revision' . \DIRECTORY_SEPARATOR;
 
-        $this->config->getConfig()->ignoreFiles = [
+        $this->config->ignoreFiles = [
             $this->config->rootPath . 'vendor/codeigniter4/framework/composer.json',
         ];
 
@@ -95,7 +95,7 @@ final class ApplicationTest extends CIUnitTestCase
         $this->mockVendorDirectory();
         $this->instantiateApplication();
 
-        $this->assertInstanceOf('Liaison\Revision\Config\ConfigurationResolver', $this->application->getConfiguration());
+        $this->assertInstanceOf('Liaison\Revision\Config\Revision', $this->application->getConfiguration());
         $this->assertInstanceOf('Symfony\Component\Filesystem\Filesystem', $this->application->getFilesystem());
         $this->assertInstanceOf('Liaison\Revision\Files\FileManager', $this->application->getFileManager());
         $this->assertInstanceOf('Liaison\Revision\Logs\LogManager', $this->application->getLogManager());

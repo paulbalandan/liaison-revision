@@ -79,7 +79,7 @@ class UpdateCommand extends BaseCommand
 
         $config = $this->application->getConfiguration();
 
-        CLI::write(lang('Revision.loadedConfigurationSettings', [CLI::color(\get_class($config->getConfig()), 'yellow')]));
+        CLI::write(lang('Revision.loadedConfigurationSettings', [CLI::color(\get_class($config), 'yellow')]));
         CLI::table([
             ['Root Path', $config->rootPath],
             ['Write Path', $config->writePath],

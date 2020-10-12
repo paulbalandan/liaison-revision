@@ -33,7 +33,7 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
     protected $backupDir = '';
 
     /**
-     * @var \Liaison\Revision\Config\ConfigurationResolver
+     * @var \Liaison\Revision\Config\Revision
      */
     protected $config;
 

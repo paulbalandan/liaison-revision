@@ -11,7 +11,7 @@
 
 namespace Liaison\Revision\Consolidation;
 
-use Liaison\Revision\Config\ConfigurationResolver;
+use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Files\FileManager;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -37,7 +37,7 @@ class DefaultConsolidator implements ConsolidatorInterface
     /**
      * Instance of ConfigurationResolver.
      *
-     * @var \Liaison\Revision\Config\ConfigurationResolver
+     * @var \Liaison\Revision\Config\Revision
      */
     protected $config;
 
@@ -51,20 +51,20 @@ class DefaultConsolidator implements ConsolidatorInterface
     /**
      * Constructor.
      *
-     * @param string                                              $workspace
-     * @param \Liaison\Revision\Files\FileManager                 $fileManager
-     * @param null|\Liaison\Revision\Config\ConfigurationResolver $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem       $filesystem
+     * @param string                                        $workspace
+     * @param \Liaison\Revision\Files\FileManager           $fileManager
+     * @param null|\Liaison\Revision\Config\Revision        $config
+     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
      */
     public function __construct(
         string $workspace,
         FileManager &$fileManager,
-        ?ConfigurationResolver $config = null,
+        ?Revision $config = null,
         ?Filesystem $filesystem = null
     ) {
         $this->workspace   = $workspace;
         $this->fileManager = $fileManager;
-        $this->config      = $config     ?? new ConfigurationResolver();
+        $this->config      = $config     ?? config('Revision');
         $this->filesystem  = $filesystem ?? new Filesystem();
     }
 
