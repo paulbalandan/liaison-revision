@@ -137,7 +137,7 @@ class ComposerUpgrader implements UpgraderInterface
             $command .= ' --no-dev'; // @codeCoverageIgnore
         }
 
-        return $command;
+        return $command . ' --no-scripts';
     }
 
     /**

@@ -134,7 +134,10 @@ class Application
      */
     public function __construct(?string $workspace = null, ?Revision $config = null)
     {
-        $this->config      = $config ?? config('Revision');
+        $config          = $config ?? config('Revision');
+        $config->retries = $config->retries <= 0 ? 10 : $config->retries;
+
+        $this->config      = $config;
         $this->filesystem  = new Filesystem();
         $this->fileManager = new FileManager();
         $this->logManager  = new LogManager($this->config);

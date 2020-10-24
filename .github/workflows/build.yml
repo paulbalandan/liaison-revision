@@ -69,11 +69,11 @@ jobs:
           key: ${{ runner.os }}-phpstan-${{ github.sha }}
           restore-keys: ${{ runner.os }}-phpstan-
 
-      - name: Install dependencies
-        run: composer update --ansi --no-scripts --no-progress --no-interaction
-
       - name: Setup Composer's GitHub OAuth access
         run: composer config --global github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Install dependencies
+        run: composer update --ansi --no-scripts --no-progress --no-interaction
 
       - name: Run PHP-CS-Fixer
         run: vendor/bin/php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run --stop-on-violation --using-cache=no

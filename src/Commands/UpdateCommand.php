@@ -16,7 +16,9 @@ use CodeIgniter\CLI\CLI;
 use CodeIgniter\Events\Events;
 use Liaison\Revision\Application;
 use Liaison\Revision\Events\UpdateEvents;
+use Liaison\Revision\Exception\RevisionException;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Throwable;
 
 /**
  * This command starts the update of the project.
@@ -61,6 +63,13 @@ class UpdateCommand extends BaseCommand
     private $application;
 
     /**
+     * Number of tries to create a backup before overwriting.
+     *
+     * @var int
+     */
+    private $tries;
+
+    /**
      * Execute the update of the project.
      *
      * @param array<int|string, string> $params
@@ -79,6 +88,8 @@ class UpdateCommand extends BaseCommand
 
         $config = $this->application->getConfiguration();
 
+        $this->tries = $config->retries;
+
         CLI::write(lang('Revision.loadedConfigurationSettings', [CLI::color(\get_class($config), 'yellow')]));
         CLI::table([
             ['Root Path', $config->rootPath],
@@ -87,6 +98,7 @@ class UpdateCommand extends BaseCommand
             ['Ignored Files Count', \count($config->ignoreFiles)],
             ['Allow Gitignore Entry', $config->allowGitIgnoreEntry ? lang('Revision.accessAllowed') : lang('Revision.accessDenied')],
             ['Fall Through to Project', $config->fallThroughToProject ? lang('Revision.accessAllowed') : lang('Revision.accessDenied')],
+            ['Maximum Retries', $config->retries],
             ['Consolidator', $config->consolidator],
             ['Upgrader', $config->upgrader],
             ['Pathfinder', $config->pathfinder],
@@ -208,6 +220,7 @@ class UpdateCommand extends BaseCommand
         CLI::write(lang('Revision.someFilesInConflict', [$count, $files]), 'yellow');
         CLI::write(CLI::color('[l] ', 'green') . lang('Revision.listAllInConflict'));
         CLI::write(CLI::color('[o] ', 'green') . lang('Revision.conflictsOverwriteAll'));
+        CLI::write(CLI::color('[b] ', 'green') . lang('Revision.conflictsSafeOverwriteAll'));
         CLI::write(CLI::color('[s] ', 'green') . lang('Revision.conflictsSkipAll'));
         CLI::write(CLI::color('[r] ', 'green') . lang('Revision.conflictsEachResolve'));
         CLI::write(CLI::color('[a] ', 'green') . lang('Revision.abortAction'));
@@ -228,6 +241,19 @@ class UpdateCommand extends BaseCommand
                 foreach ($manager->conflicts as $status => $files) {
                     foreach ($files as $file) {
                         if (!$this->conflictsResolutionExecution($file, $status)) {
+                            CLI::newLine();
+
+                            return false;
+                        }
+                    }
+                }
+                CLI::newLine();
+
+                return true;
+            case 'b':
+                foreach ($manager->conflicts as $status => $files) {
+                    foreach ($files as $file) {
+                        if (!$this->conflictsResolutionExecution($file, $status, true)) {
                             CLI::newLine();
 
                             return false;
@@ -319,6 +345,7 @@ class UpdateCommand extends BaseCommand
         CLI::newLine();
         CLI::write(CLI::color('[d] ', 'green') . lang('Revision.conflictsDisplayDiff'));
         CLI::write(CLI::color('[o] ', 'green') . lang('Revision.conflictsOverwriteOne'));
+        CLI::write(CLI::color('[b] ', 'green') . lang('Revision.conflictsSafeOverwriteOne'));
         CLI::write(CLI::color('[s] ', 'green') . lang('Revision.conflictsSkipOne'));
         CLI::write(CLI::color('[a] ', 'green') . lang('Revision.abortAction'));
         CLI::newLine();
@@ -345,6 +372,8 @@ class UpdateCommand extends BaseCommand
                 break;
             case 'o':
                 return $this->conflictsResolutionExecution($file, $status);
+            case 'b':
+                return $this->conflictsResolutionExecution($file, $status, true);
             case 's':
                 return true;
             case 'a':
@@ -359,16 +388,21 @@ class UpdateCommand extends BaseCommand
      *
      * @param string $file
      * @param string $status
+     * @param bool   $safe
      *
      * @return bool
      */
-    protected function conflictsResolutionExecution(string $file, string $status): bool
+    protected function conflictsResolutionExecution(string $file, string $status, bool $safe = false): bool
     {
         $fs  = $this->application->getFilesystem();
         $new = $this->application->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file;
         $own = $this->application->getConfiguration()->rootPath . $file;
 
         try {
+            if ($safe && !$this->createBackup($own, $status)) {
+                return false;
+            }
+
             // Status is hard coded from File Manager's conflicts index
             $status = ucfirst($status);
 
@@ -381,6 +415,53 @@ class UpdateCommand extends BaseCommand
 
             return true;
         } catch (IOExceptionInterface $e) {
+            $this->application->getLogManager()->logMessage($e->getMessage(), 'error');
+
+            return false;
+        }
+    }
+
+    /**
+     * Creates a backup file before overwriting or deleting the original file.
+     *
+     * @param string $own
+     * @param string $status
+     *
+     * @return bool
+     */
+    protected function createBackup(string $own, string $status): bool
+    {
+        $fs = $this->application->getFilesystem();
+
+        try {
+            $info = pathinfo($own);
+            $temp = sprintf('%s/%s.tmp', $info['dirname'], uniqid('', true));
+
+            $fs->copy($own, $temp, true);
+
+            for ($i = 1; $i <= $this->tries; $i++) {
+                $try = str_pad((string) $i, 3, '0', STR_PAD_LEFT);
+                $ext = isset($info['extension']) ? '.' . $info['extension'] : '';
+                $bak = sprintf('%s/%s-%s-%s.bak%s', $info['dirname'], $info['filename'], $status, $try, $ext);
+
+                if (is_file($bak) && $i === $this->tries) {
+                    throw new RevisionException(lang('Revision.triesLeftBreached', [$own, $i]));
+                }
+
+                if (is_file($bak)) {
+                    continue;
+                }
+
+                $fs->rename($temp, $bak);
+
+                if (is_file($bak)) {
+                    // Backup should be created by now.
+                    break;
+                }
+            }
+
+            return true;
+        } catch (Throwable $e) {
             $this->application->getLogManager()->logMessage($e->getMessage(), 'error');
 
             return false;

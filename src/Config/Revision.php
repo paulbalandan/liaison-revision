@@ -76,6 +76,17 @@ class Revision extends BaseConfig
     public $fallThroughToProject = true;
 
     /**
+     * When using the safe overwrite option in updates, this
+     * option sets the maximum retries the application can
+     * make to create the backup file.
+     *
+     * This cannot be less than 1 or it will default to 10.
+     *
+     * @var int
+     */
+    public $retries = 10;
+
+    /**
      * Consolidator to use.
      *
      * This must implement `Liaison\Revision\Consolidation\ConsolidatorInterface`.

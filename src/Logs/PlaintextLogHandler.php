@@ -82,6 +82,7 @@ Ignored Directories Count: {$dirs}
 Ignored Files Count: {$files}
 Allow Gitignore Entry: {$allow}
 Fall Through to Project: {$fall}
+Maximum Retries: {$this->config->retries}
 Consolidator: {$this->config->consolidator}
 Upgrader: {$this->config->upgrader}
 Pathfinder: {$this->config->pathfinder}
