@@ -19,11 +19,13 @@ to be installed. Additionally, you can have the `ext-dom` extension enabled to u
 
 ### Composer installation
 
-To install Liaison Revision via Composer, require this package into your project:
+You can add this library as a local, per-project dependency to your project using Composer:
 
-```bash
     composer require liaison/revision
-```
+
+If you only need this library during development, for instance to run your project's test suite, then you should add it as a development-time dependency:
+
+    composer require --dev liaison/revision
 
 ### Manual installation
 
