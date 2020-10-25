@@ -67,19 +67,19 @@ class JsonLogHandler extends BaseLogHandler
 
         // Settings
         $this->json['settings'] = [
-            'Config class'              => \get_class($this->config),
-            'Root Path'                 => $this->config->rootPath,
-            'Write Path'                => $this->config->writePath,
-            'Ignored Directories Count' => \count($this->config->ignoreDirs),
-            'Ignored Files Count'       => \count($this->config->ignoreFiles),
-            'Allow Gitignore Entry'     => $this->config->allowGitIgnoreEntry,
-            'Fall Through to Project'   => $this->config->fallThroughToProject,
-            'Maximum Retries'           => $this->config->retries,
-            'Consolidator'              => $this->config->consolidator,
-            'Upgrader'                  => $this->config->upgrader,
-            'Pathfinder'                => $this->config->pathfinder,
-            'Diff Output Builder'       => $this->config->diffOutputBuilder,
-            'Log Handlers'              => $this->config->logHandlers,
+            lang('Revision.configurationClassLabel')   => \get_class($this->config),
+            lang('Revision.rootPathLabel')             => $this->config->rootPath,
+            lang('Revision.writePathLabel')            => $this->config->writePath,
+            lang('Revision.ignoredDirCount')           => \count($this->config->ignoreDirs),
+            lang('Revision.ignoredFileCount')          => \count($this->config->ignoreFiles),
+            lang('Revision.allowGitignoreLabel')       => $this->config->allowGitIgnoreEntry,
+            lang('Revision.fallThroughToProjectLabel') => $this->config->fallThroughToProject,
+            lang('Revision.maximumRetriesLabel')       => $this->config->retries,
+            lang('Revision.consolidatorLabel')         => $this->config->consolidator,
+            lang('Revision.upgraderLabel')             => $this->config->upgrader,
+            lang('Revision.pathfinderLabel')           => $this->config->pathfinder,
+            lang('Revision.diffOutputBuilderLabel')    => $this->config->diffOutputBuilder,
+            lang('Revision.logHandlers')               => $this->config->logHandlers,
         ];
 
         return $this;

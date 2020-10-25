@@ -68,31 +68,48 @@ class PlaintextLogHandler extends BaseLogHandler
 EOD;
 
         // Settings
-        $config   = \get_class($this->config);
-        $dirs     = \count($this->config->ignoreDirs);
-        $files    = \count($this->config->ignoreFiles);
-        $allow    = $this->config->allowGitIgnoreEntry ? 'Yes' : 'No';
-        $fall     = $this->config->fallThroughToProject ? 'Yes' : 'No';
-        $logs     = \count($this->config->logHandlers);
+        $config = \get_class($this->config);
+        $dirs   = \count($this->config->ignoreDirs);
+        $files  = \count($this->config->ignoreFiles);
+        $allow  = $this->config->allowGitIgnoreEntry ? lang('Revision.accessAllowed') : lang('Revision.accessDenied');
+        $fall   = $this->config->fallThroughToProject ? lang('Revision.accessAllowed') : lang('Revision.accessDenied');
+        $logs   = \count($this->config->logHandlers);
+
+        // Labels
+        $loadedConfig = lang('Revision.loadedConfigLabel');
+        $configLabel  = lang('Revision.configurationClassLabel');
+        $rootLabel    = lang('Revision.rootPathLabel');
+        $writeLabel   = lang('Revision.writePathLabel');
+        $dirsLabel    = lang('Revision.ignoredDirCount');
+        $filesLabel   = lang('Revision.ignoredFileCount');
+        $allowLabel   = lang('Revision.allowGitignoreLabel');
+        $fallLabel    = lang('Revision.fallThroughToProjectLabel');
+        $retriesLabel = lang('Revision.maximumRetriesLabel');
+        $consolidator = lang('Revision.consolidatorLabel');
+        $upgrader     = lang('Revision.upgraderLabel');
+        $pathfinder   = lang('Revision.pathfinderLabel');
+        $diffLabel    = lang('Revision.diffOutputBuilderLabel');
+        $logsLabel    = lang('Revision.logHandlersCount');
+
         $settings = <<<EOD
-Config Class: {$config}
-Root Path: {$this->config->rootPath}
-Write Path: {$this->config->writePath}
-Ignored Directories Count: {$dirs}
-Ignored Files Count: {$files}
-Allow Gitignore Entry: {$allow}
-Fall Through to Project: {$fall}
-Maximum Retries: {$this->config->retries}
-Consolidator: {$this->config->consolidator}
-Upgrader: {$this->config->upgrader}
-Pathfinder: {$this->config->pathfinder}
-Diff Output Builder: {$this->config->diffOutputBuilder}
-Log Handlers Count: {$logs}
+{$configLabel}: {$config}
+{$rootLabel}: {$this->config->rootPath}
+{$writeLabel}: {$this->config->writePath}
+{$dirsLabel}: {$dirs}
+{$filesLabel}: {$files}
+{$allowLabel}: {$allow}
+{$fallLabel}: {$fall}
+{$retriesLabel}: {$this->config->retries}
+{$consolidator}: {$this->config->consolidator}
+{$upgrader}: {$this->config->upgrader}
+{$pathfinder}: {$this->config->pathfinder}
+{$diffLabel}: {$this->config->diffOutputBuilder}
+{$logsLabel}: {$logs}
 \n
 EOD;
 
-        $this->buffer .= "\nLoaded Configuration\n";
-        $this->buffer .= str_repeat('=', 20) . "\n";
+        $this->buffer .= "\n{$loadedConfig}\n";
+        $this->buffer .= str_repeat('=', mb_strlen($loadedConfig)) . "\n";
         $this->buffer .= $settings;
 
         return $this;

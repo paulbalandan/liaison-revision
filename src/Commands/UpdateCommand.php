@@ -82,8 +82,8 @@ class UpdateCommand extends BaseCommand
         $this->application = new Application();
 
         CLI::write(Application::NAME, 'green');
-        CLI::write('Version: ' . CLI::color(Application::VERSION, 'yellow'));
-        CLI::write('Run Date: ' . CLI::color(date('D, d F Y, H:i:s') . ' UTC' . date('P'), 'yellow'));
+        CLI::write(lang('Revision.versionLabel') . CLI::color(Application::VERSION, 'yellow'));
+        CLI::write(lang('Revision.runDateLabel') . CLI::color(date('D, d F Y, H:i:s') . ' UTC' . date('P'), 'yellow'));
         CLI::newLine();
 
         $config = $this->application->getConfiguration();
@@ -92,19 +92,22 @@ class UpdateCommand extends BaseCommand
 
         CLI::write(lang('Revision.loadedConfigurationSettings', [CLI::color(\get_class($config), 'yellow')]));
         CLI::table([
-            ['Root Path', $config->rootPath],
-            ['Write Path', $config->writePath],
-            ['Ignored Directories Count', \count($config->ignoreDirs)],
-            ['Ignored Files Count', \count($config->ignoreFiles)],
-            ['Allow Gitignore Entry', $config->allowGitIgnoreEntry ? lang('Revision.accessAllowed') : lang('Revision.accessDenied')],
-            ['Fall Through to Project', $config->fallThroughToProject ? lang('Revision.accessAllowed') : lang('Revision.accessDenied')],
-            ['Maximum Retries', $config->retries],
-            ['Consolidator', $config->consolidator],
-            ['Upgrader', $config->upgrader],
-            ['Pathfinder', $config->pathfinder],
-            ['Diff Output Builder', $config->diffOutputBuilder],
-            ['Log Handlers Count', \count($config->logHandlers)],
-        ], [CLI::color('Key', 'green'), CLI::color('Value', 'green')]);
+            [lang('Revision.rootPathLabel'), clean_path($config->rootPath)],
+            [lang('Revision.writePathLabel'), clean_path($config->writePath)],
+            [lang('Revision.ignoredDirCount'), \count($config->ignoreDirs)],
+            [lang('Revision.ignoredFileCount'), \count($config->ignoreFiles)],
+            [lang('Revision.allowGitignoreLabel'), $config->allowGitIgnoreEntry ? lang('Revision.accessAllowed') : lang('Revision.accessDenied')],
+            [lang('Revision.fallThroughToProjectLabel'), $config->fallThroughToProject ? lang('Revision.accessAllowed') : lang('Revision.accessDenied')],
+            [lang('Revision.maximumRetriesLabel'), $config->retries],
+            [lang('Revision.consolidatorLabel'), $config->consolidator],
+            [lang('Revision.upgraderLabel'), $config->upgrader],
+            [lang('Revision.pathfinderLabel'), $config->pathfinder],
+            [lang('Revision.diffOutputBuilderLabel'), $config->diffOutputBuilder],
+            [lang('Revision.logHandlersCount'), \count($config->logHandlers)],
+        ], [
+            CLI::color(lang('Revision.settingLabel'), 'green'),
+            CLI::color(lang('Revision.valueLabel'), 'green'),
+        ]);
 
         CLI::write(lang('Revision.startUpdateText'), 'green');
         CLI::newLine();
