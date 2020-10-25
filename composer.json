@@ -57,7 +57,8 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/codeigniter4/codeigniter4"
+            "url": "https://github.com/codeigniter4/codeigniter4",
+            "canonical": true
         }
     ],
     "minimum-stability": "dev",
