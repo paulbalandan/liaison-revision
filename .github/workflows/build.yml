@@ -73,7 +73,7 @@ jobs:
         run: composer config --global github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
 
       - name: Install dependencies
-        run: composer update --ansi --no-scripts --no-progress --no-interaction
+        run: composer update --ansi --no-scripts --no-interaction
 
       - name: Run PHP-CS-Fixer
         run: vendor/bin/php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run --stop-on-violation --using-cache=no
