@@ -211,6 +211,13 @@ final class ApplicationTest extends CIUnitTestCase
         Events::removeAllListeners(UpdateEvents::TERMINATE);
     }
 
+    public function testGetRelativeTime()
+    {
+        $this->assertStringContainsString('seconds', $this->application->getRelativeTime(37.5));
+        $this->assertStringContainsString('minutes', $this->application->getRelativeTime(300.0));
+        $this->assertStringContainsString('hours', $this->application->getRelativeTime(86400.0));
+    }
+
     protected function instantiateApplication(?string $workspace = null, bool $mockUpgrader = true)
     {
         $this->application = new Application($workspace, $this->config);
