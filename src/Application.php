@@ -296,57 +296,37 @@ class Application
     public function execute(): int
     {
         if (!Events::trigger(UpdateEvents::PREFLIGHT, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PREFLIGHT]), 'error');
-
-            return EXIT_ERROR;
+            return $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PREFLIGHT]), 'error');
         }
 
         $this->checkPreflightConditions();
 
         if (!Events::trigger(UpdateEvents::PREUPGRADE, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PREUPGRADE]), 'error');
-
-            return EXIT_ERROR;
+            return $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PREUPGRADE]), 'error');
         }
 
         if (EXIT_ERROR === $this->updateInternals()) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', ['Application::updateInternals']), 'error');
-
-            return EXIT_ERROR;
+            return $this->terminate(lang('Revision.terminateExecutionFailure', ['Application::updateInternals']), 'error');
         }
 
         $this->analyzeModifications();
 
         if (!Events::trigger(UpdateEvents::POSTUPGRADE, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::POSTUPGRADE]), 'error');
-
-            return EXIT_ERROR;
+            return $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::POSTUPGRADE]), 'error');
         }
 
         if (!Events::trigger(UpdateEvents::PRECONSOLIDATE, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PRECONSOLIDATE]), 'error');
-
-            return EXIT_ERROR;
+            return $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PRECONSOLIDATE]), 'error');
         }
 
         if (EXIT_ERROR === $this->consolidate()) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', ['Application::consolidate']), 'error');
-
-            return EXIT_ERROR;
+            return $this->terminate(lang('Revision.terminateExecutionFailure', ['Application::consolidate']), 'error');
         }
 
         $this->analyzeMergesAndConflicts();
 
         if (!Events::trigger(UpdateEvents::POSTCONSOLIDATE, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::POSTCONSOLIDATE]), 'error');
-
-            return EXIT_ERROR;
-        }
-
-        if (!Events::trigger(UpdateEvents::TERMINATE, $this)) {
-            $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::TERMINATE]), 'error');
-
-            return EXIT_ERROR;
+            return $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::POSTCONSOLIDATE]), 'error');
         }
 
         return $this->terminate();
@@ -509,6 +489,9 @@ class Application
      */
     public function terminate(?string $message = null, string $level = 'info'): int
     {
+        Events::trigger(UpdateEvents::TERMINATE, $this);
+        $errored = \in_array($level, ['error', 'critical', 'debug'], true);
+
         // Remove the current workspace.
         $this->filesystem->chmod($this->workspace, 0777, 0000, true);
         $this->filesystem->remove($this->workspace);
@@ -516,30 +499,31 @@ class Application
         // Stop the timer
         $this->timer->stop('revision');
         $elapsed = (float) $this->timer->getElapsedTime('revision', 3);
+        $time    = $this->getRelativeTime($elapsed);
 
         // Log termination message
         $message = $message ?? lang('Revision.terminateExecutionSuccess');
         $this->logManager->logMessage($message, $level);
-        $this->logManager->logMessage(lang('Revision.stopUpdateText', [$this->getRelativeTime($elapsed)]));
+        $this->logManager->logMessage(lang('Revision.stopUpdateText', [$time]));
 
         // @codeCoverageIgnoreStart
         if (\defined('SPARKED') && ENVIRONMENT !== 'testing' && is_cli()) {
             CLI::newLine();
 
-            if ('error' !== $level) {
+            if (!$errored) {
                 CLI::write($message, 'green');
             } else {
                 CLI::error($message, 'light_gray', 'red');
             }
 
-            CLI::write(lang('Revision.stopUpdateText', [$this->getRelativeTime($elapsed)]), 'green');
+            CLI::write(lang('Revision.stopUpdateText', [$time]), 'green');
         }
         // @codeCoverageIgnoreEnd
 
         // Flush the logs.
         $this->logManager->save();
 
-        return EXIT_SUCCESS;
+        return $errored ? EXIT_ERROR : EXIT_SUCCESS;
     }
 
     /**
