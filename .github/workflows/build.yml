@@ -76,10 +76,10 @@ jobs:
         run: composer update --ansi --no-scripts --no-interaction
 
       - name: Run PHP-CS-Fixer
-        run: vendor/bin/php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run --stop-on-violation --using-cache=no
+        run: vendor/bin/php-cs-fixer fix --ansi --config=.php_cs.dist --verbose --dry-run --stop-on-violation --using-cache=no
 
       - name: Run PHPStan Static Analysis Check
-        run: vendor/bin/phpstan analyse
+        run: vendor/bin/phpstan analyse --ansi
 
       - name: Run Liaison Revision Test Suite
         run: vendor/bin/phpunit --colors=always
