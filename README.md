@@ -15,6 +15,10 @@ your CodeIgniter4 projects.
 Liaison Revision requires PHP 7.2+ to run. It also requires the PHP extensions `ext-intl` and `ext-mbstring`
 to be installed. Additionally, you can have the `ext-dom` extension enabled to use the `XmlLogHandler`.
 
+Liaison Revision needs to run on versions of CodeIgniter 4 greater than v4.0.4 due to the classes used
+within the library which are not available on v4.0.4 and below. You can also opt to use the develop branch
+for the latest changes.
+
 ## Installation
 
 ### Composer installation
@@ -30,6 +34,15 @@ If you only need this library during development, for instance to run your proje
 ### Manual installation
 
 TBD
+
+## Documentation
+
+- [Overview](docs/overview.md)
+    - [Introduction](docs/overview.md#introduction)
+    - [Configuration](docs/overview.md#configuration)
+    - [Localisation](docs/overview.md#localisation)
+    - [Temporary Files Source Control](docs/overview.md#temporary-files-source-control)
+- [Configuration](docs/configuration.md)
 
 ## Contributing
 
