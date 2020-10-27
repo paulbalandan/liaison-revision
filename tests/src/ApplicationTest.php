@@ -195,8 +195,20 @@ final class ApplicationTest extends CIUnitTestCase
             [UpdateEvents::POSTUPGRADE],
             [UpdateEvents::PRECONSOLIDATE],
             [UpdateEvents::POSTCONSOLIDATE],
-            [UpdateEvents::TERMINATE],
         ];
+    }
+
+    public function testApplicationIgnoresPreTerminateEventStatus()
+    {
+        Events::on(UpdateEvents::TERMINATE, static function (Application $app) {
+            return false;
+        });
+
+        $this->mockVendorDirectory();
+        $this->instantiateApplication($this->workspace);
+        $this->assertSame(EXIT_SUCCESS, $this->application->execute());
+
+        Events::removeAllListeners(UpdateEvents::TERMINATE);
     }
 
     protected function instantiateApplication(?string $workspace = null, bool $mockUpgrader = true)
