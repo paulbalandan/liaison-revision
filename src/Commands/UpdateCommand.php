@@ -92,8 +92,8 @@ class UpdateCommand extends BaseCommand
 
         CLI::write(lang('Revision.loadedConfigurationSettings', [CLI::color(\get_class($config), 'yellow')]));
         CLI::table([
-            [lang('Revision.rootPathLabel'), clean_path($config->rootPath)],
-            [lang('Revision.writePathLabel'), clean_path($config->writePath)],
+            [lang('Revision.rootPathLabel'), $config->rootPath],
+            [lang('Revision.writePathLabel'), $config->writePath],
             [lang('Revision.ignoredDirCount'), \count($config->ignoreDirs)],
             [lang('Revision.ignoredFileCount'), \count($config->ignoreFiles)],
             [lang('Revision.allowGitignoreLabel'), $config->allowGitIgnoreEntry ? lang('Revision.accessAllowed') : lang('Revision.accessDenied')],
@@ -230,7 +230,7 @@ class UpdateCommand extends BaseCommand
         CLI::newLine();
         unset($count, $files);
 
-        switch (CLI::prompt(CLI::color(lang('Revision.confirmQuestionPrompt'), 'yellow'), ['l', 'o', 's', 'r', 'a'])) {
+        switch (CLI::prompt(CLI::color(lang('Revision.confirmQuestionPrompt'), 'yellow'), ['l', 'o', 'b', 's', 'r', 'a'])) {
             case 'l':
                 $this
                     ->listFiles($manager->conflicts['created'], lang('Revision.filesCreatedLabel'), $tbody)
@@ -353,7 +353,7 @@ class UpdateCommand extends BaseCommand
         CLI::write(CLI::color('[a] ', 'green') . lang('Revision.abortAction'));
         CLI::newLine();
 
-        switch (CLI::prompt(CLI::color(lang('Revision.confirmQuestionPrompt'), 'yellow'), ['d', 'o', 's', 'a'])) {
+        switch (CLI::prompt(CLI::color(lang('Revision.confirmQuestionPrompt'), 'yellow'), ['d', 'o', 'b', 's', 'a'])) {
             case 'd':
                 $diff        = explode("\n", $this->application->calculateDiff($file));
                 $coloredDiff = [];
