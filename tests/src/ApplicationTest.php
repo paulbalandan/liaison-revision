@@ -213,6 +213,9 @@ final class ApplicationTest extends CIUnitTestCase
 
     public function testGetRelativeTime()
     {
+        $this->mockVendorDirectory();
+        $this->instantiateApplication();
+
         $this->assertStringContainsString('seconds', $this->application->getRelativeTime(37.5));
         $this->assertStringContainsString('minutes', $this->application->getRelativeTime(300.0));
         $this->assertStringContainsString('hours', $this->application->getRelativeTime(86400.0));
