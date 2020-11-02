@@ -19,6 +19,9 @@ use CodeIgniter\Test\Filters\CITestStreamFilter;
  */
 final class PublishConfigCommandTest extends CIUnitTestCase
 {
+    /**
+     * @var resource
+     */
     private $streamFilter;
 
     protected function setUp(): void
@@ -26,8 +29,9 @@ final class PublishConfigCommandTest extends CIUnitTestCase
         parent::setUp();
 
         CITestStreamFilter::$buffer = '';
-        $this->streamFilter         = stream_filter_append(STDOUT, 'CITestStreamFilter');
-        $this->streamFilter         = stream_filter_append(STDERR, 'CITestStreamFilter');
+
+        $this->streamFilter = stream_filter_append(STDOUT, 'CITestStreamFilter');
+        $this->streamFilter = stream_filter_append(STDERR, 'CITestStreamFilter');
     }
 
     protected function tearDown(): void
@@ -42,13 +46,13 @@ final class PublishConfigCommandTest extends CIUnitTestCase
         file_exists($file) && unlink($file);
     }
 
-    public function testPublishConfigCommandWorks()
+    public function testPublishConfigCommandWorks(): void
     {
         command('revision:config');
         $this->assertStringContainsString('Created file:', CITestStreamFilter::$buffer);
     }
 
-    public function testSupplyingOptionsIsUseless()
+    public function testSupplyingOptionsIsUseless(): void
     {
         command('revision:config Update -n App');
         $this->assertStringContainsString('Created file:', CITestStreamFilter::$buffer);

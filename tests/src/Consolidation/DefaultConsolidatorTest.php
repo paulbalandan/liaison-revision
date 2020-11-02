@@ -86,7 +86,7 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
         $this->restoreMockProject();
     }
 
-    public function testMergeOfCreatedFiles()
+    public function testMergeOfCreatedFiles(): void
     {
         $this->consolidator->mergeCreatedFiles();
 
@@ -98,7 +98,7 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
         $this->assertNotContains('app/conflictCreated.txt', $this->fileManager->mergedFiles);
     }
 
-    public function testMergeOfModifiedFiles()
+    public function testMergeOfModifiedFiles(): void
     {
         $this->consolidator->mergeModifiedFiles();
 
@@ -112,7 +112,7 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
         $this->assertContains('app/conflictModified.txt', $this->fileManager->conflicts['modified']);
     }
 
-    public function testMergeOfDeletedFiles()
+    public function testMergeOfDeletedFiles(): void
     {
         $this->consolidator->mergeDeletedFiles();
 

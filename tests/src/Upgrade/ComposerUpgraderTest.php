@@ -19,14 +19,14 @@ use Liaison\Revision\Upgrade\ComposerUpgrader;
  */
 final class ComposerUpgraderTest extends CIUnitTestCase
 {
-    public function testComposerUpdateSuccess()
+    public function testComposerUpdateSuccess(): void
     {
         // Use getcwd to run composer update against our own path.
         $exitCode = (new ComposerUpgrader())->upgrade(getcwd(), ['dry-run']);
         $this->assertSame(0, $exitCode);
     }
 
-    public function testComposerUpdateFail()
+    public function testComposerUpdateFail(): void
     {
         $this->expectException('Liaison\Revision\Exception\RevisionException');
         (new ComposerUpgrader())->upgrade(getcwd() . '/inexistent/path', ['no-ansi', 'dry-run']);

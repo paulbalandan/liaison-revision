@@ -22,7 +22,7 @@ use Tests\Support\Pathfinders\SimplePathfinder;
  */
 final class BasePathfinderTest extends CIUnitTestCase
 {
-    public function testNormalGetPaths()
+    public function testNormalGetPaths(): void
     {
         $finder  = new SimplePathfinder();
         $subset1 = [
@@ -37,26 +37,26 @@ final class BasePathfinderTest extends CIUnitTestCase
         $this->assertContains($subset2, $finder->getPaths());
     }
 
-    public function testAbsoluteDestinationPathThrowsException()
+    public function testAbsoluteDestinationPathThrowsException(): void
     {
         $this->expectException('Liaison\Revision\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('"' . ROOTPATH . 'spark" must be a relative path.');
         (new AbsoluteDestinationPathfinder())->getPaths();
     }
 
-    public function testInvalidPathsGiven()
+    public function testInvalidPathsGiven(): void
     {
         $this->expectException('Liaison\Revision\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('"' . SYSTEMPATH . '../foo/bar" is not a valid origin file or directory.');
         (new InvalidPathfinder())->getPaths();
     }
 
-    public function testEmptyIgnoredPaths()
+    public function testEmptyIgnoredPaths(): void
     {
         $this->assertEmpty((new SimplePathfinder())->getIgnoredPaths());
     }
 
-    public function testArrayIgnoredPaths()
+    public function testArrayIgnoredPaths(): void
     {
         $finder = new SimplePathfinder(new SimpleConfig());
 
@@ -72,7 +72,7 @@ final class BasePathfinderTest extends CIUnitTestCase
      *
      * @dataProvider invalidPathsProvider
      */
-    public function testInvalidIgnoredPaths(string $invalid, string $type = 'file', string $message = '')
+    public function testInvalidIgnoredPaths(string $invalid, string $type = 'file', string $message = ''): void
     {
         $config = new SimpleConfig();
 
@@ -87,7 +87,10 @@ final class BasePathfinderTest extends CIUnitTestCase
         (new SimplePathfinder($config))->getIgnoredPaths();
     }
 
-    public function invalidPathsProvider()
+    /**
+     * @return array<int, array<string>>
+     */
+    public function invalidPathsProvider(): iterable
     {
         return [
             ['app', 'dir', '"app" must be an absolute path.'],

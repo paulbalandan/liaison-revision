@@ -26,13 +26,16 @@ final class FileManagerTest extends CIUnitTestCase
      *
      * @dataProvider providePathsToCompare
      */
-    public function testAreIdenticalFiles(bool $expected, string $one, string $two)
+    public function testAreIdenticalFiles(bool $expected, string $one, string $two): void
     {
         FileManager::$filesystem = null;
         $this->assertSame($expected, FileManager::areIdenticalFiles($one, $two));
     }
 
-    public function providePathsToCompare()
+    /**
+     * @return array<int, array<bool|string>>
+     */
+    public function providePathsToCompare(): iterable
     {
         return [
             [true, __DIR__ . '/../../../composer.json', __DIR__ . '/../../../composer.json'],

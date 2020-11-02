@@ -54,7 +54,7 @@ final class LogManagerTest extends CIUnitTestCase
         $this->restoreMockProject();
     }
 
-    public function testLogManagerThrowsExceptionOnWrongLogHandlers()
+    public function testLogManagerThrowsExceptionOnWrongLogHandlers(): void
     {
         $this->config->logHandlers = ['Liaison\Revision\Files\FileManager'];
 
@@ -62,7 +62,7 @@ final class LogManagerTest extends CIUnitTestCase
         new LogManager($this->config);
     }
 
-    public function testLogManagerManagesTheLogging()
+    public function testLogManagerManagesTheLogging(): void
     {
         $this->config->logHandlers = [
             'Liaison\Revision\Logs\XmlLogHandler',

@@ -18,12 +18,12 @@ namespace Tests\Support\Traits;
  */
 trait BackupTrait
 {
-    protected function backupMockProject()
+    protected function backupMockProject(): void
     {
         $this->filesystem->mirror($this->config->rootPath, $this->backupDir);
     }
 
-    protected function restoreMockProject()
+    protected function restoreMockProject(): void
     {
         $this->filesystem->chmod($this->config->rootPath, 0777, 000, true);
         $this->filesystem->remove($this->config->rootPath);
