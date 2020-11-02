@@ -16,7 +16,3 @@ parameters:
   scanFiles:
     - vendor/codeigniter4/codeigniter4/app/Config/Constants.php
     - vendor/codeigniter4/codeigniter4/system/bootstrap.php
-  ignoreErrors:
-    - '/^Method Liaison\\Revision\\Tests\\(.*) has no return typehint specified\.$/'
-    - '/^Method Liaison\\Revision\\Tests\\(.*) return type has no value type specified in iterable type array\.$/'
-    - '/^Property Liaison\\Revision\\Tests\\(.*) has no typehint specified\.$/'

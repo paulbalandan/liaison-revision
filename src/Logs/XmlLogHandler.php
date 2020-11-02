@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -24,7 +24,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class XmlLogHandler extends BaseLogHandler
 {
     /**
-     * The DOMDocument object
+     * The DOMDocument object.
      *
      * @var null|DOMDocument
      */
@@ -66,7 +66,7 @@ class XmlLogHandler extends BaseLogHandler
 
         helper('inflector');
 
-        $config     = $config     ?? config('Revision');
+        $config     = $config ?? config('Revision');
         $filesystem = $filesystem ?? new Filesystem();
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }

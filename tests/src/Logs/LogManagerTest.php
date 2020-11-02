@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -54,7 +54,7 @@ final class LogManagerTest extends CIUnitTestCase
         $this->restoreMockProject();
     }
 
-    public function testLogManagerThrowsExceptionOnWrongLogHandlers()
+    public function testLogManagerThrowsExceptionOnWrongLogHandlers(): void
     {
         $this->config->logHandlers = ['Liaison\Revision\Files\FileManager'];
 
@@ -62,7 +62,7 @@ final class LogManagerTest extends CIUnitTestCase
         new LogManager($this->config);
     }
 
-    public function testLogManagerManagesTheLogging()
+    public function testLogManagerManagesTheLogging(): void
     {
         $this->config->logHandlers = [
             'Liaison\Revision\Logs\XmlLogHandler',

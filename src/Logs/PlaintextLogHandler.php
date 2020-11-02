@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -43,7 +43,7 @@ class PlaintextLogHandler extends BaseLogHandler
         string $filename = 'revision_',
         string $extension = '.log'
     ) {
-        $config     = $config     ?? config('Revision');
+        $config     = $config ?? config('Revision');
         $filesystem = $filesystem ?? new Filesystem();
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
@@ -59,13 +59,13 @@ class PlaintextLogHandler extends BaseLogHandler
 
         // Headers
         $this->buffer = <<<EOD
-+========================================================+
-| {$name}                                       |
-| Version: {$version} |
-| Run Date: {$date} |
-+========================================================+
+            +========================================================+
+            | {$name}                                       |
+            | Version: {$version} |
+            | Run Date: {$date} |
+            +========================================================+
 
-EOD;
+            EOD;
 
         // Settings
         $config = \get_class($this->config);
@@ -92,21 +92,21 @@ EOD;
         $logsLabel    = lang('Revision.logHandlersCount');
 
         $settings = <<<EOD
-{$configLabel}: {$config}
-{$rootLabel}: {$this->config->rootPath}
-{$writeLabel}: {$this->config->writePath}
-{$dirsLabel}: {$dirs}
-{$filesLabel}: {$files}
-{$allowLabel}: {$allow}
-{$fallLabel}: {$fall}
-{$retriesLabel}: {$this->config->retries}
-{$consolidator}: {$this->config->consolidator}
-{$upgrader}: {$this->config->upgrader}
-{$pathfinder}: {$this->config->pathfinder}
-{$diffLabel}: {$this->config->diffOutputBuilder}
-{$logsLabel}: {$logs}
-\n
-EOD;
+            {$configLabel}: {$config}
+            {$rootLabel}: {$this->config->rootPath}
+            {$writeLabel}: {$this->config->writePath}
+            {$dirsLabel}: {$dirs}
+            {$filesLabel}: {$files}
+            {$allowLabel}: {$allow}
+            {$fallLabel}: {$fall}
+            {$retriesLabel}: {$this->config->retries}
+            {$consolidator}: {$this->config->consolidator}
+            {$upgrader}: {$this->config->upgrader}
+            {$pathfinder}: {$this->config->pathfinder}
+            {$diffLabel}: {$this->config->diffOutputBuilder}
+            {$logsLabel}: {$logs}
+            \n
+            EOD;
 
         $this->buffer .= "\n{$loadedConfig}\n";
         $this->buffer .= str_repeat('=', mb_strlen($loadedConfig)) . "\n";

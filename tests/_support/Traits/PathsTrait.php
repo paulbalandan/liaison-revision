@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,7 +23,7 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 trait PathsTrait
 {
-    protected function prepareMockPaths()
+    protected function prepareMockPaths(): void
     {
         $this->filesystem = new Filesystem();
 
@@ -37,7 +37,7 @@ trait PathsTrait
         $this->config      = $config->normalizePaths();
     }
 
-    protected function createCleanSlatePath()
+    protected function createCleanSlatePath(): void
     {
         $root  = $this->config->rootPath;
         $paths = [
@@ -49,7 +49,7 @@ trait PathsTrait
         $this->filesystem->mkdir($paths);
     }
 
-    protected function mockProjectStructure()
+    protected function mockProjectStructure(): void
     {
         $this->filesystem->mirror(SYSTEMPATH . '../app', $this->config->rootPath . 'app');
         $this->filesystem->mirror(SYSTEMPATH . '../public', $this->config->rootPath . 'public');
@@ -58,7 +58,7 @@ trait PathsTrait
         $this->filesystem->copy(SYSTEMPATH . '../spark', $this->config->rootPath . 'spark');
     }
 
-    protected function mockVendorDirectory()
+    protected function mockVendorDirectory(): void
     {
         $this->filesystem->mirror(
             VENDORPATH . 'codeigniter4/codeigniter4',

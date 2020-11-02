@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -63,7 +63,7 @@ abstract class BasePathfinder implements PathfinderInterface
      */
     public function __construct(?Revision $config = null, ?Filesystem $filesystem = null)
     {
-        $this->config     = $config     ?? config('Revision');
+        $this->config     = $config ?? config('Revision');
         $this->filesystem = $filesystem ?? new Filesystem();
 
         helper('filesystem');

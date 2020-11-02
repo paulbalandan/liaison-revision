@@ -16,19 +16,19 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "ext-intl": "*",
         "ext-mbstring": "*",
-        "sebastian/diff": "^3.0",
+        "sebastian/diff": "^4.0",
         "symfony/filesystem": "^5.1",
         "symfony/process": "^5.1"
     },
     "require-dev": {
         "codeigniter4/codeigniter4": "dev-develop",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "liaison/cs-config": "^1.1",
+        "liaison/cs-config": "^1.2",
         "phpstan/phpstan": "^0.12",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^9.4"
     },
     "suggest": {
         "ext-dom": "For using the XmlLogHandler."

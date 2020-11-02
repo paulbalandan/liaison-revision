@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -29,21 +29,21 @@ class PublishLanguageCommand extends GeneratorCommand
     protected $group = 'Revision';
 
     /**
-     * The Command's name
+     * The Command's name.
      *
      * @var string
      */
     protected $name = 'revision:language';
 
     /**
-     * The Command's short description
+     * The Command's short description.
      *
      * @var string
      */
     protected $description = 'Publishes Revision\'s main language file to a translation folder.';
 
     /**
-     * The Command's usage
+     * The Command's usage.
      *
      * @var string
      */

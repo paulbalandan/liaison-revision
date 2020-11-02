@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -86,7 +86,7 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
         $this->restoreMockProject();
     }
 
-    public function testMergeOfCreatedFiles()
+    public function testMergeOfCreatedFiles(): void
     {
         $this->consolidator->mergeCreatedFiles();
 
@@ -98,7 +98,7 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
         $this->assertNotContains('app/conflictCreated.txt', $this->fileManager->mergedFiles);
     }
 
-    public function testMergeOfModifiedFiles()
+    public function testMergeOfModifiedFiles(): void
     {
         $this->consolidator->mergeModifiedFiles();
 
@@ -112,7 +112,7 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
         $this->assertContains('app/conflictModified.txt', $this->fileManager->conflicts['modified']);
     }
 
-    public function testMergeOfDeletedFiles()
+    public function testMergeOfDeletedFiles(): void
     {
         $this->consolidator->mergeDeletedFiles();
 

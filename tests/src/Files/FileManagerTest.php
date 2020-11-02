@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,13 +26,16 @@ final class FileManagerTest extends CIUnitTestCase
      *
      * @dataProvider providePathsToCompare
      */
-    public function testAreIdenticalFiles(bool $expected, string $one, string $two)
+    public function testAreIdenticalFiles(bool $expected, string $one, string $two): void
     {
         FileManager::$filesystem = null;
         $this->assertSame($expected, FileManager::areIdenticalFiles($one, $two));
     }
 
-    public function providePathsToCompare()
+    /**
+     * @return array<int, array<bool|string>>
+     */
+    public function providePathsToCompare(): iterable
     {
         return [
             [true, __DIR__ . '/../../../composer.json', __DIR__ . '/../../../composer.json'],

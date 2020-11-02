@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -65,7 +65,7 @@ final class GitignoreCommandTest extends CIUnitTestCase
         }
     }
 
-    public function testBothOptionsProvidedThrowsExceptions()
+    public function testBothOptionsProvidedThrowsExceptions(): void
     {
         try {
             command('revision:gitignore --allow-entry --disallow-entry');
@@ -75,20 +75,20 @@ final class GitignoreCommandTest extends CIUnitTestCase
         }
     }
 
-    public function testDeniedWriteToGitignore()
+    public function testDeniedWriteToGitignore(): void
     {
         command('revision:gitignore --disallow-entry');
         $this->assertStringContainsString('not allowed to write', CITestStreamFilter::$buffer);
     }
 
-    public function testWriteNewGitignoreIfMissing()
+    public function testWriteNewGitignoreIfMissing(): void
     {
         unlink($this->original);
         command('revision:gitignore --write-if-missing');
         $this->assertStringContainsString('Successfully created', CITestStreamFilter::$buffer);
     }
 
-    public function testCommandWarnsOnAlreadyWrittenGitignore()
+    public function testCommandWarnsOnAlreadyWrittenGitignore(): void
     {
         command('revision:gitignore');
         CITestStreamFilter::$buffer = '';
@@ -97,7 +97,7 @@ final class GitignoreCommandTest extends CIUnitTestCase
         $this->assertStringContainsString('There was already an entry', CITestStreamFilter::$buffer);
     }
 
-    public function testWriteFailsOnUnwritableFile()
+    public function testWriteFailsOnUnwritableFile(): void
     {
         chmod($this->original, 0444);
         command('revision:gitignore');

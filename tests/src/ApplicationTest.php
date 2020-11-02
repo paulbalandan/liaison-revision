@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -90,7 +90,7 @@ final class ApplicationTest extends CIUnitTestCase
         $this->restoreMockProject();
     }
 
-    public function testDependenciesInstances()
+    public function testDependenciesInstances(): void
     {
         $this->mockVendorDirectory();
         $this->instantiateApplication();
@@ -106,9 +106,9 @@ final class ApplicationTest extends CIUnitTestCase
     }
 
     /**
-     * Live Test
+     * Live Test.
      */
-    public function testApplicationLifeCycleIntrospection()
+    public function testApplicationLifeCycleIntrospection(): void
     {
         // Install first the base version
         $this->upgrader->install($this->config->rootPath);
@@ -137,7 +137,7 @@ final class ApplicationTest extends CIUnitTestCase
         $this->assertSame(EXIT_SUCCESS, $this->application->terminate());
     }
 
-    public function testApplicationFailsOnUpdate()
+    public function testApplicationFailsOnUpdate(): void
     {
         Events::on(UpdateEvents::PREUPGRADE, function (Application $app) {
             /** @var \Liaison\Revision\Upgrade\UpgraderInterface&\PHPUnit\Framework\MockObject\MockObject */
@@ -153,7 +153,7 @@ final class ApplicationTest extends CIUnitTestCase
         Events::removeAllListeners(UpdateEvents::PREUPGRADE);
     }
 
-    public function testErroredInConsolidation()
+    public function testErroredInConsolidation(): void
     {
         Events::on(UpdateEvents::PRECONSOLIDATE, function (Application $app) {
             /** @var \Liaison\Revision\Consolidation\ConsolidatorInterface&\PHPUnit\Framework\MockObject\MockObject */
@@ -174,7 +174,7 @@ final class ApplicationTest extends CIUnitTestCase
      *
      * @dataProvider eventNamesProvider
      */
-    public function testApplicationExitsOnErroredEvent(string $event)
+    public function testApplicationExitsOnErroredEvent(string $event): void
     {
         Events::on($event, static function (Application $app) {
             return false;
@@ -187,6 +187,9 @@ final class ApplicationTest extends CIUnitTestCase
         Events::removeAllListeners($event);
     }
 
+    /**
+     * @return array<int, array<string>>
+     */
     public function eventNamesProvider(): array
     {
         return [
@@ -198,7 +201,7 @@ final class ApplicationTest extends CIUnitTestCase
         ];
     }
 
-    public function testApplicationIgnoresPreTerminateEventStatus()
+    public function testApplicationIgnoresPreTerminateEventStatus(): void
     {
         Events::on(UpdateEvents::TERMINATE, static function (Application $app) {
             return false;
@@ -211,7 +214,7 @@ final class ApplicationTest extends CIUnitTestCase
         Events::removeAllListeners(UpdateEvents::TERMINATE);
     }
 
-    public function testGetRelativeTime()
+    public function testGetRelativeTime(): void
     {
         $this->mockVendorDirectory();
         $this->instantiateApplication();
@@ -221,7 +224,7 @@ final class ApplicationTest extends CIUnitTestCase
         $this->assertStringContainsString('hours', $this->application->getRelativeTime(86400.0));
     }
 
-    protected function instantiateApplication(?string $workspace = null, bool $mockUpgrader = true)
+    protected function instantiateApplication(?string $workspace = null, bool $mockUpgrader = true): void
     {
         $this->application = new Application($workspace, $this->config);
         $this->application->setPathfinder(new LiveTestPathfinder($this->config, $this->filesystem));
@@ -234,7 +237,10 @@ final class ApplicationTest extends CIUnitTestCase
         }
     }
 
-    protected function getComposerJsonContents()
+    /**
+     * @return array<string, string|string[]>
+     */
+    protected function getComposerJsonContents(): array
     {
         if (file_exists($composer = $this->config->rootPath . 'composer.json')) {
             $json = json_decode(file_get_contents($composer), true);
@@ -247,7 +253,7 @@ final class ApplicationTest extends CIUnitTestCase
         return [];
     }
 
-    protected function updateComposerJson()
+    protected function updateComposerJson(): void
     {
         if (empty($composer = $this->getComposerJsonContents())) {
             $this->fail('The composer.json file is either unreadable or does not exist.');
