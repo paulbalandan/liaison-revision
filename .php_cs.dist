@@ -1,15 +1,10 @@
 <?php
 
 use Liaison\CS\Config\Factory;
-use Liaison\CS\Config\Ruleset\Liaison;
 
-$header = <<<'EOD'
-This file is part of Liaison Revision.
-
-(c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
-
-For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.
-EOD;
-
-return Factory::create(new Liaison($header));
+return Factory::createForLibrary(
+    'Liaison Revision',
+    'John Paul E. Balandan, CPA <paulbalandan@gmail.com>',
+    2020,
+    'Liaison\CS\Config\Ruleset\Liaison'
+);

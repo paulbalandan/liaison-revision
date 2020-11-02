@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
          bootstrap="vendor/codeigniter4/codeigniter4/system/Test/bootstrap.php"
          backupGlobals="false"
          colors="true"
@@ -12,30 +12,30 @@
          stopOnIncomplete="false"
          stopOnSkipped="false"
          verbose="true">
-    <testsuites>
-        <testsuite name="default">
-            <directory suffix="Test.php">tests/src</directory>
-        </testsuite>
-    </testsuites>
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
+    <report>
+      <clover outputFile="build/logs/clover.xml"/>
+      <html outputDirectory="build/logs/html"/>
+    </report>
+  </coverage>
 
-    <logging>
-        <log type="coverage-html" target="build/logs/html"/>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-    </logging>
+  <testsuites>
+    <testsuite name="default">
+      <directory suffix="Test.php">tests/src</directory>
+    </testsuite>
+  </testsuites>
 
-    <php>
-        <server name="app.baseURL" value="http://example.com"/>
-        <!-- Directory containing phpunit.xml -->
-        <const name="HOMEPATH" value="./"/>
-        <!-- Directory containing the Paths config file -->
-        <const name="CONFIGPATH" value="vendor/codeigniter4/codeigniter4/app/Config/"/>
-        <!-- Directory containing the front controller (index.php) -->
-        <const name="PUBLICPATH" value="vendor/codeigniter4/codeigniter4/public/"/>
-    </php>
+  <php>
+    <server name="app.baseURL" value="http://example.com"/>
+    <!-- Directory containing phpunit.xml -->
+    <const name="HOMEPATH" value="./"/>
+    <!-- Directory containing the Paths config file -->
+    <const name="CONFIGPATH" value="vendor/codeigniter4/codeigniter4/app/Config/"/>
+    <!-- Directory containing the front controller (index.php) -->
+    <const name="PUBLICPATH" value="vendor/codeigniter4/codeigniter4/public/"/>
+  </php>
 </phpunit>

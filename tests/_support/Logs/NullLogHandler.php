@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -34,7 +34,7 @@ class NullLogHandler extends BaseLogHandler
         string $filename = '',
         string $extension = ''
     ) {
-        $config     = $config     ?? config('Revision');
+        $config     = $config ?? config('Revision');
         $filesystem = $filesystem ?? new Filesystem();
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }

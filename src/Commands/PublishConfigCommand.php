@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -98,16 +98,16 @@ class PublishConfigCommand extends GeneratorCommand
 
         $searchLicense = <<<'EOD'
 
-/**
- * This file is part of Liaison Revision.
- *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+            /**
+             * This file is part of Liaison Revision.
+             *
+             * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+             *
+             * For the full copyright and license information, please view the LICENSE
+             * file that was distributed with this source code.
+             */
 
-EOD;
+            EOD;
         $replaceLicense = '';
 
         $searchExtends  = 'extends BaseConfig';

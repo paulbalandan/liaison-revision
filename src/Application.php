@@ -3,7 +3,7 @@
 /**
  * This file is part of Liaison Revision.
  *
- * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+ * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -69,7 +69,7 @@ class Application
     protected $config;
 
     /**
-     * Instance of Filesystem
+     * Instance of Filesystem.
      *
      * @var \Symfony\Component\Filesystem\Filesystem
      */
@@ -104,21 +104,21 @@ class Application
     protected $differ;
 
     /**
-     * Instance of FileManager
+     * Instance of FileManager.
      *
      * @var \Liaison\Revision\Files\FileManager
      */
     protected $fileManager;
 
     /**
-     * Instance of LogManager
+     * Instance of LogManager.
      *
      * @var \Liaison\Revision\Logs\LogManager
      */
     protected $logManager;
 
     /**
-     * Instance of Timer
+     * Instance of Timer.
      *
      * @internal
      *
@@ -265,7 +265,7 @@ class Application
     }
 
     /**
-     * Sets the Differ instance
+     * Sets the Differ instance.
      *
      * @param \SebastianBergmann\Diff\Output\DiffOutputBuilderInterface $diffOutputBuilder
      *
