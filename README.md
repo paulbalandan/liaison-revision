@@ -1,6 +1,7 @@
 # Liaison Revision
 
 ![build](https://github.com/paulbalandan/liaison-revision/workflows/build/badge.svg?branch=develop)
+[![PHP version](https://img.shields.io/packagist/php-v/liaison/revision)](https://php.net)
 [![Coverage Status](https://coveralls.io/repos/github/paulbalandan/liaison-revision/badge.svg?branch=develop)](https://coveralls.io/github/paulbalandan/liaison-revision?branch=develop)
 [![Latest Stable Version](https://poser.pugx.org/liaison/revision/v)](//packagist.org/packages/liaison/revision)
 [![Latest Unstable Version](https://poser.pugx.org/liaison/revision/v/unstable)](//packagist.org/packages/liaison/revision)
@@ -12,7 +13,7 @@ your CodeIgniter4 projects.
 
 ## System Requirements
 
-Liaison Revision requires PHP 7.2+ to run. It also requires the PHP extensions `ext-intl` and `ext-mbstring`
+Liaison Revision requires PHP 7.3+ to run. It also requires the PHP extensions `ext-intl` and `ext-mbstring`
 to be installed. Additionally, you can have the `ext-dom` extension enabled to use the `XmlLogHandler`.
 
 Liaison Revision needs to run on versions of CodeIgniter 4 greater than v4.0.4 due to the classes used
