@@ -44,6 +44,9 @@ TBD
     - [Localisation](docs/overview.md#localisation)
     - [Temporary Files Source Control](docs/overview.md#temporary-files-source-control)
 - [Configuration](docs/configuration.md)
+    - [Introduction](docs/configuration.md#introduction)
+    - [Settings Defined](docs/configuration.md#settings-defined)
+    - [Extending](docs/configuration.md#extending)
 
 ## Contributing
 
