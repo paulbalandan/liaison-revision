@@ -109,10 +109,10 @@ final class LogManager implements LogManagerInterface
         foreach ($handlers as $handler) {
             $logHandler = new $handler($this->config);
 
-            if (!$logHandler instanceof BaseLogHandler) {
+            if (!$logHandler instanceof AbstractLogHandler) {
                 throw new InvalidArgumentException(lang('Revision.invalidLogHandler', [
                     $handler,
-                    'Liaison\Revision\Logs\BaseLogHandler',
+                    'Liaison\Revision\Logs\AbstractLogHandler',
                     \get_class($logHandler),
                 ]));
             }

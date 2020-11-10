@@ -11,9 +11,9 @@
 
 namespace Tests\Support\Pathfinders;
 
-use Liaison\Revision\Paths\BasePathfinder;
+use Liaison\Revision\Paths\AbstractPathfinder;
 
-class AbsoluteDestinationPathfinder extends BasePathfinder
+class AbsoluteDestinationPathfinder extends AbstractPathfinder
 {
     protected $paths = [
         [

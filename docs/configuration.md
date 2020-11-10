@@ -91,10 +91,10 @@ Available upgraders:
 **public `$pathfinder`**
 
 The name of the pathfinder class to use. Pathfinders are simple classes extending
-`Liaison\Revision\Paths\BasePathfinder` which manages which files to seek and check during the update process.
-Usually you feed it with the paths of the files to be monitored, which can be an array of directories, an
-array of specific files, or both. The directories and files listed in the `$ignore**` settings will be
-considered by `BasePathfinder` before giving Revision the final array of files to seek.
+`Liaison\Revision\Paths\AbstractPathfinder` which manages which files to seek and check during the update
+process. Usually you feed it with the paths of the files to be monitored, which can be an array of
+directories, an array of specific files, or both. The directories and files listed in the `$ignore**`
+settings will be considered by `AbstractPathfinder` before giving Revision the final array of files to seek.
 
 Available pathfinders:
 - `Liaison\Revision\Paths\DefaultPathfinder` (default)
@@ -119,7 +119,7 @@ discussion of the settings, please check out the library.
 **public `$logHandlers`**
 
 This array holds the names of the log handler classes to use. Log handlers must extend
-`Liaison\Revision\Logs\BaseLogHandler`. Log handlers gives you the logs of the operation in the format
+`Liaison\Revision\Logs\AbstractLogHandler`. Log handlers gives you the logs of the operation in the format
 defined by each handler. All log handlers are managed by the `LogManager` class.
 
 Available log handlers:

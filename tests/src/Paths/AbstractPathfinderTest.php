@@ -20,7 +20,7 @@ use Tests\Support\Pathfinders\SimplePathfinder;
 /**
  * @internal
  */
-final class BasePathfinderTest extends CIUnitTestCase
+final class AbstractPathfinderTest extends CIUnitTestCase
 {
     public function testNormalGetPaths(): void
     {

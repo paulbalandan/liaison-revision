@@ -113,7 +113,7 @@ class Revision extends BaseConfig
     /**
      * Pathfinder to use.
      *
-     * This must be a subclass of `Liaison\Revision\Paths\BasePathfinder`.
+     * This must be a subclass of `Liaison\Revision\Paths\AbstractPathfinder`.
      *
      * Available pathfinders:
      * * `Liaison\Revision\Paths\DefaultPathfinder`
@@ -165,7 +165,7 @@ class Revision extends BaseConfig
     /**
      * Log Handlers to use.
      *
-     * These must extend `Liaison\Revision\Logs\BaseLogHandler`.
+     * These must extend `Liaison\Revision\Logs\AbstractLogHandler`.
      *
      * Available log handlers:
      * * `Liaison\Revision\Logs\JsonLogHandler` (enabled by default)

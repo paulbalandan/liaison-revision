@@ -19,7 +19,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Logs into JSON files.
  */
-final class JsonLogHandler extends BaseLogHandler
+final class JsonLogHandler extends AbstractLogHandler
 {
     /**
      * JSON array to serialize later.

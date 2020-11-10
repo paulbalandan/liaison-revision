@@ -12,10 +12,10 @@
 namespace Tests\Support\Pathfinders;
 
 use Liaison\Revision\Config\Revision;
-use Liaison\Revision\Paths\BasePathfinder;
+use Liaison\Revision\Paths\AbstractPathfinder;
 use Symfony\Component\Filesystem\Filesystem;
 
-class LiveTestPathfinder extends BasePathfinder
+class LiveTestPathfinder extends AbstractPathfinder
 {
     protected $paths = [
         [

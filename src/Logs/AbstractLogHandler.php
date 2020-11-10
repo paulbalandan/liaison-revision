@@ -15,9 +15,9 @@ use Liaison\Revision\Config\Revision;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * BaseLogHandler.
+ * AbstractLogHandler.
  */
-abstract class BaseLogHandler implements LogHandlerInterface
+abstract class AbstractLogHandler implements LogHandlerInterface
 {
     /**
      * Instance of Revision configuration.

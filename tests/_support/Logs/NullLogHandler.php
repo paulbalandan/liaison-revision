@@ -12,11 +12,11 @@
 namespace Tests\Support\Logs;
 
 use Liaison\Revision\Config\Revision;
-use Liaison\Revision\Logs\BaseLogHandler;
+use Liaison\Revision\Logs\AbstractLogHandler;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
-class NullLogHandler extends BaseLogHandler
+class NullLogHandler extends AbstractLogHandler
 {
     /**
      * Constructor.

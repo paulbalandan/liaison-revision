@@ -21,7 +21,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Writes logs into XML files.
  */
-final class XmlLogHandler extends BaseLogHandler
+final class XmlLogHandler extends AbstractLogHandler
 {
     /**
      * The DOMDocument object.

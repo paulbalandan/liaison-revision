@@ -16,7 +16,7 @@ namespace Liaison\Revision\Paths;
  *
  * Contains the basic paths to update.
  */
-final class DefaultPathfinder extends BasePathfinder
+final class DefaultPathfinder extends AbstractPathfinder
 {
     /**
      * Parseable paths.

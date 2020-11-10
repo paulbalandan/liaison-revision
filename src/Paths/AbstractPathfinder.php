@@ -16,9 +16,9 @@ use Liaison\Revision\Exception\InvalidArgumentException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * BasePathfinder.
+ * AbstractPathfinder.
  */
-abstract class BasePathfinder implements PathfinderInterface
+abstract class AbstractPathfinder implements PathfinderInterface
 {
     /**
      * Array of paths defined by pathfinders. Still for parsing.
