@@ -141,7 +141,7 @@ final class ApplicationTest extends CIUnitTestCase
     {
         Events::on(UpdateEvents::PREUPGRADE, function (Application $app) {
             /** @var \Liaison\Revision\Upgrade\UpgraderInterface&\PHPUnit\Framework\MockObject\MockObject */
-            $upgrader = $this->createMock('Liaison\Revision\Upgrade\ComposerUpgrader');
+            $upgrader = $this->createMock('Liaison\Revision\Upgrade\UpgraderInterface');
             $upgrader->method('upgrade')->willThrowException(new RevisionException(''));
             $app->setUpgrader($upgrader);
         });
@@ -157,7 +157,7 @@ final class ApplicationTest extends CIUnitTestCase
     {
         Events::on(UpdateEvents::PRECONSOLIDATE, function (Application $app) {
             /** @var \Liaison\Revision\Consolidation\ConsolidatorInterface&\PHPUnit\Framework\MockObject\MockObject */
-            $consolidator = $this->createMock('Liaison\Revision\Consolidation\DefaultConsolidator');
+            $consolidator = $this->createMock('Liaison\Revision\Consolidation\ConsolidatorInterface');
             $consolidator->method('mergeCreatedFiles')->willThrowException(new IOException(''));
             $app->setConsolidator($consolidator);
         });
@@ -231,7 +231,7 @@ final class ApplicationTest extends CIUnitTestCase
 
         if ($mockUpgrader) {
             /** @var \Liaison\Revision\Upgrade\UpgraderInterface&\PHPUnit\Framework\MockObject\MockObject */
-            $upgrader = $this->createMock('Liaison\Revision\Upgrade\ComposerUpgrader');
+            $upgrader = $this->createMock('Liaison\Revision\Upgrade\UpgraderInterface');
             $upgrader->method('upgrade')->willReturn(EXIT_SUCCESS);
             $this->application->setUpgrader($upgrader);
         }

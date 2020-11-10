@@ -18,35 +18,35 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * DefaultConsolidator.
  */
-class DefaultConsolidator implements ConsolidatorInterface
+final class DefaultConsolidator implements ConsolidatorInterface
 {
     /**
      * Path to workspace directory.
      *
      * @var string
      */
-    protected $workspace;
+    private $workspace;
 
     /**
      * Instance of FileManager.
      *
      * @var \Liaison\Revision\Files\FileManager
      */
-    protected $fileManager;
+    private $fileManager;
 
     /**
      * Instance of ConfigurationResolver.
      *
      * @var \Liaison\Revision\Config\Revision
      */
-    protected $config;
+    private $config;
 
     /**
      * Instance of Filesystem.
      *
      * @var \Symfony\Component\Filesystem\Filesystem
      */
-    protected $filesystem;
+    private $filesystem;
 
     /**
      * Constructor.

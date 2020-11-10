@@ -21,7 +21,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Writes logs into XML files.
  */
-class XmlLogHandler extends BaseLogHandler
+final class XmlLogHandler extends BaseLogHandler
 {
     /**
      * The DOMDocument object.
@@ -35,14 +35,14 @@ class XmlLogHandler extends BaseLogHandler
      *
      * @var DOMElement
      */
-    protected $root;
+    private $root;
 
     /**
      * The logs XML node.
      *
      * @var null|DOMElement
      */
-    protected $logs;
+    private $logs;
 
     /**
      * Constructor.
@@ -61,7 +61,7 @@ class XmlLogHandler extends BaseLogHandler
         string $extension = '.xml'
     ) {
         if (!\extension_loaded('dom')) {
-            throw new RevisionException(lang('Revision.cannotUseLogHandler', [static::class, 'ext-dom'])); // @codeCoverageIgnore
+            throw new RevisionException(lang('Revision.cannotUseLogHandler', [self::class, 'ext-dom'])); // @codeCoverageIgnore
         }
 
         helper('inflector');

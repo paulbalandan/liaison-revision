@@ -12,11 +12,34 @@
 namespace Tests\Support\Pathfinders;
 
 use Liaison\Revision\Config\Revision;
-use Liaison\Revision\Paths\DefaultPathfinder;
+use Liaison\Revision\Paths\BasePathfinder;
 use Symfony\Component\Filesystem\Filesystem;
 
-class LiveTestPathfinder extends DefaultPathfinder
+class LiveTestPathfinder extends BasePathfinder
 {
+    protected $paths = [
+        [
+            'origin'      => SYSTEMPATH . '../app',
+            'destination' => 'app',
+        ],
+        [
+            'origin'      => SYSTEMPATH . '../public',
+            'destination' => 'public',
+        ],
+        [
+            'origin'      => SYSTEMPATH . '../writable',
+            'destination' => 'writable',
+        ],
+        [
+            'origin'      => SYSTEMPATH . '../spark',
+            'destination' => '',
+        ],
+        [
+            'origin'      => SYSTEMPATH . '../env',
+            'destination' => '',
+        ],
+    ];
+
     /**
      * Constructor.
      *

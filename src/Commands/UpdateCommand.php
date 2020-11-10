@@ -25,7 +25,7 @@ use Throwable;
  *
  * @codeCoverageIgnore
  */
-class UpdateCommand extends BaseCommand
+final class UpdateCommand extends BaseCommand
 {
     /**
      * The Command's group.

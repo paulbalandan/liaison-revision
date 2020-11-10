@@ -18,7 +18,7 @@ use Liaison\Revision\Exception\LogicException;
 /**
  * Writes an entry to gitignore.
  */
-class GitignoreCommand extends BaseCommand
+final class GitignoreCommand extends BaseCommand
 {
     /**
      * The Command's group.
@@ -82,7 +82,7 @@ class GitignoreCommand extends BaseCommand
         $write = $allow ? true : ($deny ? false : $write);
 
         if (!$write) {
-            CLI::error(lang('Revision.gitignoreWriteDenied', [static::class]), 'light_gray', 'red');
+            CLI::error(lang('Revision.gitignoreWriteDenied', [self::class]), 'light_gray', 'red');
             CLI::newLine();
 
             return;

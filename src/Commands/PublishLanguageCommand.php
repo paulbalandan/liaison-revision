@@ -18,7 +18,7 @@ use CodeIgniter\CLI\GeneratorCommand;
  * Publish the main language file to the user's language folder
  * or to another locale folder.
  */
-class PublishLanguageCommand extends GeneratorCommand
+final class PublishLanguageCommand extends GeneratorCommand
 {
     /**
      * The group the command is lumped under

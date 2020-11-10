@@ -19,7 +19,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Logs into JSON files.
  */
-class JsonLogHandler extends BaseLogHandler
+final class JsonLogHandler extends BaseLogHandler
 {
     /**
      * JSON array to serialize later.
@@ -45,7 +45,7 @@ class JsonLogHandler extends BaseLogHandler
         string $extension = '.json'
     ) {
         if (!\extension_loaded('json')) {
-            throw new RevisionException(lang('Revision.cannotUseLogHandler', [static::class, 'ext-json'])); // @codeCoverageIgnore
+            throw new RevisionException(lang('Revision.cannotUseLogHandler', [self::class, 'ext-json'])); // @codeCoverageIgnore
         }
 
         $config     = $config ?? config('Revision');

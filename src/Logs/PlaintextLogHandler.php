@@ -18,7 +18,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * PlaintextLogHandler.
  */
-class PlaintextLogHandler extends BaseLogHandler
+final class PlaintextLogHandler extends BaseLogHandler
 {
     /**
      * Buffer to write to log file.

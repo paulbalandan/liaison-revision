@@ -16,7 +16,7 @@ use CodeIgniter\CLI\GeneratorCommand;
 /**
  * Publish main configuration file.
  */
-class PublishConfigCommand extends GeneratorCommand
+final class PublishConfigCommand extends GeneratorCommand
 {
     /**
      * The Command's group.

@@ -22,14 +22,14 @@ use Throwable;
 /**
  * Upgrader for Composer-installed projects.
  */
-class ComposerUpgrader implements UpgraderInterface
+final class ComposerUpgrader implements UpgraderInterface
 {
     /**
      * Instance of Revision configuration.
      *
      * @var \Liaison\Revision\Config\Revision
      */
-    protected $config;
+    private $config;
 
     /**
      * Constructor.
@@ -87,7 +87,7 @@ class ComposerUpgrader implements UpgraderInterface
      *
      * @return string
      */
-    protected function findComposerPhar(): string
+    private function findComposerPhar(): string
     {
         $phpBinary     = (string) (new PhpExecutableFinder())->find(false);
         $composerLocal = $this->config->rootPath . 'composer.phar';
@@ -104,7 +104,7 @@ class ComposerUpgrader implements UpgraderInterface
 
         if (null === (new ExecutableFinder())->find('composer')) {
             // @codeCoverageIgnoreStart
-            throw new RevisionException(lang('Revision.incompatibleUpgraderHandler', [static::class, 'No composer executable found.']));
+            throw new RevisionException(lang('Revision.incompatibleUpgraderHandler', [self::class, 'No composer executable found.']));
             // @codeCoverageIgnoreEnd
         }
 
