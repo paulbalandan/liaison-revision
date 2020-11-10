@@ -16,9 +16,11 @@ use Liaison\Revision\Exception\InvalidArgumentException;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
+ * A generic implementation for a log manager.
+ *
  * @internal
  */
-final class LogManager
+final class LogManager implements LogManagerInterface
 {
     /**
      * Instances of Log handlers to use.
@@ -56,12 +58,7 @@ final class LogManager
     }
 
     /**
-     * Passes the message to the handlers for proper handling.
-     *
-     * @param string|string[] $messages
-     * @param string          $level
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function logMessage($messages, string $level = 'info')
     {
@@ -79,9 +76,7 @@ final class LogManager
     }
 
     /**
-     * Makes the handlers save their logs.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function save()
     {
