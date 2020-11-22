@@ -363,6 +363,8 @@ final class UpdateCommand extends BaseCommand
                         $coloredDiff[] = CLI::color($line, 'red');
                     } elseif (0 === mb_strpos($line, '+')) {
                         $coloredDiff[] = CLI::color($line, 'green');
+                    } elseif (0 === mb_strpos($line, '@@')) {
+                        $coloredDiff[] = CLI::color($line, 'cyan');
                     } else {
                         $coloredDiff[] = $line;
                     }
