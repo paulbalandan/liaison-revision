@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Commands;
@@ -18,7 +20,6 @@ use Liaison\Revision\Application;
 use Liaison\Revision\Events\UpdateEvents;
 use Liaison\Revision\Exception\RevisionException;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Throwable;
 
 /**
  * This command starts the update of the project.
@@ -134,7 +135,7 @@ final class UpdateCommand extends BaseCommand
         ];
         $count = array_sum($updates);
 
-        if (!$count) {
+        if (! $count) {
             CLI::write(lang('Revision.emptyFilesToConsolidate'), 'yellow');
             CLI::write(CLI::color('[p] ', 'green') . lang('Revision.proceedAction'));
             CLI::write(CLI::color('[a] ', 'green') . lang('Revision.abortAction'));
@@ -205,7 +206,7 @@ final class UpdateCommand extends BaseCommand
      */
     public function conflictsChoice(Application $app): bool
     {
-        $manager   = $app->getFileManager();
+        $manager = $app->getFileManager();
         $conflicts = [
             'created'  => \count($manager->conflicts['created']),
             'modified' => \count($manager->conflicts['modified']),
@@ -213,7 +214,7 @@ final class UpdateCommand extends BaseCommand
         ];
         $count = array_sum($conflicts);
 
-        if (!$count) {
+        if (! $count) {
             // No conflicts, just exit the event.
             return true;
         }
@@ -243,7 +244,7 @@ final class UpdateCommand extends BaseCommand
             case 'o':
                 foreach ($manager->conflicts as $status => $files) {
                     foreach ($files as $file) {
-                        if (!$this->conflictsResolutionExecution($file, $status)) {
+                        if (! $this->conflictsResolutionExecution($file, $status)) {
                             CLI::newLine();
 
                             return false;
@@ -256,7 +257,7 @@ final class UpdateCommand extends BaseCommand
             case 'b':
                 foreach ($manager->conflicts as $status => $files) {
                     foreach ($files as $file) {
-                        if (!$this->conflictsResolutionExecution($file, $status, true)) {
+                        if (! $this->conflictsResolutionExecution($file, $status, true)) {
                             CLI::newLine();
 
                             return false;
@@ -273,7 +274,7 @@ final class UpdateCommand extends BaseCommand
             case 'r':
                 foreach ($manager->conflicts as $status => $files) {
                     foreach ($files as $file) {
-                        if (!$this->conflictsResolutionChoice($file, $status)) {
+                        if (! $this->conflictsResolutionChoice($file, $status)) {
                             CLI::newLine();
 
                             return false;
@@ -355,7 +356,7 @@ final class UpdateCommand extends BaseCommand
 
         switch (CLI::prompt(CLI::color(lang('Revision.confirmQuestionPrompt'), 'yellow'), ['d', 'o', 'b', 's', 'a'])) {
             case 'd':
-                $diff        = explode("\n", $this->application->calculateDiff($file));
+                $diff = explode("\n", $this->application->calculateDiff($file));
                 $coloredDiff = [];
 
                 foreach ($diff as $line) {
@@ -399,12 +400,12 @@ final class UpdateCommand extends BaseCommand
      */
     protected function conflictsResolutionExecution(string $file, string $status, bool $safe = false): bool
     {
-        $fs  = $this->application->getFilesystem();
+        $fs = $this->application->getFilesystem();
         $new = $this->application->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file;
         $own = $this->application->getConfiguration()->rootPath . $file;
 
         try {
-            if ($safe && !$this->createBackup($own, $status)) {
+            if ($safe && ! $this->createBackup($own, $status)) {
                 return false;
             }
 
@@ -466,7 +467,7 @@ final class UpdateCommand extends BaseCommand
             }
 
             return true;
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->application->getLogManager()->logMessage($e->getMessage(), 'error');
 
             return false;

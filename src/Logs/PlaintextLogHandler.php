@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Logs;
@@ -43,7 +45,7 @@ final class PlaintextLogHandler extends AbstractLogHandler
         string $filename = 'revision_',
         string $extension = '.log'
     ) {
-        $config     = $config ?? config('Revision');
+        $config = $config ?? config('Revision');
         $filesystem = $filesystem ?? new Filesystem();
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
@@ -53,9 +55,9 @@ final class PlaintextLogHandler extends AbstractLogHandler
      */
     public function initialize()
     {
-        $name    = Application::NAME;
+        $name = Application::NAME;
         $version = str_pad(Application::VERSION, 45);
-        $date    = str_pad(sprintf('%s UTC%s', date('D, d F Y, H:i:s'), date('P')), 44);
+        $date = str_pad(sprintf('%s UTC%s', date('D, d F Y, H:i:s'), date('P')), 44);
 
         // Headers
         $this->buffer = <<<EOD
@@ -69,27 +71,27 @@ final class PlaintextLogHandler extends AbstractLogHandler
 
         // Settings
         $config = \get_class($this->config);
-        $dirs   = \count($this->config->ignoreDirs);
-        $files  = \count($this->config->ignoreFiles);
-        $allow  = $this->config->allowGitIgnoreEntry ? lang('Revision.accessAllowed') : lang('Revision.accessDenied');
-        $fall   = $this->config->fallThroughToProject ? lang('Revision.accessAllowed') : lang('Revision.accessDenied');
-        $logs   = \count($this->config->logHandlers);
+        $dirs = \count($this->config->ignoreDirs);
+        $files = \count($this->config->ignoreFiles);
+        $allow = $this->config->allowGitIgnoreEntry ? lang('Revision.accessAllowed') : lang('Revision.accessDenied');
+        $fall = $this->config->fallThroughToProject ? lang('Revision.accessAllowed') : lang('Revision.accessDenied');
+        $logs = \count($this->config->logHandlers);
 
         // Labels
         $loadedConfig = lang('Revision.loadedConfigLabel');
-        $configLabel  = lang('Revision.configurationClassLabel');
-        $rootLabel    = lang('Revision.rootPathLabel');
-        $writeLabel   = lang('Revision.writePathLabel');
-        $dirsLabel    = lang('Revision.ignoredDirCount');
-        $filesLabel   = lang('Revision.ignoredFileCount');
-        $allowLabel   = lang('Revision.allowGitignoreLabel');
-        $fallLabel    = lang('Revision.fallThroughToProjectLabel');
+        $configLabel = lang('Revision.configurationClassLabel');
+        $rootLabel = lang('Revision.rootPathLabel');
+        $writeLabel = lang('Revision.writePathLabel');
+        $dirsLabel = lang('Revision.ignoredDirCount');
+        $filesLabel = lang('Revision.ignoredFileCount');
+        $allowLabel = lang('Revision.allowGitignoreLabel');
+        $fallLabel = lang('Revision.fallThroughToProjectLabel');
         $retriesLabel = lang('Revision.maximumRetriesLabel');
         $consolidator = lang('Revision.consolidatorLabel');
-        $upgrader     = lang('Revision.upgraderLabel');
-        $pathfinder   = lang('Revision.pathfinderLabel');
-        $diffLabel    = lang('Revision.diffOutputBuilderLabel');
-        $logsLabel    = lang('Revision.logHandlersCount');
+        $upgrader = lang('Revision.upgraderLabel');
+        $pathfinder = lang('Revision.pathfinderLabel');
+        $diffLabel = lang('Revision.diffOutputBuilderLabel');
+        $logsLabel = lang('Revision.logHandlersCount');
 
         $settings = <<<EOD
             {$configLabel}: {$config}
@@ -130,7 +132,7 @@ final class PlaintextLogHandler extends AbstractLogHandler
      */
     public function save()
     {
-        $buffer       = $this->buffer;
+        $buffer = $this->buffer;
         $this->buffer = '';
 
         $this->filesystem->dumpFile(

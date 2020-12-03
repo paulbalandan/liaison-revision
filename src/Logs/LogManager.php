@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Logs;
@@ -109,10 +111,10 @@ final class LogManager implements LogManagerInterface
         foreach ($handlers as $handler) {
             $logHandler = new $handler($this->config);
 
-            if (!$logHandler instanceof AbstractLogHandler) {
+            if (! $logHandler instanceof AbstractLogHandler) {
                 throw new InvalidArgumentException(lang('Revision.invalidLogHandler', [
                     $handler,
-                    'Liaison\Revision\Logs\AbstractLogHandler',
+                    AbstractLogHandler::class,
                     \get_class($logHandler),
                 ]));
             }

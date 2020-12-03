@@ -1,18 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Logs;
 
-use DOMDocument;
-use DOMElement;
 use Liaison\Revision\Application;
 use Liaison\Revision\Config\Revision;
 use Liaison\Revision\Exception\RevisionException;
@@ -26,21 +26,21 @@ final class XmlLogHandler extends AbstractLogHandler
     /**
      * The DOMDocument object.
      *
-     * @var null|DOMDocument
+     * @var null|\DOMDocument
      */
     public $dom;
 
     /**
      * The root XML node.
      *
-     * @var DOMElement
+     * @var \DOMElement
      */
     private $root;
 
     /**
      * The logs XML node.
      *
-     * @var null|DOMElement
+     * @var null|\DOMElement
      */
     private $logs;
 
@@ -60,13 +60,13 @@ final class XmlLogHandler extends AbstractLogHandler
         string $filename = 'revision_',
         string $extension = '.xml'
     ) {
-        if (!\extension_loaded('dom')) {
+        if (! \extension_loaded('dom')) {
             throw new RevisionException(lang('Revision.cannotUseLogHandler', [self::class, 'ext-dom'])); // @codeCoverageIgnore
         }
 
         helper('inflector');
 
-        $config     = $config ?? config('Revision');
+        $config = $config ?? config('Revision');
         $filesystem = $filesystem ?? new Filesystem();
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
@@ -77,7 +77,7 @@ final class XmlLogHandler extends AbstractLogHandler
     public function initialize()
     {
         // Initialize the xml document
-        $this->dom  = new DOMDocument('1.0', 'UTF-8');
+        $this->dom = new \DOMDocument('1.0', 'UTF-8');
         $this->root = $this->dom->createElement('revision');
         $this->dom->appendChild($this->root);
 
@@ -99,7 +99,7 @@ final class XmlLogHandler extends AbstractLogHandler
      */
     public function handle(string $level, string $message): int
     {
-        if (!$this->logs instanceof DOMElement) {
+        if (! $this->logs instanceof \DOMElement) {
             $this->logs = $this->dom->createElement('logs');
             $this->root->appendChild($this->logs);
         }
@@ -117,11 +117,11 @@ final class XmlLogHandler extends AbstractLogHandler
      */
     public function save()
     {
-        $dom       = $this->dom;
+        $dom = $this->dom;
         $this->dom = null;
 
         $dom->preserveWhiteSpace = false;
-        $dom->formatOutput       = true;
+        $dom->formatOutput = true;
 
         $this->filesystem->dumpFile(
             $this->directory . $this->filename . $this->extension,
@@ -132,9 +132,9 @@ final class XmlLogHandler extends AbstractLogHandler
     /**
      * Creates a XML node for the configuration settings.
      *
-     * @return DOMElement
+     * @return \DOMElement
      */
-    protected function createConfigurationNode(): DOMElement
+    protected function createConfigurationNode(): \DOMElement
     {
         $settings = [
             lang('Revision.configurationClassLabel')   => \get_class($this->config),
@@ -157,7 +157,7 @@ final class XmlLogHandler extends AbstractLogHandler
                 return $value ? lang('Revision.accessAllowed') : lang('Revision.accessDenied');
             }
 
-            return $value;
+            return (string) $value;
         };
 
         $config = $this->dom->createElement('settings');

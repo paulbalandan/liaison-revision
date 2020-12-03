@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Commands;
@@ -64,7 +66,7 @@ final class PublishConfigCommand extends GeneratorCommand
      */
     public function run(array $params)
     {
-        $params[0]   = 'Revision';
+        $params[0] = 'Revision';
         $params['n'] = 'Config';
 
         parent::run($params);
@@ -93,7 +95,7 @@ final class PublishConfigCommand extends GeneratorCommand
      */
     protected function setReplacements(string $template, string $class): string
     {
-        $search  = 'namespace Liaison\Revision\Config;';
+        $search = 'namespace Liaison\Revision\Config;';
         $replace = 'namespace ' . $this->getNamespace($class) . ';';
 
         $searchLicense = <<<'EOD'
@@ -101,19 +103,19 @@ final class PublishConfigCommand extends GeneratorCommand
             /**
              * This file is part of Liaison Revision.
              *
-             * (c) John Paul E. Balandan, CPA <paulbalandan@gmail.com>
+             * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
              *
-             * For the full copyright and license information, please view the LICENSE
-             * file that was distributed with this source code.
+             * For the full copyright and license information, please view
+             * the LICENSE file that was distributed with this source code.
              */
 
             EOD;
         $replaceLicense = '';
 
-        $searchExtends  = 'extends BaseConfig';
+        $searchExtends = 'extends BaseConfig';
         $replaceExtends = 'extends BaseRevision';
 
-        $searchUse  = 'use CodeIgniter\Config\BaseConfig;';
+        $searchUse = 'use CodeIgniter\Config\BaseConfig;';
         $replaceUse = 'use Liaison\Revision\Config\Revision as BaseRevision;';
 
         return str_replace(

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Tests\Commands;
@@ -41,21 +43,21 @@ final class PublishConfigCommandTest extends CIUnitTestCase
         stream_filter_remove($this->streamFilter);
 
         $result = str_replace(["\033[0;32m", "\033[0m", "\n"], '', CITestStreamFilter::$buffer);
-        $file   = trim(mb_substr($result, 14));
-        $file   = str_replace('APPPATH' . \DIRECTORY_SEPARATOR, APPPATH, $file);
+        $file = trim(mb_substr($result, 14));
+        $file = str_replace('APPPATH' . \DIRECTORY_SEPARATOR, APPPATH, $file);
         file_exists($file) && unlink($file);
     }
 
     public function testPublishConfigCommandWorks(): void
     {
         command('revision:config');
-        $this->assertStringContainsString('Created file:', CITestStreamFilter::$buffer);
+        self::assertStringContainsString('Created file:', CITestStreamFilter::$buffer);
     }
 
     public function testSupplyingOptionsIsUseless(): void
     {
         command('revision:config Update -n App');
-        $this->assertStringContainsString('Created file:', CITestStreamFilter::$buffer);
-        $this->assertStringContainsString('Config' . \DIRECTORY_SEPARATOR . 'Revision.php', CITestStreamFilter::$buffer);
+        self::assertStringContainsString('Created file:', CITestStreamFilter::$buffer);
+        self::assertStringContainsString('Config' . \DIRECTORY_SEPARATOR . 'Revision.php', CITestStreamFilter::$buffer);
     }
 }

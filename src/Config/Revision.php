@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Config;
@@ -191,7 +193,7 @@ class Revision extends BaseConfig
      */
     public function normalizePaths()
     {
-        $this->rootPath  = realpath(rtrim($this->rootPath, '\\/ ')) . \DIRECTORY_SEPARATOR;
+        $this->rootPath = realpath(rtrim($this->rootPath, '\\/ ')) . \DIRECTORY_SEPARATOR;
         $this->writePath = realpath(rtrim($this->writePath, '\\/ ')) . \DIRECTORY_SEPARATOR;
 
         return $this;

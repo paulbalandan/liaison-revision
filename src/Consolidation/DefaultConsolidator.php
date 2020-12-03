@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Consolidation;
@@ -62,10 +64,10 @@ final class DefaultConsolidator implements ConsolidatorInterface
         ?Revision $config = null,
         ?Filesystem $filesystem = null
     ) {
-        $this->workspace   = $workspace;
+        $this->workspace = $workspace;
         $this->fileManager = $fileManager;
-        $this->config      = $config ?? config('Revision');
-        $this->filesystem  = $filesystem ?? new Filesystem();
+        $this->config = $config ?? config('Revision');
+        $this->filesystem = $filesystem ?? new Filesystem();
     }
 
     /**
@@ -106,7 +108,7 @@ final class DefaultConsolidator implements ConsolidatorInterface
                 continue;
             }
 
-            if (!is_file($project) || FileManager::areIdenticalFiles($project, $oldCopy)) {
+            if (! is_file($project) || FileManager::areIdenticalFiles($project, $oldCopy)) {
                 $this->filesystem->copy($newCopy, $project, true);
                 $this->fileManager->mergedFiles[] = $file;
             } elseif (is_file($project)) {

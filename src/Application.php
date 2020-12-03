@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision;
@@ -134,14 +136,14 @@ class Application
      */
     public function __construct(?string $workspace = null, ?Revision $config = null)
     {
-        $config          = $config ?? config('Revision');
+        $config = $config ?? config('Revision');
         $config->retries = $config->retries <= 0 ? 10 : $config->retries;
 
-        $this->config      = $config;
-        $this->filesystem  = new Filesystem();
+        $this->config = $config;
+        $this->filesystem = new Filesystem();
         $this->fileManager = new FileManager();
-        $this->logManager  = new LogManager($this->config);
-        $this->timer       = new Timer();
+        $this->logManager = new LogManager($this->config);
+        $this->timer = new Timer();
 
         FileManager::$filesystem = &$this->filesystem;
         $this->initialize($workspace);
@@ -295,13 +297,13 @@ class Application
      */
     public function execute(): int
     {
-        if (!Events::trigger(UpdateEvents::PREFLIGHT, $this)) {
+        if (! Events::trigger(UpdateEvents::PREFLIGHT, $this)) {
             return $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PREFLIGHT]), 'error');
         }
 
         $this->checkPreflightConditions();
 
-        if (!Events::trigger(UpdateEvents::PREUPGRADE, $this)) {
+        if (! Events::trigger(UpdateEvents::PREUPGRADE, $this)) {
             return $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PREUPGRADE]), 'error');
         }
 
@@ -311,11 +313,11 @@ class Application
 
         $this->analyzeModifications();
 
-        if (!Events::trigger(UpdateEvents::POSTUPGRADE, $this)) {
+        if (! Events::trigger(UpdateEvents::POSTUPGRADE, $this)) {
             return $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::POSTUPGRADE]), 'error');
         }
 
-        if (!Events::trigger(UpdateEvents::PRECONSOLIDATE, $this)) {
+        if (! Events::trigger(UpdateEvents::PRECONSOLIDATE, $this)) {
             return $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::PRECONSOLIDATE]), 'error');
         }
 
@@ -325,7 +327,7 @@ class Application
 
         $this->analyzeMergesAndConflicts();
 
-        if (!Events::trigger(UpdateEvents::POSTCONSOLIDATE, $this)) {
+        if (! Events::trigger(UpdateEvents::POSTCONSOLIDATE, $this)) {
             return $this->terminate(lang('Revision.terminateExecutionFailure', [UpdateEvents::POSTCONSOLIDATE]), 'error');
         }
 
@@ -340,8 +342,8 @@ class Application
      */
     public function checkPreflightConditions()
     {
-        $paths       = $this->pathfinder->getPaths();
-        $ignore      = $this->pathfinder->getIgnoredPaths();
+        $paths = $this->pathfinder->getPaths();
+        $ignore = $this->pathfinder->getIgnoredPaths();
         $oldSnapshot = $this->workspace . 'oldSnapshot' . \DIRECTORY_SEPARATOR;
 
         $this->filterFilesToCopy($paths, $ignore);
@@ -380,16 +382,16 @@ class Application
             // Compare the previous snapshot with the new snapshot from update.
             $oldCopy = $this->workspace . 'oldSnapshot' . \DIRECTORY_SEPARATOR . $file['destination'];
             $project = $this->config->rootPath . $file['destination'];
-            $doCopy  = true;
+            $doCopy = true;
 
             // If hashes are different, this can be new or modified.
-            if (!FileManager::areIdenticalFiles($oldCopy, $file['origin'])
-                || ($this->config->fallThroughToProject && !FileManager::areIdenticalFiles($project, $file['origin']))
+            if (! FileManager::areIdenticalFiles($oldCopy, $file['origin'])
+                || ($this->config->fallThroughToProject && ! FileManager::areIdenticalFiles($project, $file['origin']))
             ) {
                 $newCopy = $this->workspace . 'newSnapshot' . \DIRECTORY_SEPARATOR . $file['destination'];
 
                 try {
-                    if (!is_file($oldCopy) || !is_file($project)) {
+                    if (! is_file($oldCopy) || ! is_file($project)) {
                         $this->fileManager->createdFiles[] = $file['destination'];
                     } elseif (is_file($file['origin'])) {
                         $this->fileManager->modifiedFiles[] = $file['destination'];
@@ -499,7 +501,7 @@ class Application
         // Stop the timer
         $this->timer->stop('revision');
         $elapsed = (float) $this->timer->getElapsedTime('revision', 3);
-        $time    = $this->getRelativeTime($elapsed);
+        $time = $this->getRelativeTime($elapsed);
 
         // Log termination message
         $message = $message ?? lang('Revision.terminateExecutionSuccess');
@@ -510,7 +512,7 @@ class Application
         if (\defined('SPARKED') && ENVIRONMENT !== 'testing' && is_cli()) {
             CLI::newLine();
 
-            if (!$errored) {
+            if (! $errored) {
                 CLI::write($message, 'green');
             } else {
                 CLI::error($message, 'light_gray', 'red');
@@ -591,8 +593,8 @@ class Application
         $this->workspace = realpath($workspace) . \DIRECTORY_SEPARATOR;
 
         $consolidator = $this->config->consolidator;
-        $pathfinder   = $this->config->pathfinder;
-        $upgrader     = $this->config->upgrader;
+        $pathfinder = $this->config->pathfinder;
+        $upgrader = $this->config->upgrader;
 
         $this
             ->setConsolidator(new $consolidator($this->workspace, $this->fileManager, $this->config, $this->filesystem))

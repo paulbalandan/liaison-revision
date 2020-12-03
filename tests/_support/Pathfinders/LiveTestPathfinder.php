@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Tests\Support\Pathfinders;
@@ -48,12 +50,12 @@ class LiveTestPathfinder extends AbstractPathfinder
      */
     public function __construct(Revision $config, ?Filesystem $filesystem = null)
     {
-        $paths      = [];
+        $paths = [];
         $systemPath = $config->rootPath . 'vendor/codeigniter4/framework/system/';
 
         foreach ($this->paths as $path) {
             $path['origin'] = str_replace(SYSTEMPATH, $systemPath, $path['origin']);
-            $paths[]        = $path;
+            $paths[] = $path;
         }
 
         // Add something to ignore later

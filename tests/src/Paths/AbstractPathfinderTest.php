@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Tests\Paths;
@@ -24,7 +26,7 @@ final class AbstractPathfinderTest extends CIUnitTestCase
 {
     public function testNormalGetPaths(): void
     {
-        $finder  = new SimplePathfinder();
+        $finder = new SimplePathfinder();
         $subset1 = [
             'origin'      => realpath(SYSTEMPATH . '../spark'),
             'destination' => 'spark',
@@ -33,8 +35,8 @@ final class AbstractPathfinderTest extends CIUnitTestCase
             'origin'      => realpath(SYSTEMPATH . '../app/Config/App.php'),
             'destination' => 'app/Config/App.php',
         ];
-        $this->assertContains($subset1, $finder->getPaths());
-        $this->assertContains($subset2, $finder->getPaths());
+        self::assertContains($subset1, $finder->getPaths());
+        self::assertContains($subset2, $finder->getPaths());
     }
 
     public function testAbsoluteDestinationPathThrowsException(): void
@@ -53,16 +55,16 @@ final class AbstractPathfinderTest extends CIUnitTestCase
 
     public function testEmptyIgnoredPaths(): void
     {
-        $this->assertEmpty((new SimplePathfinder())->getIgnoredPaths());
+        self::assertEmpty((new SimplePathfinder())->getIgnoredPaths());
     }
 
     public function testArrayIgnoredPaths(): void
     {
         $finder = new SimplePathfinder(new SimpleConfig());
 
-        $this->assertIsArray($finder->getIgnoredPaths());
-        $this->assertContains(realpath(ROOTPATH . 'app/.htaccess'), $finder->getIgnoredPaths());
-        $this->assertContains(realpath(APPPATH . 'Config/Constants.php'), $finder->getIgnoredPaths());
+        self::assertIsArray($finder->getIgnoredPaths());
+        self::assertContains(realpath(ROOTPATH . 'app/.htaccess'), $finder->getIgnoredPaths());
+        self::assertContains(realpath(APPPATH . 'Config/Constants.php'), $finder->getIgnoredPaths());
     }
 
     /**

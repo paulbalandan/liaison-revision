@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Logs;
@@ -44,11 +46,11 @@ final class JsonLogHandler extends AbstractLogHandler
         string $filename = 'revision_',
         string $extension = '.json'
     ) {
-        if (!\extension_loaded('json')) {
+        if (! \extension_loaded('json')) {
             throw new RevisionException(lang('Revision.cannotUseLogHandler', [self::class, 'ext-json'])); // @codeCoverageIgnore
         }
 
-        $config     = $config ?? config('Revision');
+        $config = $config ?? config('Revision');
         $filesystem = $filesystem ?? new Filesystem();
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
@@ -90,7 +92,7 @@ final class JsonLogHandler extends AbstractLogHandler
      */
     public function handle(string $level, string $message): int
     {
-        if (!isset($this->json['logs'])) {
+        if (! isset($this->json['logs'])) {
             $this->json['logs'] = [];
         }
 
@@ -104,7 +106,7 @@ final class JsonLogHandler extends AbstractLogHandler
      */
     public function save()
     {
-        $json       = $this->json;
+        $json = $this->json;
         $this->json = [];
 
         $this->filesystem->dumpFile(

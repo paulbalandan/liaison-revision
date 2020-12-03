@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Commands;
@@ -71,8 +73,8 @@ final class GitignoreCommand extends BaseCommand
         /** @var \Liaison\Revision\Config\Revision */
         $config = config('Revision');
 
-        $allow = \array_key_exists('allow-entry', $params)    || CLI::getOption('allow-entry');
-        $deny  = \array_key_exists('disallow-entry', $params) || CLI::getOption('disallow-entry');
+        $allow = \array_key_exists('allow-entry', $params)   || CLI::getOption('allow-entry');
+        $deny = \array_key_exists('disallow-entry', $params) || CLI::getOption('disallow-entry');
 
         if ($allow && $deny) {
             throw new LogicException(lang('Revision.mutExOptionsForWriteGiven', ['allow-entry', 'disallow-entry']));
@@ -81,7 +83,7 @@ final class GitignoreCommand extends BaseCommand
         $write = $config->allowGitIgnoreEntry;
         $write = $allow ? true : ($deny ? false : $write);
 
-        if (!$write) {
+        if (! $write) {
             CLI::error(lang('Revision.gitignoreWriteDenied', [self::class]), 'light_gray', 'red');
             CLI::newLine();
 
@@ -92,11 +94,11 @@ final class GitignoreCommand extends BaseCommand
 
         $gitignore = $config->rootPath . '.gitignore';
 
-        if (!is_file($gitignore)) {
+        if (! is_file($gitignore)) {
             CLI::write(lang('Revision.gitignoreFileMissing'), 'yellow');
             $writeNew = \array_key_exists('write-if-missing', $params) || CLI::getOption('write-if-missing');
 
-            if (!$writeNew && 'n' === CLI::prompt(CLI::color(lang('Revision.createGitignoreFile'), 'yellow'), ['y', 'n'], 'required')) {
+            if (! $writeNew && 'n' === CLI::prompt(CLI::color(lang('Revision.createGitignoreFile'), 'yellow'), ['y', 'n'], 'required')) {
                 // @codeCoverageIgnoreStart
                 CLI::error(lang('Revision.createGitignoreEntryFail'), 'light_gray', 'red');
                 CLI::newLine();
@@ -118,7 +120,7 @@ final class GitignoreCommand extends BaseCommand
             return;
         }
 
-        if (!write_file($gitignore, "\n# Liaison\\Revision temp\n{$writable}/revision/\n", 'ab')) {
+        if (! write_file($gitignore, "\n# Liaison\\Revision temp\n{$writable}/revision/\n", 'ab')) {
             CLI::error(lang('Revision.createGitignoreEntryFail'), 'light_gray', 'red');
             CLI::newLine();
 

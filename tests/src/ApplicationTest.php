@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Liaison\Revision\Tests;
@@ -95,14 +97,14 @@ final class ApplicationTest extends CIUnitTestCase
         $this->mockVendorDirectory();
         $this->instantiateApplication();
 
-        $this->assertInstanceOf('Liaison\Revision\Config\Revision', $this->application->getConfiguration());
-        $this->assertInstanceOf('Symfony\Component\Filesystem\Filesystem', $this->application->getFilesystem());
-        $this->assertInstanceOf('Liaison\Revision\Files\FileManager', $this->application->getFileManager());
-        $this->assertInstanceOf('Liaison\Revision\Logs\LogManager', $this->application->getLogManager());
-        $this->assertInstanceOf('Liaison\Revision\Consolidation\ConsolidatorInterface', $this->application->getConsolidator());
-        $this->assertInstanceOf('Liaison\Revision\Upgrade\UpgraderInterface', $this->application->getUpgrader());
-        $this->assertInstanceOf('Liaison\Revision\Paths\PathfinderInterface', $this->application->getPathfinder());
-        $this->assertInstanceOf('SebastianBergmann\Diff\Differ', $this->application->getDiffer());
+        self::assertInstanceOf('Liaison\Revision\Config\Revision', $this->application->getConfiguration());
+        self::assertInstanceOf('Symfony\Component\Filesystem\Filesystem', $this->application->getFilesystem());
+        self::assertInstanceOf('Liaison\Revision\Files\FileManager', $this->application->getFileManager());
+        self::assertInstanceOf('Liaison\Revision\Logs\LogManager', $this->application->getLogManager());
+        self::assertInstanceOf('Liaison\Revision\Consolidation\ConsolidatorInterface', $this->application->getConsolidator());
+        self::assertInstanceOf('Liaison\Revision\Upgrade\UpgraderInterface', $this->application->getUpgrader());
+        self::assertInstanceOf('Liaison\Revision\Paths\PathfinderInterface', $this->application->getPathfinder());
+        self::assertInstanceOf('SebastianBergmann\Diff\Differ', $this->application->getDiffer());
     }
 
     /**
@@ -112,7 +114,7 @@ final class ApplicationTest extends CIUnitTestCase
     {
         // Install first the base version
         $this->upgrader->install($this->config->rootPath);
-        $this->assertDirectoryExists($this->config->rootPath . 'vendor');
+        self::assertDirectoryExists($this->config->rootPath . 'vendor');
 
         // Create an instance of Application
         $workspace = $this->config->writePath . 'revision' . \DIRECTORY_SEPARATOR;
@@ -120,21 +122,21 @@ final class ApplicationTest extends CIUnitTestCase
 
         // Create the old snapshot copy
         $this->application->checkPreflightConditions();
-        $this->assertDirectoryExists($workspace . 'oldSnapshot');
+        self::assertDirectoryExists($workspace . 'oldSnapshot');
 
         // Update to latest version
         $this->updateComposerJson();
         $this->application->updateInternals();
         $this->application->analyzeModifications();
-        $this->assertDirectoryExists($workspace . 'newSnapshot');
+        self::assertDirectoryExists($workspace . 'newSnapshot');
 
         // Consolidate the changes
         $exitcode = $this->application->consolidate();
         $this->application->analyzeMergesAndConflicts();
-        $this->assertSame(EXIT_SUCCESS, $exitcode);
+        self::assertSame(EXIT_SUCCESS, $exitcode);
 
         // Terminate the process
-        $this->assertSame(EXIT_SUCCESS, $this->application->terminate());
+        self::assertSame(EXIT_SUCCESS, $this->application->terminate());
     }
 
     public function testApplicationFailsOnUpdate(): void
@@ -148,7 +150,7 @@ final class ApplicationTest extends CIUnitTestCase
 
         $this->mockVendorDirectory();
         $this->instantiateApplication($this->workspace);
-        $this->assertSame(EXIT_ERROR, $this->application->execute());
+        self::assertSame(EXIT_ERROR, $this->application->execute());
 
         Events::removeAllListeners(UpdateEvents::PREUPGRADE);
     }
@@ -164,7 +166,7 @@ final class ApplicationTest extends CIUnitTestCase
 
         $this->mockVendorDirectory();
         $this->instantiateApplication($this->workspace);
-        $this->assertSame(EXIT_ERROR, $this->application->execute());
+        self::assertSame(EXIT_ERROR, $this->application->execute());
 
         Events::removeAllListeners(UpdateEvents::PRECONSOLIDATE);
     }
@@ -182,7 +184,7 @@ final class ApplicationTest extends CIUnitTestCase
 
         $this->mockVendorDirectory();
         $this->instantiateApplication($this->workspace);
-        $this->assertSame(EXIT_ERROR, $this->application->execute());
+        self::assertSame(EXIT_ERROR, $this->application->execute());
 
         Events::removeAllListeners($event);
     }
@@ -209,7 +211,7 @@ final class ApplicationTest extends CIUnitTestCase
 
         $this->mockVendorDirectory();
         $this->instantiateApplication($this->workspace);
-        $this->assertSame(EXIT_SUCCESS, $this->application->execute());
+        self::assertSame(EXIT_SUCCESS, $this->application->execute());
 
         Events::removeAllListeners(UpdateEvents::TERMINATE);
     }
@@ -219,9 +221,9 @@ final class ApplicationTest extends CIUnitTestCase
         $this->mockVendorDirectory();
         $this->instantiateApplication();
 
-        $this->assertStringContainsString('seconds', $this->application->getRelativeTime(37.5));
-        $this->assertStringContainsString('minutes', $this->application->getRelativeTime(300.0));
-        $this->assertStringContainsString('hours', $this->application->getRelativeTime(86400.0));
+        self::assertStringContainsString('seconds', $this->application->getRelativeTime(37.5));
+        self::assertStringContainsString('minutes', $this->application->getRelativeTime(300.0));
+        self::assertStringContainsString('hours', $this->application->getRelativeTime(86400.0));
     }
 
     protected function instantiateApplication(?string $workspace = null, bool $mockUpgrader = true): void
@@ -256,7 +258,7 @@ final class ApplicationTest extends CIUnitTestCase
     protected function updateComposerJson(): void
     {
         if (empty($composer = $this->getComposerJsonContents())) {
-            $this->fail('The composer.json file is either unreadable or does not exist.');
+            self::fail('The composer.json file is either unreadable or does not exist.');
         }
 
         $composer['require']['codeigniter4/framework'] = '^4.0';

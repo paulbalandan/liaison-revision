@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of Liaison Revision.
  *
  * (c) 2020 John Paul E. Balandan, CPA <paulbalandan@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Tests\Support\Traits;
@@ -31,15 +33,15 @@ trait PathsTrait
         $this->filesystem->mkdir($backupDir);
         $this->backupDir = realpath($backupDir);
 
-        $config            = new Revision();
-        $config->rootPath  = __DIR__ . '/../../../mock';
+        $config = new Revision();
+        $config->rootPath = __DIR__ . '/../../../mock';
         $config->writePath = __DIR__ . '/../../../mock/writable';
-        $this->config      = $config->normalizePaths();
+        $this->config = $config->normalizePaths();
     }
 
     protected function createCleanSlatePath(): void
     {
-        $root  = $this->config->rootPath;
+        $root = $this->config->rootPath;
         $paths = [
             $root . 'app',
             $root . 'writable',
