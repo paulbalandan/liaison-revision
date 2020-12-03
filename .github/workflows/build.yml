@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.3', '7.4']
+        php-versions: ['7.3', '7.4', '8.0']
 
     steps:
       - name: Checkout
@@ -74,10 +74,15 @@ jobs:
       - name: Setup Composer's GitHub OAuth access
         run: composer config --global github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
 
+      - name: Remove non-PHP 8.0 compatible libraries
+        if: matrix.php-versions == '8.0'
+        run: composer remove --dev friendsofphp/php-cs-fixer nexusphp/cs-config
+
       - name: Install dependencies
         run: composer update --ansi --no-scripts --no-interaction
 
       - name: Run PHP-CS-Fixer
+        if: matrix.php-versions != '8.0'
         run: vendor/bin/php-cs-fixer fix --ansi --config=.php_cs.dist --verbose --dry-run --stop-on-violation --using-cache=no
 
       - name: Run PHPStan Static Analysis Check
