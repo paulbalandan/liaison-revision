@@ -27,6 +27,7 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "nexusphp/cs-config": "^2.0",
         "phpstan/phpstan": "^0.12",
+        "phpstan/phpstan-strict-rules": "^0.12",
         "phpunit/phpunit": "^9.4"
     },
     "suggest": {

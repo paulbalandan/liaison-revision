@@ -152,7 +152,7 @@ final class XmlLogHandler extends AbstractLogHandler
             lang('Revision.logHandlersCount')          => $this->config->logHandlers,
         ];
 
-        $inflect = static function ($value) {
+        $inflect = static function ($value): string {
             if (\is_bool($value)) {
                 return $value ? lang('Revision.accessAllowed') : lang('Revision.accessDenied');
             }

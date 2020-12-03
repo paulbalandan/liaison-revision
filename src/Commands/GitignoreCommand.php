@@ -64,7 +64,7 @@ final class GitignoreCommand extends BaseCommand
     /**
      * Actually executes the command.
      *
-     * @param array<int|string, string> $params
+     * @param array $params
      *
      * @return void
      */
@@ -73,8 +73,8 @@ final class GitignoreCommand extends BaseCommand
         /** @var \Liaison\Revision\Config\Revision */
         $config = config('Revision');
 
-        $allow = \array_key_exists('allow-entry', $params)   || CLI::getOption('allow-entry');
-        $deny = \array_key_exists('disallow-entry', $params) || CLI::getOption('disallow-entry');
+        $allow = \array_key_exists('allow-entry', $params)   || (bool) CLI::getOption('allow-entry');
+        $deny = \array_key_exists('disallow-entry', $params) || (bool) CLI::getOption('disallow-entry');
 
         if ($allow && $deny) {
             throw new LogicException(lang('Revision.mutExOptionsForWriteGiven', ['allow-entry', 'disallow-entry']));
@@ -96,7 +96,7 @@ final class GitignoreCommand extends BaseCommand
 
         if (! is_file($gitignore)) {
             CLI::write(lang('Revision.gitignoreFileMissing'), 'yellow');
-            $writeNew = \array_key_exists('write-if-missing', $params) || CLI::getOption('write-if-missing');
+            $writeNew = \array_key_exists('write-if-missing', $params) || (bool) CLI::getOption('write-if-missing');
 
             if (! $writeNew && 'n' === CLI::prompt(CLI::color(lang('Revision.createGitignoreFile'), 'yellow'), ['y', 'n'], 'required')) {
                 // @codeCoverageIgnoreStart

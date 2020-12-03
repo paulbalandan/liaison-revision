@@ -73,7 +73,7 @@ final class UpdateCommand extends BaseCommand
     /**
      * Execute the update of the project.
      *
-     * @param array<int|string, string> $params
+     * @param array $params
      *
      * @return void
      */
@@ -133,9 +133,9 @@ final class UpdateCommand extends BaseCommand
             'modifiedFiles' => \count($manager->modifiedFiles),
             'deletedFiles'  => \count($manager->deletedFiles),
         ];
-        $count = array_sum($updates);
+        $count = (int) array_sum($updates);
 
-        if (! $count) {
+        if (0 === $count) {
             CLI::write(lang('Revision.emptyFilesToConsolidate'), 'yellow');
             CLI::write(CLI::color('[p] ', 'green') . lang('Revision.proceedAction'));
             CLI::write(CLI::color('[a] ', 'green') . lang('Revision.abortAction'));
@@ -212,9 +212,9 @@ final class UpdateCommand extends BaseCommand
             'modified' => \count($manager->conflicts['modified']),
             'deleted'  => \count($manager->conflicts['deleted']),
         ];
-        $count = array_sum($conflicts);
+        $count = (int) array_sum($conflicts);
 
-        if (! $count) {
+        if (0 === $count) {
             // No conflicts, just exit the event.
             return true;
         }
@@ -485,7 +485,7 @@ final class UpdateCommand extends BaseCommand
     {
         CLI::newLine();
 
-        if (empty($files)) {
+        if ([] === $files) {
             CLI::write(lang('Revision.emptyFilesToRender'), 'yellow');
             CLI::newLine();
 

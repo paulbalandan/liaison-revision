@@ -184,6 +184,7 @@ class Revision extends BaseConfig
     public function __construct()
     {
         $this->normalizePaths();
+        parent::__construct();
     }
 
     /**

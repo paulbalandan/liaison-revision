@@ -583,7 +583,7 @@ class Application
      */
     protected function initialize(?string $workspace)
     {
-        if ($workspace) {
+        if ((string) $workspace !== '') {
             $workspace = rtrim($workspace, '\\/ ');
         } else {
             $workspace = $this->config->writePath . 'revision/' . date('Y-m-d-His');
@@ -638,7 +638,7 @@ class Application
      */
     protected function createOldVendorSnapshot(string $destination)
     {
-        if (empty($this->files)) {
+        if ([] === $this->files) {
             throw new RevisionException('Cannot build snapshot. Files array is empty.'); // @codeCoverageIgnore
         }
 

@@ -1,9 +1,13 @@
+includes:
+  - strict-rules.neon.dist
+
 parameters:
   tmpDir: build/phpstan
   level: 6
   paths:
     - src
     - tests
+  checkMissingIterableValueType: false
   bootstrapFiles:
     - vendor/codeigniter4/codeigniter4/system/Test/bootstrap.php
   parallel:

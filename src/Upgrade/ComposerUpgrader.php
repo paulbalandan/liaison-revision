@@ -156,7 +156,7 @@ final class ComposerUpgrader implements UpgraderInterface
         $process = Process::fromShellCommandline($command, $cwd, null, null, null);
 
         try {
-            $process->mustRun(static function ($type, $line) {
+            $process->mustRun(static function ($type, $line): void {
                 CLI::print($line); // @codeCoverageIgnore
             });
 

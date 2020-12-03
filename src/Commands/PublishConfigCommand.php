@@ -60,7 +60,7 @@ final class PublishConfigCommand extends GeneratorCommand
     /**
      * Execute the config generation.
      *
-     * @param array<int|string, string> $params
+     * @param array $params
      *
      * @return void
      */

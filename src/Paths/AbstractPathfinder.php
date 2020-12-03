@@ -107,9 +107,9 @@ abstract class AbstractPathfinder implements PathfinderInterface
                 throw new InvalidArgumentException(lang('Revision.invalidAbsolutePathFound', [$path['destination']]));
             }
 
-            $path['destination'] = empty($path['destination'])
-                ? ''
-                : rtrim($path['destination'], '\\/ ') . \DIRECTORY_SEPARATOR;
+            if ('' !== $path['destination']) {
+                $path['destination'] = rtrim($path['destination'], '\\/ ') . \DIRECTORY_SEPARATOR;
+            }
 
             if (is_dir($path['origin'])) {
                 $path['origin'] = realpath(rtrim($path['origin'], '\\/ ')) . \DIRECTORY_SEPARATOR;

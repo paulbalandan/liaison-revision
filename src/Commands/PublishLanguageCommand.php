@@ -72,7 +72,7 @@ final class PublishLanguageCommand extends GeneratorCommand
     /**
      * Execute the publication.
      *
-     * @param string[] $params
+     * @param array $params
      *
      * @return void
      */

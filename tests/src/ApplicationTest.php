@@ -141,7 +141,7 @@ final class ApplicationTest extends CIUnitTestCase
 
     public function testApplicationFailsOnUpdate(): void
     {
-        Events::on(UpdateEvents::PREUPGRADE, function (Application $app) {
+        Events::on(UpdateEvents::PREUPGRADE, function (Application $app): void {
             /** @var \Liaison\Revision\Upgrade\UpgraderInterface&\PHPUnit\Framework\MockObject\MockObject */
             $upgrader = $this->createMock('Liaison\Revision\Upgrade\UpgraderInterface');
             $upgrader->method('upgrade')->willThrowException(new RevisionException(''));
@@ -157,7 +157,7 @@ final class ApplicationTest extends CIUnitTestCase
 
     public function testErroredInConsolidation(): void
     {
-        Events::on(UpdateEvents::PRECONSOLIDATE, function (Application $app) {
+        Events::on(UpdateEvents::PRECONSOLIDATE, function (Application $app): void {
             /** @var \Liaison\Revision\Consolidation\ConsolidatorInterface&\PHPUnit\Framework\MockObject\MockObject */
             $consolidator = $this->createMock('Liaison\Revision\Consolidation\ConsolidatorInterface');
             $consolidator->method('mergeCreatedFiles')->willThrowException(new IOException(''));
@@ -178,7 +178,7 @@ final class ApplicationTest extends CIUnitTestCase
      */
     public function testApplicationExitsOnErroredEvent(string $event): void
     {
-        Events::on($event, static function (Application $app) {
+        Events::on($event, static function (Application $app): bool {
             return false;
         });
 
@@ -205,7 +205,7 @@ final class ApplicationTest extends CIUnitTestCase
 
     public function testApplicationIgnoresPreTerminateEventStatus(): void
     {
-        Events::on(UpdateEvents::TERMINATE, static function (Application $app) {
+        Events::on(UpdateEvents::TERMINATE, static function (Application $app): bool {
             return false;
         });
 
@@ -257,7 +257,9 @@ final class ApplicationTest extends CIUnitTestCase
 
     protected function updateComposerJson(): void
     {
-        if (empty($composer = $this->getComposerJsonContents())) {
+        $composer = $this->getComposerJsonContents();
+
+        if ([] === $composer) {
             self::fail('The composer.json file is either unreadable or does not exist.');
         }
 
