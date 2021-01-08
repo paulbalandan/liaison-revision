@@ -114,18 +114,13 @@ abstract class AbstractPathfinder implements PathfinderInterface
                     if (is_file($origin)) {
                         $destination = str_replace($path['origin'], $path['destination'], $origin);
                         $destination = str_replace('\\', '/', $destination);
-
-                        $tempPath[] = [
-                            'origin'      => $origin,
-                            'destination' => $destination,
-                        ];
+                        $tempPath[] = compact('origin', 'destination');
                     }
                 }
             } elseif (is_file($path['origin'])) {
-                $tempPath[] = [
-                    'origin'      => realpath($path['origin']),
-                    'destination' => str_replace('\\', '/', $path['destination'] . basename($path['origin'])),
-                ];
+                $origin = realpath($path['origin']);
+                $destination = str_replace('\\', '/', $path['destination'] . basename($path['origin']));
+                $tempPath[] = compact('origin', 'destination');
             } else {
                 throw new InvalidArgumentException(lang('Revision.invalidOriginPathFound', [$path['origin']]));
             }
