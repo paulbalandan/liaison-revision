@@ -92,7 +92,7 @@ final class JsonLogHandler extends AbstractLogHandler
             $this->json['logs'] = [];
         }
 
-        $this->json['logs'][] = '[' . date('Y-m-d H:i:s') . '] ' . strtoupper($level) . ': ' . $message;
+        $this->json['logs'][] = '[' . date('Y-m-d H:i:s') . '] ' . $level . ': ' . $message;
 
         return LogHandlerInterface::EXIT_SUCCESS;
     }

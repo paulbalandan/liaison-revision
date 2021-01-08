@@ -118,7 +118,7 @@ final class PlaintextLogHandler extends AbstractLogHandler
     /** @inheritDoc */
     public function handle(string $level, string $message): int
     {
-        $this->buffer .= '[' . date('Y-m-d H:i:s') . '] ' . strtoupper($level) . ' -- ' . $message . "\n";
+        $this->buffer .= '[' . date('Y-m-d H:i:s') . '] ' . $level . ': ' . $message . "\n";
 
         return LogHandlerInterface::EXIT_SUCCESS;
     }
