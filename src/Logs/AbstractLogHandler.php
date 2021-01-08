@@ -35,19 +35,13 @@ abstract class AbstractLogHandler implements LogHandlerInterface
      */
     protected $filesystem;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $filename = '';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $extension = '';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $directory = '';
 
     /**
@@ -77,9 +71,7 @@ abstract class AbstractLogHandler implements LogHandlerInterface
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritDoc */
     public function setDirectory(string $directory)
     {
         $this->directory = $this->config->writePath . 'revision/logs/' . $directory;
@@ -89,9 +81,7 @@ abstract class AbstractLogHandler implements LogHandlerInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritDoc */
     public function setFilename(string $filename)
     {
         $this->filename = $filename . date('Y-m-d_His_') . 'UTC' . date('O');
@@ -99,9 +89,7 @@ abstract class AbstractLogHandler implements LogHandlerInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritDoc */
     public function setExtension(string $ext)
     {
         $this->extension = $ext;

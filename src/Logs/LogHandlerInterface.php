@@ -18,9 +18,7 @@ namespace Liaison\Revision\Logs;
  */
 interface LogHandlerInterface
 {
-    /**
-     * Exit code when things go fine as expected.
-     */
+    /** Exit code when things go fine as expected. */
     public const EXIT_SUCCESS = 0;
 
     /**

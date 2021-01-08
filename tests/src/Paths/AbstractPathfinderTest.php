@@ -79,9 +79,9 @@ final class AbstractPathfinderTest extends CIUnitTestCase
         $config = new SimpleConfig();
 
         if ('dir' === $type) {
-            array_push($config->ignoreDirs, $invalid);
+            $config->ignoreDirs[] = $invalid;
         } else {
-            array_push($config->ignoreFiles, $invalid);
+            $config->ignoreFiles[] = $invalid;
         }
 
         $this->expectException('Liaison\Revision\Exception\InvalidArgumentException');
@@ -89,9 +89,7 @@ final class AbstractPathfinderTest extends CIUnitTestCase
         (new SimplePathfinder($config))->getIgnoredPaths();
     }
 
-    /**
-     * @return array<int, array<string>>
-     */
+    /** @return array<int, array<string>> */
     public function invalidPathsProvider(): iterable
     {
         return [

@@ -21,9 +21,7 @@ use CodeIgniter\Test\Filters\CITestStreamFilter;
  */
 final class PublishConfigCommandTest extends CIUnitTestCase
 {
-    /**
-     * @var resource
-     */
+    /** @var resource */
     private $streamFilter;
 
     protected function setUp(): void

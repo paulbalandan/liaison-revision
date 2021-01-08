@@ -72,17 +72,13 @@ final class PublishConfigCommand extends GeneratorCommand
         parent::run($params);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritDoc */
     protected function getNamespacedClass(string $rootNamespace, string $class): string
     {
         return $rootNamespace . '\\' . $class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritDoc */
     protected function getTemplate(): string
     {
         $file = __DIR__ . '/../Config/Revision.php';
@@ -90,9 +86,7 @@ final class PublishConfigCommand extends GeneratorCommand
         return is_file($file) ? file_get_contents($file) : '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritDoc */
     protected function setReplacements(string $template, string $class): string
     {
         $search = 'namespace Liaison\Revision\Config;';

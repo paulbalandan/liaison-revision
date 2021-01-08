@@ -59,9 +59,7 @@ final class LogManager implements LogManagerInterface
         $this->registerLogHandlers();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritDoc */
     public function logMessage($messages, string $level = 'info')
     {
         foreach ((array) $messages as $message) {
@@ -77,9 +75,7 @@ final class LogManager implements LogManagerInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritDoc */
     public function save()
     {
         foreach ($this->logHandlers as $logHandler) {

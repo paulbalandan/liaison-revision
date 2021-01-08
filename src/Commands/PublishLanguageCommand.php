@@ -84,17 +84,13 @@ final class PublishLanguageCommand extends GeneratorCommand
         parent::run($params);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritDoc */
     protected function getNamespacedClass(string $rootNamespace, string $class): string
     {
         return $rootNamespace . '\\Language\\' . $this->params['lang'] . '\\' . $class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritDoc */
     protected function getTemplate(): string
     {
         $file = __DIR__ . '/../Language/en/Revision.php';
