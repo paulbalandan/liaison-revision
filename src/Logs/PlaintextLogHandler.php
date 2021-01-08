@@ -58,7 +58,7 @@ final class PlaintextLogHandler extends AbstractLogHandler
         $date = str_pad(sprintf('%s UTC%s', date('D, d F Y, H:i:s'), date('P')), 44);
 
         // Headers
-        $this->buffer = <<<EOD
+        $buffer = <<<EOD
             +========================================================+
             | {$name}                                       |
             | Version: {$version} |
@@ -108,9 +108,11 @@ final class PlaintextLogHandler extends AbstractLogHandler
             \n
             EOD;
 
-        $this->buffer .= "\n{$loadedConfig}\n";
-        $this->buffer .= str_repeat('=', strlen($loadedConfig)) . "\n";
-        $this->buffer .= $settings;
+        $buffer .= "\n{$loadedConfig}\n";
+        $buffer .= str_repeat('=', \strlen($loadedConfig)) . "\n";
+        $buffer .= $settings;
+
+        $this->buffer = $buffer;
 
         return $this;
     }
