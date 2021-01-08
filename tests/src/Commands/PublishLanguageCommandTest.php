@@ -44,7 +44,7 @@ final class PublishLanguageCommandTest extends CIUnitTestCase
         $file = trim(substr($result, 14));
         $file = str_replace('APPPATH' . \DIRECTORY_SEPARATOR, APPPATH, $file);
         $dir = \dirname($file);
-        file_exists($file) && unlink($file);
+        is_file($file) && unlink($file);
         is_dir($dir) && rmdir($dir);
     }
 

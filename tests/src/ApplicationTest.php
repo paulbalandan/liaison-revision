@@ -230,7 +230,7 @@ final class ApplicationTest extends CIUnitTestCase
     /** @return array<string, string|string[]> */
     protected function getComposerJsonContents(): array
     {
-        if (file_exists($composer = $this->config->rootPath . 'composer.json')) {
+        if (is_file($composer = $this->config->rootPath . 'composer.json')) {
             $json = json_decode(file_get_contents($composer), true);
 
             if (JSON_ERROR_NONE === json_last_error()) {
