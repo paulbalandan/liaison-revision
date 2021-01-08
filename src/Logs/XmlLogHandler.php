@@ -157,7 +157,7 @@ final class XmlLogHandler extends AbstractLogHandler
         $config = $this->dom->createElement('settings');
 
         foreach ($settings as $key => $value) {
-            $key = mb_strtolower(underscore($key));
+            $key = strtolower(underscore($key));
 
             if (\is_array($value)) {
                 $setting = $this->dom->createElement($key);

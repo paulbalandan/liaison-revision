@@ -360,11 +360,11 @@ final class UpdateCommand extends BaseCommand
                 $coloredDiff = [];
 
                 foreach ($diff as $line) {
-                    if (0 === mb_strpos($line, '-')) {
+                    if (0 === strpos($line, '-')) {
                         $coloredDiff[] = CLI::color($line, 'red');
-                    } elseif (0 === mb_strpos($line, '+')) {
+                    } elseif (0 === strpos($line, '+')) {
                         $coloredDiff[] = CLI::color($line, 'green');
-                    } elseif (0 === mb_strpos($line, '@@')) {
+                    } elseif (0 === strpos($line, '@@')) {
                         $coloredDiff[] = CLI::color($line, 'cyan');
                     } else {
                         $coloredDiff[] = $line;

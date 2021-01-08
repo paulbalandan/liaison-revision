@@ -128,7 +128,7 @@ final class ComposerUpgrader implements UpgraderInterface
             $command .= ' --dry-run';
         }
 
-        if (ENVIRONMENT === 'testing' && false === mb_strpos($command, '--quiet')) {
+        if (ENVIRONMENT === 'testing' && false === strpos($command, '--quiet')) {
             $command .= ' --quiet';
         }
 

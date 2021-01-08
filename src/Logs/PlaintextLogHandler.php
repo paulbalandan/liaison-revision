@@ -109,7 +109,7 @@ final class PlaintextLogHandler extends AbstractLogHandler
             EOD;
 
         $this->buffer .= "\n{$loadedConfig}\n";
-        $this->buffer .= str_repeat('=', mb_strlen($loadedConfig)) . "\n";
+        $this->buffer .= str_repeat('=', strlen($loadedConfig)) . "\n";
         $this->buffer .= $settings;
 
         return $this;
@@ -118,7 +118,7 @@ final class PlaintextLogHandler extends AbstractLogHandler
     /** @inheritDoc */
     public function handle(string $level, string $message): int
     {
-        $this->buffer .= '[' . date('Y-m-d H:i:s') . '] ' . mb_strtoupper($level) . ' -- ' . $message . "\n";
+        $this->buffer .= '[' . date('Y-m-d H:i:s') . '] ' . strtoupper($level) . ' -- ' . $message . "\n";
 
         return LogHandlerInterface::EXIT_SUCCESS;
     }
