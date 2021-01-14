@@ -23,8 +23,8 @@ will be gladly accepted.
 
 - The base branch is `develop`. Any contributions to other branches will be rejected.
 - If you are adding a new feature or fixing a bug, don't forget to add a new test!
-- The `Liaison` namespace adheres to a set of coding standards defined in the [`Liaison`](https://github.com/paulbalandan/liaison-cs-config/blob/develop/src/Ruleset/Liaison.php) ruleset. Contributors should likewise follow that standard.
-- Code should be compatible with PHP 7.2.
+- The `Liaison` namespace adheres to a set of coding standards defined in the [`Nexus73`](https://github.com/NexusPHP/cs-config/blob/develop/src/Ruleset/Nexus73.php) ruleset. Contributors should likewise follow that standard.
+- Code should be compatible with PHP 7.3+.
 
 ## Keeping your fork up-to-date
 
