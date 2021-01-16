@@ -34,7 +34,7 @@ overwritten when the library updates itself. You SHOULD instead run the command 
 your own copy.**
 
 For the detailed discussion of the available settings, please see the
-[Configuration](docs/configuration.md) page.
+[Configuration](configuration.md) page.
 
 ## Localisation
 
