@@ -36,7 +36,7 @@ spark updates, you should add `spark` as `ROOTPATH . vendor/codeigniter4/framewo
 **public bool `$allowGitIgnoreEntry`**
 
 This boolean flag gives permission to Revision to write an entry to your `.gitignore` file so that Revision's
-files would not be tracked by Git. This defaults to `true`. Please refer to [Temporary Files Source Control](docs/overview.md#temporary-files-source-control).
+files would not be tracked by Git. This defaults to `true`. Please refer to [Temporary Files Source Control](overview.md#temporary-files-source-control).
 
 You can, however, override this option at runtime when using the `revision:gitignore` command by using the
 `--allow-entry` or `--disallow-entry` option flags.
