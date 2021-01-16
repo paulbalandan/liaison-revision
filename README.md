@@ -13,10 +13,10 @@ your CodeIgniter4 projects.
 
 ## System Requirements
 
-Liaison Revision requires PHP 7.3+ to run. It also requires the PHP extensions `ext-intl` and `ext-mbstring`
-to be installed. Additionally, you can have the `ext-dom` extension enabled to use the `XmlLogHandler`.
+Liaison Revision requires PHP 7.3+ to run. It also requires the PHP extension `ext-intl` to be installed.
+Additionally, you can have the `ext-dom` extension enabled to use the `XmlLogHandler`.
 
-Liaison Revision needs to run on versions of CodeIgniter 4 greater than v4.0.4 due to the classes used
+Liaison Revision needs to run on versions of CodeIgniter 4 __greater than v4.0.4__ due to the classes used
 within the library which are not available on v4.0.4 and below. You can also opt to use the develop branch
 for the latest changes.
 
