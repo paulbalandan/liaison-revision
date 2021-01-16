@@ -10,21 +10,21 @@ personalised setting for your application, you can make your own copy by using t
 
 ## Settings Defined
 
-**public `$rootPath`**
+**public string `$rootPath`**
 
 This is the path to the project's root directory. This defaults to `ROOTPATH`.
 
-**public `$writePath`**
+**public string `$writePath`**
 
 This is the path to the project's writable directory where Revision will write its logs.
 Defaults to `WRITEPATH`.
 
-**public `$ignoreDirs`**
+**public array\<string\> `$ignoreDirs`**
 
 This accepts a single string array of directories to ignore during the updates. These directories
 can include the top directories, like `app/`, `public/`, or its subdirectories.
 
-**public `$ignoreFiles`**
+**public array\<string\> `$ignoreFiles`**
 
 This accepts a single string array of files to explicitly ignore during the updates.
 
@@ -33,7 +33,7 @@ and must point to the **source** and not the project-equivalent path. For exampl
 spark updates, you should add `spark` as `ROOTPATH . vendor/codeigniter4/framework/spark` in the
 `$ignoreFiles` array.
 
-**public `$allowGitIgnoreEntry`**
+**public bool `$allowGitIgnoreEntry`**
 
 This boolean flag gives permission to Revision to write an entry to your `.gitignore` file so that Revision's
 files would not be tracked by Git. This defaults to `true`. Please refer to [Temporary Files Source Control](docs/overview.md#temporary-files-source-control).
@@ -41,7 +41,7 @@ files would not be tracked by Git. This defaults to `true`. Please refer to [Tem
 You can, however, override this option at runtime when using the `revision:gitignore` command by using the
 `--allow-entry` or `--disallow-entry` option flags.
 
-**public `$fallThroughToProject`**
+**public bool `$fallThroughToProject`**
 
 At heart, Revision compares the current copy of the framework with the upcoming copy from the updates. If no
 changes are detected, then no updates will happen. However, there may be cases wherein you need to check this
@@ -55,7 +55,7 @@ This setting now comes into play. Defaults to `true`, this flag allows Revision 
 copy for comparison against the upcoming updates to ensure it is always updated. Then after getting your
 updates, you may turn it off for a while. Simple as that.
 
-**public `$retries`**
+**public int `$retries`**
 
 During the consolidation of updates, there are times where you will get conflicts like this file is identical
 to your copy, or your changes conflicts with that, or even that file was already deleted but you still have
@@ -70,7 +70,7 @@ ask you to delete some older backups before continuing.
 Backups are named after the operation where the safe overwrite is initiated and the current retry used. If the
 filename is `spark` and it is to be modified for the 4th time, the backup would be `spark-Modified-004`.
 
-**public `$consolidator`**
+**public ConsolidatorInterface `$consolidator`**
 
 The name of the consolidator class to use. Consolidators manages the consolidation of changes
 brought by the updates and sorts them to whether successfully merged or run into merge conflicts.
@@ -79,7 +79,7 @@ Consolidators must implement the `Liaison\Revision\Consolidation\ConsolidatorInt
 Available consolidators:
 - `Liaison\Revision\Consolidator\DefaultConsolidator` (default)
 
-**public `$upgrader`**
+**public UpgraderInterface `$upgrader`**
 
 The name of the upgrader class to use. Upgraders directly manages the update process ensuring the smooth
 download of the updates before passing it down to the consolidator. Upgraders must implement the
@@ -88,7 +88,7 @@ download of the updates before passing it down to the consolidator. Upgraders mu
 Available upgraders:
 - `Liaison\Revision\Upgrade\ComposerUpgrader` (default)
 
-**public `$pathfinder`**
+**public AbstractPathfinder `$pathfinder`**
 
 The name of the pathfinder class to use. Pathfinders are simple classes extending
 `Liaison\Revision\Paths\AbstractPathfinder` which manages which files to seek and check during the update
@@ -99,7 +99,7 @@ settings will be considered by `AbstractPathfinder` before giving Revision the f
 Available pathfinders:
 - `Liaison\Revision\Paths\DefaultPathfinder` (default)
 
-**public `$diffOutputBuilder`**
+**public DiffOutputBuilderInterface `$diffOutputBuilder`**
 
 Revision prints the local modifications (diff) of the changes brought by the updates using the excellent
 [sebastian/diff](https://github.com/sebastianbergmann/diff) library. It uses the
@@ -111,12 +111,12 @@ The library gives us three available diff output builders:
 - `SebastianBergmann\Diff\Output\StrictUnifiedDiffOutputBuilder`
 - `SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder`
 
-**public `$diffOutputSettings`**
+**public array `$diffOutputSettings`**
 
 This defines the settings to be supplied to the constructor of the diff output builder chosen. For a
 discussion of the settings, please check out the library.
 
-**public `$logHandlers`**
+**public array\<AbstractLogHandler\> `$logHandlers`**
 
 This array holds the names of the log handler classes to use. Log handlers must extend
 `Liaison\Revision\Logs\AbstractLogHandler`. Log handlers gives you the logs of the operation in the format
