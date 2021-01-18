@@ -34,15 +34,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           tools: composer
           extensions: curl, intl, mbstring, xdebug
           coverage: xdebug
-
-      - name: Use latest Composer
-        run: composer self-update
 
       - name: Validate composer.json
         run: composer validate --strict
@@ -74,16 +71,11 @@ jobs:
       - name: Setup Composer's GitHub OAuth access
         run: composer config --global github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
 
-      - name: Remove non-PHP 8.0 compatible libraries
-        if: matrix.php-versions == '8.0'
-        run: composer remove --dev friendsofphp/php-cs-fixer nexusphp/cs-config
-
       - name: Install dependencies
         run: composer update --ansi --no-scripts --no-interaction
 
       - name: Run PHP-CS-Fixer
-        if: matrix.php-versions != '8.0'
-        run: vendor/bin/php-cs-fixer fix --ansi --config=.php_cs.dist --verbose --dry-run --stop-on-violation --using-cache=no
+        run: vendor/bin/php-cs-fixer fix --ansi --config=.php_cs.dist --verbose --dry-run --using-cache=no
 
       - name: Run PHPStan Static Analysis Check
         run: vendor/bin/phpstan analyse --ansi
