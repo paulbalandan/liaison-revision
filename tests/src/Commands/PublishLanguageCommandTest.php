@@ -52,7 +52,7 @@ final class PublishLanguageCommandTest extends CIUnitTestCase
     {
         command('revision:language --lang es');
         $file = APPPATH . 'Language/es/Revision.php';
-        self::assertStringContainsString('Created file: ', CITestStreamFilter::$buffer);
+        self::assertStringContainsString('File created: ', CITestStreamFilter::$buffer);
         self::assertFileExists($file);
     }
 
@@ -60,7 +60,7 @@ final class PublishLanguageCommandTest extends CIUnitTestCase
     {
         command('revision:language Revise --lang es');
         $file = APPPATH . 'Language/es/Revision.php';
-        self::assertStringContainsString('Created file: ', CITestStreamFilter::$buffer);
+        self::assertStringContainsString('File created: ', CITestStreamFilter::$buffer);
         self::assertStringContainsString('es' . \DIRECTORY_SEPARATOR . 'Revision.php', CITestStreamFilter::$buffer);
         self::assertFileExists($file);
     }

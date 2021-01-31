@@ -13,13 +13,16 @@ declare(strict_types=1);
 
 namespace Liaison\Revision\Commands;
 
-use CodeIgniter\CLI\GeneratorCommand;
+use CodeIgniter\CLI\BaseCommand;
+use CodeIgniter\CLI\GeneratorTrait;
 
 /**
  * Publish main configuration file.
  */
-final class PublishConfigCommand extends GeneratorCommand
+final class PublishConfigCommand extends BaseCommand
 {
+    use GeneratorTrait;
+
     /**
      * The Command's group.
      *
@@ -58,6 +61,16 @@ final class PublishConfigCommand extends GeneratorCommand
     ];
 
     /**
+     * The Command's options.
+     *
+     * @var array<string, string>
+     */
+    protected $options = [
+        '--namespace' => 'Sets the root namespace. Defaults to "APP_NAMESPACE".',
+        '--force'     => 'Force overwrite existing file in destination.',
+    ];
+
+    /**
      * Execute the config generation.
      *
      * @param array $params
@@ -67,19 +80,15 @@ final class PublishConfigCommand extends GeneratorCommand
     public function run(array $params)
     {
         $params[0] = 'Revision';
-        $params['n'] = 'Config';
+        $params['namespace'] = 'Config';
 
-        parent::run($params);
+        $this->component = 'Config';
+
+        $this->execute($params);
     }
 
     /** @inheritDoc */
-    protected function getNamespacedClass(string $rootNamespace, string $class): string
-    {
-        return $rootNamespace . '\\' . $class;
-    }
-
-    /** @inheritDoc */
-    protected function getTemplate(): string
+    protected function renderTemplate(array $data = []): string
     {
         $file = __DIR__ . '/../Config/Revision.php';
 
@@ -87,10 +96,11 @@ final class PublishConfigCommand extends GeneratorCommand
     }
 
     /** @inheritDoc */
-    protected function setReplacements(string $template, string $class): string
+    protected function parseTemplate(string $class, array $search = [], array $replace = [], array $data = []): string
     {
+        $namespace = trim(implode('\\', \array_slice(explode('\\', $class), 0, -1)), '\\');
         $search = 'namespace Liaison\Revision\Config;';
-        $replace = 'namespace ' . $this->getNamespace($class) . ';';
+        $replace = 'namespace ' . $namespace . ';';
 
         $searchLicense = <<<'EOD'
 
@@ -115,7 +125,7 @@ final class PublishConfigCommand extends GeneratorCommand
         return str_replace(
             [$search, $searchLicense, $searchExtends, $searchUse],
             [$replace, $replaceLicense, $replaceExtends, $replaceUse],
-            $template
+            $this->renderTemplate($data)
         );
     }
 }

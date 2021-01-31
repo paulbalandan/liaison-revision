@@ -49,13 +49,13 @@ final class PublishConfigCommandTest extends CIUnitTestCase
     public function testPublishConfigCommandWorks(): void
     {
         command('revision:config');
-        self::assertStringContainsString('Created file:', CITestStreamFilter::$buffer);
+        self::assertStringContainsString('File created:', CITestStreamFilter::$buffer);
     }
 
     public function testSupplyingOptionsIsUseless(): void
     {
-        command('revision:config Update -n App');
-        self::assertStringContainsString('Created file:', CITestStreamFilter::$buffer);
+        command('revision:config Update --namespace App');
+        self::assertStringContainsString('File created:', CITestStreamFilter::$buffer);
         self::assertStringContainsString('Config' . \DIRECTORY_SEPARATOR . 'Revision.php', CITestStreamFilter::$buffer);
     }
 }
