@@ -47,20 +47,15 @@ language, you can use the `revision:language` command.
 The following are the available options:
 
 - `--lang` The specific language/locale directory to publish to.
-- `-n` Set the root namespace. Defaults to the value of `APP_NAMESPACE`.
+- `--namespace` Set the root namespace. Defaults to the value of `APP_NAMESPACE`.
 - `--force` Use this flag to force overwrite existing files in destination.
 
 Examples:
 
 - `php spark revision:language` This will create the file in `app/Language/en` directory.
 - `php spark revision:language --lang fr` This will create the file in `app/Language/fr` directory.
-- `php spark revision:language --lang fr -n Acme` This will create the `Language/fr` subdirectory inside
-  the root path defined by the `Acme` namespace.
-
-**NOTE: The `-n` option which is available to all generator commands extending
-`CodeIgniter\CLI\GeneratorCommand` (available to framework versions greater than v4.0.4) requires that
-the supplied namespace is ACTUALLY defined in either Composer's or CodeIgniter's autoloader. If the namespace
-is not found or just made up, the command will throw a `RuntimeException` and halt the script execution.**
+- `php spark revision:language --lang fr --namespace Acme` This will create the `Language/fr` subdirectory
+  inside the root path defined by the `Acme` namespace.
 
 ## Temporary Files Source Control
 
