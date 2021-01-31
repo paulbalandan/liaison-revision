@@ -92,12 +92,6 @@ final class PublishLanguageCommand extends BaseCommand
     }
 
     /** @inheritDoc */
-    protected function getNamespacedClass(string $rootNamespace, string $class): string
-    {
-        return $rootNamespace . '\\Language\\' . $this->params['lang'] . '\\' . $class;
-    }
-
-    /** @inheritDoc */
     protected function renderTemplate(array $data = []): string
     {
         $file = __DIR__ . '/../Language/en/Revision.php';
