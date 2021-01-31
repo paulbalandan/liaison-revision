@@ -25,7 +25,10 @@ use Liaison\Revision\Logs\LogManager;
 use Liaison\Revision\Paths\PathfinderInterface;
 use Liaison\Revision\Upgrade\UpgraderInterface;
 use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder;
 use SebastianBergmann\Diff\Output\DiffOutputBuilderInterface;
+use SebastianBergmann\Diff\Output\StrictUnifiedDiffOutputBuilder;
+use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -392,13 +395,14 @@ class Application
 
                 try {
                     if (! is_file($oldCopy) || ! is_file($project)) {
-                        $this->fileManager->createdFiles[] = $file['destination'];
+                        $this->fileManager->createdFiles[] = $file['destination']; // @codeCoverageIgnore
                     } elseif (is_file($file['origin'])) {
                         $this->fileManager->modifiedFiles[] = $file['destination'];
                     } else {
+                        // @codeCoverageIgnoreStart
                         $this->fileManager->deletedFiles[] = $file['destination'];
-
                         $doCopy = false;
+                        // @codeCoverageIgnoreEnd
                     }
 
                     if ($doCopy) {
@@ -534,6 +538,8 @@ class Application
      * @param string $file Relative path to file
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     public function calculateDiff(string $file): string
     {
@@ -669,15 +675,15 @@ class Application
         $builder = $this->config->diffOutputBuilder;
         $setting = $this->config->diffOutputSettings;
 
-        if ('SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder' === $builder) {
+        if (UnifiedDiffOutputBuilder::class === $builder) {
             return new $builder(...$setting['uniDiff']);
         }
 
-        if ('SebastianBergmann\Diff\Output\StrictUnifiedDiffOutputBuilder' === $builder) {
+        if (StrictUnifiedDiffOutputBuilder::class === $builder) {
             return new $builder($setting['strictUniDiff']);
         }
 
-        if ('SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder' === $builder) {
+        if (DiffOnlyOutputBuilder::class === $builder) {
             return new $builder(...$setting['diffOnly']);
         }
 
