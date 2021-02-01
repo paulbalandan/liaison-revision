@@ -22,3 +22,5 @@ jobs:
           release_name: Liaison Revision ${{ github.ref }}
           draft: false
           prerelease: false
+          body: |
+            Please refer to the [CHANGELOG](CHANGELOG.md) for the detailed list of changes.
