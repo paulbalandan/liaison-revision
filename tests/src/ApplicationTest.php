@@ -19,6 +19,7 @@ use Liaison\Revision\Application;
 use Liaison\Revision\Events\UpdateEvents;
 use Liaison\Revision\Exception\RevisionException;
 use Liaison\Revision\Upgrade\ComposerUpgrader;
+use Nexus\PHPUnit\Extension\Expeditable;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Tests\Support\Pathfinders\LiveTestPathfinder;
 use Tests\Support\Traits\BackupTrait;
@@ -32,6 +33,7 @@ use Tests\Support\Traits\PathsTrait;
 final class ApplicationTest extends CIUnitTestCase
 {
     use BackupTrait;
+    use Expeditable;
     use PathsTrait;
 
     /**

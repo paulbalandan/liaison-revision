@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated `friendsofphp/php-cs-fixer` and `nexusphp/cs-config` to v3.0
 - Updated `Application::VERSION` to `1.0.1`
+- Enable tachycardia for profiling slow tests
 
 ## [v1.0.0](https://github.com/paulbalandan/liaison-revision/releases/tag/v1.0.0) - 2021-02-01
 

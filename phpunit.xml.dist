@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.4/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/codeigniter4/codeigniter4/system/Test/bootstrap.php"
          cacheResultFile="build/test-results"
          backupGlobals="false"
@@ -13,30 +13,45 @@
          stopOnIncomplete="false"
          stopOnSkipped="false"
          verbose="true">
-  <coverage cacheDirectory="build/code-coverage" processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
+    <coverage cacheDirectory="build/code-coverage" processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
 
-    <report>
-      <clover outputFile="build/logs/clover.xml"/>
-      <html outputDirectory="build/logs/html"/>
-    </report>
-  </coverage>
+        <report>
+            <clover outputFile="build/logs/clover.xml"/>
+            <html outputDirectory="build/logs/html"/>
+        </report>
+    </coverage>
 
-  <testsuites>
-    <testsuite name="default">
-      <directory suffix="Test.php">tests/src</directory>
-    </testsuite>
-  </testsuites>
+    <testsuites>
+        <testsuite name="default">
+            <directory suffix="Test.php">tests/src</directory>
+        </testsuite>
+    </testsuites>
 
-  <php>
-    <server name="app.baseURL" value="http://example.com"/>
-    <!-- Directory containing phpunit.xml -->
-    <const name="HOMEPATH" value="./"/>
-    <!-- Directory containing the Paths config file -->
-    <const name="CONFIGPATH" value="vendor/codeigniter4/codeigniter4/app/Config/"/>
-    <!-- Directory containing the front controller (index.php) -->
-    <const name="PUBLICPATH" value="vendor/codeigniter4/codeigniter4/public/"/>
-  </php>
+    <php>
+        <server name="app.baseURL" value="http://example.com"/>
+        <!-- Directory containing phpunit.xml -->
+        <const name="HOMEPATH" value="./"/>
+        <!-- Directory containing the Paths config file -->
+        <const name="CONFIGPATH" value="vendor/codeigniter4/codeigniter4/app/Config/"/>
+        <!-- Directory containing the front controller (index.php) -->
+        <const name="PUBLICPATH" value="vendor/codeigniter4/codeigniter4/public/"/>
+    </php>
+
+    <extensions>
+        <extension class="Nexus\PHPUnit\Extension\Tachycardia">
+            <arguments>
+                <array>
+                    <element key="precision">
+                        <integer>2</integer>
+                    </element>
+                    <element key="collectBare">
+                        <boolean>true</boolean>
+                    </element>
+                </array>
+            </arguments>
+        </extension>
+    </extensions>
 </phpunit>
