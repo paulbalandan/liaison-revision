@@ -1,10 +1,9 @@
 # Liaison Revision
 
-![build](https://github.com/paulbalandan/liaison-revision/workflows/build/badge.svg?branch=develop)
 [![PHP version](https://img.shields.io/packagist/php-v/liaison/revision)](https://php.net)
+![build](https://github.com/paulbalandan/liaison-revision/workflows/build/badge.svg?branch=develop)
 [![Coverage Status](https://coveralls.io/repos/github/paulbalandan/liaison-revision/badge.svg?branch=develop)](https://coveralls.io/github/paulbalandan/liaison-revision?branch=develop)
 [![Latest Stable Version](https://poser.pugx.org/liaison/revision/v)](//packagist.org/packages/liaison/revision)
-[![Latest Unstable Version](https://poser.pugx.org/liaison/revision/v/unstable)](//packagist.org/packages/liaison/revision)
 [![license](https://img.shields.io/github/license/paulbalandan/liaison-revision)](LICENSE)
 [![Total Downloads](https://poser.pugx.org/liaison/revision/downloads)](//packagist.org/packages/liaison/revision)
 
