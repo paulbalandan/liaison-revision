@@ -23,12 +23,13 @@
         "symfony/process": "^5.1"
     },
     "require-dev": {
+        "ext-tokenizer": "*",
         "codeigniter4/codeigniter4": "dev-develop",
-        "friendsofphp/php-cs-fixer": "^2.16",
-        "nexusphp/cs-config": "^2.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "nexusphp/cs-config": "^3.0",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-strict-rules": "^0.12",
-        "phpunit/phpunit": "^9.4"
+        "phpunit/phpunit": "^9.5"
     },
     "suggest": {
         "ext-dom": "For using the XmlLogHandler."

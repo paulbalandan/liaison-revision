@@ -24,7 +24,7 @@ $finder = Finder::create()
 
 $options = [
     'finder'    => $finder,
-    'cacheFile' => 'build/.php_cs.cache',
+    'cacheFile' => 'build/.php-cs-fixer.cache',
 ];
 
 return Factory::create(new Nexus73(), [], $options)->forLibrary(

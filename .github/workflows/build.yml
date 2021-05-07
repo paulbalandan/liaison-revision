@@ -75,7 +75,7 @@ jobs:
         run: composer update --ansi --no-scripts --no-interaction
 
       - name: Run PHP-CS-Fixer
-        run: vendor/bin/php-cs-fixer fix --ansi --config=.php_cs.dist --verbose --dry-run --using-cache=no
+        run: vendor/bin/php-cs-fixer fix --ansi --verbose --dry-run --using-cache=no
 
       - name: Run PHPStan Static Analysis Check
         run: vendor/bin/phpstan analyse --ansi

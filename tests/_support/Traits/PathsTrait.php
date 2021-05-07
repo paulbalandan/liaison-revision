@@ -19,8 +19,8 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * PathsTrait deals with the mock project paths.
  *
- * @property string $backupDir
- * @property \Liaison\Revision\Config\Revision $config
+ * @property string                                   $backupDir
+ * @property \Liaison\Revision\Config\Revision        $config
  * @property \Symfony\Component\Filesystem\Filesystem $filesystem
  */
 trait PathsTrait

@@ -133,7 +133,7 @@ final class UpdateCommand extends BaseCommand
             'modifiedFiles' => \count($manager->modifiedFiles),
             'deletedFiles'  => \count($manager->deletedFiles),
         ];
-        $count = (int) array_sum($updates);
+        $count = array_sum($updates);
 
         if (0 === $count) {
             CLI::write(lang('Revision.emptyFilesToConsolidate'), 'yellow');
@@ -212,7 +212,7 @@ final class UpdateCommand extends BaseCommand
             'modified' => \count($manager->conflicts['modified']),
             'deleted'  => \count($manager->conflicts['deleted']),
         ];
-        $count = (int) array_sum($conflicts);
+        $count = array_sum($conflicts);
 
         if (0 === $count) {
             // No conflicts, just exit the event.
