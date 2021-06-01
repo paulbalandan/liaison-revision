@@ -73,13 +73,17 @@ abstract class AbstractPathfinder implements PathfinderInterface
         $this->verifyIgnoredPaths();
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function getPaths(): array
     {
         return $this->parsedPaths;
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function getIgnoredPaths(): array
     {
         return $this->ignoredPaths;

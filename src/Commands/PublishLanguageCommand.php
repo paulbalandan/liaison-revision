@@ -91,7 +91,9 @@ final class PublishLanguageCommand extends BaseCommand
         $this->execute($params);
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     protected function renderTemplate(array $data = []): string
     {
         $file = __DIR__ . '/../Language/en/Revision.php';
@@ -99,7 +101,9 @@ final class PublishLanguageCommand extends BaseCommand
         return is_file($file) ? file_get_contents($file) : '';
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     protected function parseTemplate(string $class, array $search = [], array $replace = [], array $data = []): string
     {
         $searchLicense = <<<'EOD'

@@ -21,13 +21,19 @@ use CodeIgniter\Test\Filters\CITestStreamFilter;
  */
 final class GitignoreCommandTest extends CIUnitTestCase
 {
-    /** @var resource */
+    /**
+     * @var resource
+     */
     private $streamFilter;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $original = ROOTPATH . '.gitignore';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $backup = ROOTPATH . 'backup.gitignore';
 
     protected function setUp(): void
@@ -36,8 +42,8 @@ final class GitignoreCommandTest extends CIUnitTestCase
 
         CITestStreamFilter::$buffer = '';
 
-        $this->streamFilter = stream_filter_append(STDOUT, 'CITestStreamFilter');
-        $this->streamFilter = stream_filter_append(STDERR, 'CITestStreamFilter');
+        $this->streamFilter = stream_filter_append(\STDOUT, 'CITestStreamFilter');
+        $this->streamFilter = stream_filter_append(\STDERR, 'CITestStreamFilter');
 
         if (! is_file($this->original)) {
             copy(__DIR__ . '/../../../.gitignore', $this->original);

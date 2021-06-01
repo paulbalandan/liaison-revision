@@ -55,7 +55,9 @@ final class JsonLogHandler extends AbstractLogHandler
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function initialize()
     {
         // Headers
@@ -85,7 +87,9 @@ final class JsonLogHandler extends AbstractLogHandler
         return $this;
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function handle(string $level, string $message): int
     {
         if (! isset($this->json['logs'])) {
@@ -97,7 +101,9 @@ final class JsonLogHandler extends AbstractLogHandler
         return LogHandlerInterface::EXIT_SUCCESS;
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function save()
     {
         $json = $this->json;
@@ -105,7 +111,7 @@ final class JsonLogHandler extends AbstractLogHandler
 
         $this->filesystem->dumpFile(
             $this->directory . $this->filename . $this->extension,
-            json_encode($json, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "\n"
+            json_encode($json, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_PRETTY_PRINT) . "\n"
         );
     }
 }

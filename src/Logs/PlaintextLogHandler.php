@@ -50,7 +50,9 @@ final class PlaintextLogHandler extends AbstractLogHandler
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function initialize()
     {
         $name = Application::NAME;
@@ -117,7 +119,9 @@ final class PlaintextLogHandler extends AbstractLogHandler
         return $this;
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function handle(string $level, string $message): int
     {
         $this->buffer .= '[' . date('Y-m-d H:i:s') . '] ' . $level . ': ' . $message . "\n";
@@ -125,7 +129,9 @@ final class PlaintextLogHandler extends AbstractLogHandler
         return LogHandlerInterface::EXIT_SUCCESS;
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function save()
     {
         $buffer = $this->buffer;

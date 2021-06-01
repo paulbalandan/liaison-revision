@@ -34,16 +34,24 @@ final class DefaultConsolidatorTest extends CIUnitTestCase
      */
     protected $backupDir = '';
 
-    /** @var \Liaison\Revision\Config\Revision */
+    /**
+     * @var \Liaison\Revision\Config\Revision
+     */
     protected $config;
 
-    /** @var \Symfony\Component\Filesystem\Filesystem */
+    /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
     protected $filesystem;
 
-    /** @var \Liaison\Revision\Files\FileManager */
+    /**
+     * @var \Liaison\Revision\Files\FileManager
+     */
     protected $fileManager;
 
-    /** @var \Liaison\Revision\Consolidation\DefaultConsolidator */
+    /**
+     * @var \Liaison\Revision\Consolidation\DefaultConsolidator
+     */
     protected $consolidator;
 
     protected function setUp(): void

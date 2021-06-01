@@ -50,16 +50,24 @@ final class ApplicationTest extends CIUnitTestCase
      */
     protected $workspace = '';
 
-    /** @var \Liaison\Revision\Config\Revision */
+    /**
+     * @var \Liaison\Revision\Config\Revision
+     */
     protected $config;
 
-    /** @var \Symfony\Component\Filesystem\Filesystem */
+    /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
     protected $filesystem;
 
-    /** @var \Liaison\Revision\Upgrade\ComposerUpgrader */
+    /**
+     * @var \Liaison\Revision\Upgrade\ComposerUpgrader
+     */
     protected $upgrader;
 
-    /** @var \Liaison\Revision\Application */
+    /**
+     * @var \Liaison\Revision\Application
+     */
     protected $application;
 
     protected function setUp(): void
@@ -101,7 +109,9 @@ final class ApplicationTest extends CIUnitTestCase
         self::assertInstanceOf('SebastianBergmann\Diff\Differ', $this->application->getDiffer());
     }
 
-    /** Live Test. */
+    /**
+     * Live Test.
+     */
     public function testApplicationLifeCycleIntrospection(): void
     {
         // Install first the base version
@@ -181,7 +191,9 @@ final class ApplicationTest extends CIUnitTestCase
         Events::removeAllListeners($event);
     }
 
-    /** @return array<int, array<string>> */
+    /**
+     * @return array<int, array<string>>
+     */
     public function eventNamesProvider(): array
     {
         return [
@@ -229,13 +241,15 @@ final class ApplicationTest extends CIUnitTestCase
         }
     }
 
-    /** @return array<string, string|string[]> */
+    /**
+     * @return array<string, string|string[]>
+     */
     protected function getComposerJsonContents(): array
     {
         if (is_file($composer = $this->config->rootPath . 'composer.json')) {
             $json = json_decode(file_get_contents($composer), true);
 
-            if (JSON_ERROR_NONE === json_last_error()) {
+            if (\JSON_ERROR_NONE === json_last_error()) {
                 return $json;
             }
         }
@@ -255,7 +269,7 @@ final class ApplicationTest extends CIUnitTestCase
 
         $this->filesystem->dumpFile(
             $this->config->rootPath . 'composer.json',
-            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n"
+            json_encode($composer, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE) . "\n"
         );
     }
 }

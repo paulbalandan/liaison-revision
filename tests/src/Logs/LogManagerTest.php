@@ -33,10 +33,14 @@ final class LogManagerTest extends CIUnitTestCase
      */
     protected $backupDir = '';
 
-    /** @var \Liaison\Revision\Config\Revision */
+    /**
+     * @var \Liaison\Revision\Config\Revision
+     */
     protected $config;
 
-    /** @var \Symfony\Component\Filesystem\Filesystem */
+    /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
     protected $filesystem;
 
     protected function setUp(): void

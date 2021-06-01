@@ -71,7 +71,9 @@ final class XmlLogHandler extends AbstractLogHandler
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function initialize()
     {
         // Initialize the xml document
@@ -92,7 +94,9 @@ final class XmlLogHandler extends AbstractLogHandler
         return $this;
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function handle(string $level, string $message): int
     {
         if (! $this->logs instanceof \DOMElement) {
@@ -108,7 +112,9 @@ final class XmlLogHandler extends AbstractLogHandler
         return LogHandlerInterface::EXIT_SUCCESS;
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function save()
     {
         $dom = $this->dom;

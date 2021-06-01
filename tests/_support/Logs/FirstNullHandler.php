@@ -17,7 +17,9 @@ use Liaison\Revision\Logs\LogHandlerInterface;
 
 class FirstNullHandler extends NullLogHandler
 {
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function handle(string $level, string $message): int
     {
         return LogHandlerInterface::EXIT_SUCCESS;

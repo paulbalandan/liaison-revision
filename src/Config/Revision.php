@@ -178,7 +178,9 @@ class Revision extends BaseConfig
      */
     public $logHandlers = [];
 
-    /** Constructor. */
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->normalizePaths();

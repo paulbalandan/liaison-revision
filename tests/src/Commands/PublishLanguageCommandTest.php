@@ -21,7 +21,9 @@ use CodeIgniter\Test\Filters\CITestStreamFilter;
  */
 final class PublishLanguageCommandTest extends CIUnitTestCase
 {
-    /** @var resource */
+    /**
+     * @var resource
+     */
     private $streamFilter;
 
     protected function setUp(): void
@@ -30,8 +32,8 @@ final class PublishLanguageCommandTest extends CIUnitTestCase
 
         CITestStreamFilter::$buffer = '';
 
-        $this->streamFilter = stream_filter_append(STDOUT, 'CITestStreamFilter');
-        $this->streamFilter = stream_filter_append(STDERR, 'CITestStreamFilter');
+        $this->streamFilter = stream_filter_append(\STDOUT, 'CITestStreamFilter');
+        $this->streamFilter = stream_filter_append(\STDERR, 'CITestStreamFilter');
     }
 
     protected function tearDown(): void

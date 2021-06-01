@@ -87,7 +87,9 @@ final class PublishConfigCommand extends BaseCommand
         $this->execute($params);
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     protected function renderTemplate(array $data = []): string
     {
         $file = __DIR__ . '/../Config/Revision.php';
@@ -95,7 +97,9 @@ final class PublishConfigCommand extends BaseCommand
         return is_file($file) ? file_get_contents($file) : '';
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     protected function parseTemplate(string $class, array $search = [], array $replace = [], array $data = []): string
     {
         $namespace = trim(implode('\\', \array_slice(explode('\\', $class), 0, -1)), '\\');

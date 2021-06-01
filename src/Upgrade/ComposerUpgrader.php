@@ -64,7 +64,9 @@ final class ComposerUpgrader implements UpgraderInterface
         return $this->runProcess($cmd, $rootPath);
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function upgrade(string $rootPath, array $options = []): int
     {
         /**

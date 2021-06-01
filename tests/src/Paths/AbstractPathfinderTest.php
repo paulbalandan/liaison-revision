@@ -89,7 +89,9 @@ final class AbstractPathfinderTest extends CIUnitTestCase
         (new SimplePathfinder($config))->getIgnoredPaths();
     }
 
-    /** @return array<int, array<string>> */
+    /**
+     * @return array<int, array<string>>
+     */
     public function invalidPathsProvider(): iterable
     {
         return [

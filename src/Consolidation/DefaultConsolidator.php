@@ -70,7 +70,9 @@ final class DefaultConsolidator implements ConsolidatorInterface
         $this->filesystem = $filesystem ?? new Filesystem();
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function mergeCreatedFiles()
     {
         foreach ($this->fileManager->createdFiles as $file) {
@@ -92,7 +94,9 @@ final class DefaultConsolidator implements ConsolidatorInterface
         return $this;
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function mergeModifiedFiles()
     {
         foreach ($this->fileManager->modifiedFiles as $file) {
@@ -115,7 +119,9 @@ final class DefaultConsolidator implements ConsolidatorInterface
         return $this;
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function mergeDeletedFiles()
     {
         foreach ($this->fileManager->deletedFiles as $file) {

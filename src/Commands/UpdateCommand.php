@@ -446,7 +446,7 @@ final class UpdateCommand extends BaseCommand
             $fs->copy($own, $temp, true);
 
             for ($i = 1; $i <= $this->tries; ++$i) {
-                $try = str_pad((string) $i, 3, '0', STR_PAD_LEFT);
+                $try = str_pad((string) $i, 3, '0', \STR_PAD_LEFT);
                 $ext = isset($info['extension']) ? '.' . $info['extension'] : '';
                 $bak = sprintf('%s/%s-%s-%s.bak%s', $info['dirname'], $info['filename'], $status, $try, $ext);
 

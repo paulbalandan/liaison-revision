@@ -34,7 +34,9 @@ final class FileManagerTest extends CIUnitTestCase
         self::assertSame($expected, FileManager::areIdenticalFiles($one, $two));
     }
 
-    /** @return array<int, array<bool|string>> */
+    /**
+     * @return array<int, array<bool|string>>
+     */
     public function providePathsToCompare(): iterable
     {
         return [

@@ -41,19 +41,25 @@ class NullLogHandler extends AbstractLogHandler
         parent::__construct($config, $filesystem, $directory, $filename, $extension);
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function initialize()
     {
         return $this;
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function handle(string $level, string $message): int
     {
         return self::EXIT_ERROR;
     }
 
-    /** @inheritDoc */
+    /**
+     * {@inheritDoc}
+     */
     public function save()
     {
         throw new IOException('NullLogHandler throwed this.');
