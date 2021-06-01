@@ -20,7 +20,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Liaison Revision ${{ github.ref }}
-          draft: false
+          draft: true
           prerelease: false
           body: |
             Please refer to the [CHANGELOG](CHANGELOG.md) for the detailed list of changes.
