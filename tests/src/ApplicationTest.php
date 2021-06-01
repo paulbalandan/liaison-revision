@@ -249,7 +249,7 @@ final class ApplicationTest extends CIUnitTestCase
         if (is_file($composer = $this->config->rootPath . 'composer.json')) {
             $json = json_decode(file_get_contents($composer), true);
 
-            if (\JSON_ERROR_NONE === json_last_error()) {
+            if (JSON_ERROR_NONE === json_last_error()) {
                 return $json;
             }
         }
@@ -269,7 +269,7 @@ final class ApplicationTest extends CIUnitTestCase
 
         $this->filesystem->dumpFile(
             $this->config->rootPath . 'composer.json',
-            json_encode($composer, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE) . "\n"
+            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n"
         );
     }
 }

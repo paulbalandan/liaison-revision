@@ -42,8 +42,8 @@ final class GitignoreCommandTest extends CIUnitTestCase
 
         CITestStreamFilter::$buffer = '';
 
-        $this->streamFilter = stream_filter_append(\STDOUT, 'CITestStreamFilter');
-        $this->streamFilter = stream_filter_append(\STDERR, 'CITestStreamFilter');
+        $this->streamFilter = stream_filter_append(STDOUT, 'CITestStreamFilter');
+        $this->streamFilter = stream_filter_append(STDERR, 'CITestStreamFilter');
 
         if (! is_file($this->original)) {
             copy(__DIR__ . '/../../../.gitignore', $this->original);

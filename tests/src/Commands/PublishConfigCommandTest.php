@@ -32,8 +32,8 @@ final class PublishConfigCommandTest extends CIUnitTestCase
 
         CITestStreamFilter::$buffer = '';
 
-        $this->streamFilter = stream_filter_append(\STDOUT, 'CITestStreamFilter');
-        $this->streamFilter = stream_filter_append(\STDERR, 'CITestStreamFilter');
+        $this->streamFilter = stream_filter_append(STDOUT, 'CITestStreamFilter');
+        $this->streamFilter = stream_filter_append(STDERR, 'CITestStreamFilter');
     }
 
     protected function tearDown(): void
