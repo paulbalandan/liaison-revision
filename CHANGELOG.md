@@ -5,6 +5,12 @@ All notable changes to this library will be documented in this file:
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.1.0](https://github.com/paulbalandan/liaison-revision/compare/v1.0.3...v1.1.0) - 2021-06-19
+
+- Deprecate `ComposerUpgrader::install` as not defined by its interface
+- Update to `nexusphp/cs-config` v3.2.0 and force `@covers` annotations
+- Drop `phpstan/phpstan-strict-rules` but retain some strict features
+
 ## [v1.0.3](https://github.com/paulbalandan/liaison-revision/compare/v1.0.2...v1.0.3) - 2021-06-01
 
 - Updated code style reversal for `native_constant_invocation`
