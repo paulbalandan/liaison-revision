@@ -18,6 +18,8 @@ use Liaison\Revision\Upgrade\ComposerUpgrader;
 
 /**
  * @internal
+ *
+ * @covers \Liaison\Revision\Upgrade\ComposerUpgrader
  */
 final class ComposerUpgraderTest extends CIUnitTestCase
 {

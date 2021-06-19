@@ -29,6 +29,8 @@ use Tests\Support\Traits\PathsTrait;
  * @internal
  *
  * @large
+ *
+ * @covers \Liaison\Revision\Application
  */
 final class ApplicationTest extends CIUnitTestCase
 {
@@ -174,8 +176,6 @@ final class ApplicationTest extends CIUnitTestCase
     }
 
     /**
-     * @param string $event
-     *
      * @dataProvider eventNamesProvider
      */
     public function testApplicationExitsOnErroredEvent(string $event): void
@@ -269,7 +269,7 @@ final class ApplicationTest extends CIUnitTestCase
 
         $this->filesystem->dumpFile(
             $this->config->rootPath . 'composer.json',
-            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n"
+            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n",
         );
     }
 }

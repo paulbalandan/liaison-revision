@@ -133,9 +133,6 @@ class Application
 
     /**
      * Constructor.
-     *
-     * @param null|string                            $workspace
-     * @param null|\Liaison\Revision\Config\Revision $config
      */
     public function __construct(?string $workspace = null, ?Revision $config = null)
     {
@@ -159,8 +156,6 @@ class Application
 
     /**
      * Gets the current instance of Revision configuration.
-     *
-     * @return \Liaison\Revision\Config\Revision
      */
     public function getConfiguration(): Revision
     {
@@ -169,8 +164,6 @@ class Application
 
     /**
      * Gets the current instance of Filesystem.
-     *
-     * @return \Symfony\Component\Filesystem\Filesystem
      */
     public function getFilesystem(): Filesystem
     {
@@ -179,8 +172,6 @@ class Application
 
     /**
      * Gets the current instance of FileManager.
-     *
-     * @return \Liaison\Revision\Files\FileManager
      */
     public function getFileManager(): FileManager
     {
@@ -189,8 +180,6 @@ class Application
 
     /**
      * Gets the current instance of LogManager.
-     *
-     * @return \Liaison\Revision\Logs\LogManager
      */
     public function getLogManager(): LogManager
     {
@@ -199,8 +188,6 @@ class Application
 
     /**
      * Sets the ConsolidatorInterface instance.
-     *
-     * @param \Liaison\Revision\Consolidation\ConsolidatorInterface $consolidator
      *
      * @return $this
      */
@@ -213,8 +200,6 @@ class Application
 
     /**
      * Gets the current instance of ConsolidatorInterface.
-     *
-     * @return \Liaison\Revision\Consolidation\ConsolidatorInterface
      */
     public function getConsolidator(): ConsolidatorInterface
     {
@@ -223,8 +208,6 @@ class Application
 
     /**
      * Sets the UpgraderInterface instance.
-     *
-     * @param \Liaison\Revision\Upgrade\UpgraderInterface $upgrader
      *
      * @return $this
      */
@@ -237,8 +220,6 @@ class Application
 
     /**
      * Gets the current instance of UpgraderInterface.
-     *
-     * @return \Liaison\Revision\Upgrade\UpgraderInterface
      */
     public function getUpgrader(): UpgraderInterface
     {
@@ -247,8 +228,6 @@ class Application
 
     /**
      * Sets the PathfinderInterface instance.
-     *
-     * @param \Liaison\Revision\Paths\PathfinderInterface $pathfinder
      *
      * @return $this
      */
@@ -261,8 +240,6 @@ class Application
 
     /**
      * Gets the current instance of PathfinderInterface.
-     *
-     * @return \Liaison\Revision\Paths\PathfinderInterface
      */
     public function getPathfinder(): PathfinderInterface
     {
@@ -271,8 +248,6 @@ class Application
 
     /**
      * Sets the Differ instance.
-     *
-     * @param \SebastianBergmann\Diff\Output\DiffOutputBuilderInterface $diffOutputBuilder
      *
      * @return $this
      */
@@ -285,8 +260,6 @@ class Application
 
     /**
      * Gets the current Differ instance.
-     *
-     * @return \SebastianBergmann\Diff\Differ
      */
     public function getDiffer(): Differ
     {
@@ -295,8 +268,6 @@ class Application
 
     /**
      * Executes the application update.
-     *
-     * @return int
      */
     public function execute(): int
     {
@@ -355,8 +326,6 @@ class Application
 
     /**
      * The main upgrade logic.
-     *
-     * @return int
      */
     public function updateInternals(): int
     {
@@ -435,8 +404,6 @@ class Application
 
     /**
      * The main consolidation logic.
-     *
-     * @return int
      */
     public function consolidate(): int
     {
@@ -486,12 +453,7 @@ class Application
     /**
      * Terminates the current application.
      *
-     * @param null|string $message
-     * @param string      $level
-     *
      * @throws \Symfony\Component\Filesystem\Exception\IOException
-     *
-     * @return int
      */
     public function terminate(?string $message = null, string $level = 'info'): int
     {
@@ -537,8 +499,6 @@ class Application
      *
      * @param string $file Relative path to file
      *
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function calculateDiff(string $file): string
@@ -562,10 +522,6 @@ class Application
 
     /**
      * Formats the seconds to its relative time.
-     *
-     * @param float $seconds
-     *
-     * @return string
      */
     public function getRelativeTime(float $seconds): string
     {
@@ -582,8 +538,6 @@ class Application
 
     /**
      * Initializes the application.
-     *
-     * @param null|string $workspace
      *
      * @return void
      */
@@ -636,8 +590,6 @@ class Application
      * Creates a local copy of the current vendor files as specified
      * by the pathfinder.
      *
-     * @param string $destination
-     *
      * @throws \Liaison\Revision\Exception\RevisionException
      *
      * @return void
@@ -665,8 +617,6 @@ class Application
      * Creates the right instance of the DiffOutputBuilderInterface.
      *
      * @throws \Liaison\Revision\Exception\RevisionException
-     *
-     * @return \SebastianBergmann\Diff\Output\DiffOutputBuilderInterface
      *
      * @codeCoverageIgnore
      */

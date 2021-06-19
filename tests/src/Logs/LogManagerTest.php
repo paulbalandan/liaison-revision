@@ -20,6 +20,12 @@ use Tests\Support\Traits\PathsTrait;
 
 /**
  * @internal
+ *
+ * @covers \Liaison\Revision\Logs\AbstractLogHandler
+ * @covers \Liaison\Revision\Logs\JsonLogHandler
+ * @covers \Liaison\Revision\Logs\LogManager
+ * @covers \Liaison\Revision\Logs\PlaintextLogHandler
+ * @covers \Liaison\Revision\Logs\XmlLogHandler
  */
 final class LogManagerTest extends CIUnitTestCase
 {

@@ -54,9 +54,9 @@ final class FileManager
      * @var array<string, string[]>
      */
     public $conflicts = [
-        'created'  => [],
+        'created' => [],
         'modified' => [],
-        'deleted'  => [],
+        'deleted' => [],
     ];
 
     /**
@@ -68,11 +68,6 @@ final class FileManager
 
     /**
      * Asserts that two files are identical in contents.
-     *
-     * @param string $pathOne
-     * @param string $pathTwo
-     *
-     * @return bool
      */
     public static function areIdenticalFiles(string $pathOne, string $pathTwo): bool
     {

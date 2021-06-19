@@ -21,12 +21,9 @@ interface UpgraderInterface
     /**
      * Execute the upgrade process.
      *
-     * @param string   $rootPath
      * @param string[] $options
      *
      * @throws \Liaison\Revision\Exception\RevisionException
-     *
-     * @return int
      */
     public function upgrade(string $rootPath, array $options = []): int;
 }

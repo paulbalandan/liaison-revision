@@ -46,12 +46,6 @@ final class XmlLogHandler extends AbstractLogHandler
 
     /**
      * Constructor.
-     *
-     * @param null|\Liaison\Revision\Config\Revision        $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param string                                        $directory
-     * @param string                                        $filename
-     * @param string                                        $extension
      */
     public function __construct(
         ?Revision $config = null,
@@ -125,31 +119,29 @@ final class XmlLogHandler extends AbstractLogHandler
 
         $this->filesystem->dumpFile(
             $this->directory . $this->filename . $this->extension,
-            $dom->saveXML()
+            $dom->saveXML(),
         );
     }
 
     /**
      * Creates a XML node for the configuration settings.
-     *
-     * @return \DOMElement
      */
     protected function createConfigurationNode(): \DOMElement
     {
         $settings = [
-            lang('Revision.configurationClassLabel')   => \get_class($this->config),
-            lang('Revision.rootPathLabel')             => $this->config->rootPath,
-            lang('Revision.writePathLabel')            => $this->config->writePath,
-            lang('Revision.ignoredDir')                => $this->config->ignoreDirs,
-            lang('Revision.ignoredFile')               => $this->config->ignoreFiles,
-            lang('Revision.allowGitignoreLabel')       => $this->config->allowGitIgnoreEntry,
+            lang('Revision.configurationClassLabel') => \get_class($this->config),
+            lang('Revision.rootPathLabel') => $this->config->rootPath,
+            lang('Revision.writePathLabel') => $this->config->writePath,
+            lang('Revision.ignoredDir') => $this->config->ignoreDirs,
+            lang('Revision.ignoredFile') => $this->config->ignoreFiles,
+            lang('Revision.allowGitignoreLabel') => $this->config->allowGitIgnoreEntry,
             lang('Revision.fallThroughToProjectLabel') => $this->config->fallThroughToProject,
-            lang('Revision.maximumRetriesLabel')       => $this->config->retries,
-            lang('Revision.consolidatorLabel')         => $this->config->consolidator,
-            lang('Revision.upgraderLabel')             => $this->config->upgrader,
-            lang('Revision.pathfinderLabel')           => $this->config->pathfinder,
-            lang('Revision.diffOutputBuilderLabel')    => $this->config->diffOutputBuilder,
-            lang('Revision.logHandlersCount')          => $this->config->logHandlers,
+            lang('Revision.maximumRetriesLabel') => $this->config->retries,
+            lang('Revision.consolidatorLabel') => $this->config->consolidator,
+            lang('Revision.upgraderLabel') => $this->config->upgrader,
+            lang('Revision.pathfinderLabel') => $this->config->pathfinder,
+            lang('Revision.diffOutputBuilderLabel') => $this->config->diffOutputBuilder,
+            lang('Revision.logHandlersCount') => $this->config->logHandlers,
         ];
 
         $inflect = static function ($value): string {

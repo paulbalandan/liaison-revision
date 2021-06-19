@@ -64,7 +64,7 @@ trait PathsTrait
     {
         $this->filesystem->mirror(
             VENDORPATH . 'codeigniter4/codeigniter4',
-            $this->config->rootPath . 'vendor/codeigniter4/framework'
+            $this->config->rootPath . 'vendor/codeigniter4/framework',
         );
     }
 }

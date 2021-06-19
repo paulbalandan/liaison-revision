@@ -32,12 +32,6 @@ final class JsonLogHandler extends AbstractLogHandler
 
     /**
      * Constructor.
-     *
-     * @param null|\Liaison\Revision\Config\Revision        $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param string                                        $directory
-     * @param string                                        $filename
-     * @param string                                        $extension
      */
     public function __construct(
         ?Revision $config = null,
@@ -62,26 +56,26 @@ final class JsonLogHandler extends AbstractLogHandler
     {
         // Headers
         $this->json['application'] = [
-            'name'     => Application::NAME,
-            'version'  => Application::VERSION,
+            'name' => Application::NAME,
+            'version' => Application::VERSION,
             'run-date' => date('D, d F Y, H:i:s') . ' UTC' . date('P'),
         ];
 
         // Settings
         $this->json['settings'] = [
-            lang('Revision.configurationClassLabel')   => \get_class($this->config),
-            lang('Revision.rootPathLabel')             => $this->config->rootPath,
-            lang('Revision.writePathLabel')            => $this->config->writePath,
-            lang('Revision.ignoredDir')                => $this->config->ignoreDirs,
-            lang('Revision.ignoredFile')               => $this->config->ignoreFiles,
-            lang('Revision.allowGitignoreLabel')       => $this->config->allowGitIgnoreEntry,
+            lang('Revision.configurationClassLabel') => \get_class($this->config),
+            lang('Revision.rootPathLabel') => $this->config->rootPath,
+            lang('Revision.writePathLabel') => $this->config->writePath,
+            lang('Revision.ignoredDir') => $this->config->ignoreDirs,
+            lang('Revision.ignoredFile') => $this->config->ignoreFiles,
+            lang('Revision.allowGitignoreLabel') => $this->config->allowGitIgnoreEntry,
             lang('Revision.fallThroughToProjectLabel') => $this->config->fallThroughToProject,
-            lang('Revision.maximumRetriesLabel')       => $this->config->retries,
-            lang('Revision.consolidatorLabel')         => $this->config->consolidator,
-            lang('Revision.upgraderLabel')             => $this->config->upgrader,
-            lang('Revision.pathfinderLabel')           => $this->config->pathfinder,
-            lang('Revision.diffOutputBuilderLabel')    => $this->config->diffOutputBuilder,
-            lang('Revision.logHandlers')               => $this->config->logHandlers,
+            lang('Revision.maximumRetriesLabel') => $this->config->retries,
+            lang('Revision.consolidatorLabel') => $this->config->consolidator,
+            lang('Revision.upgraderLabel') => $this->config->upgrader,
+            lang('Revision.pathfinderLabel') => $this->config->pathfinder,
+            lang('Revision.diffOutputBuilderLabel') => $this->config->diffOutputBuilder,
+            lang('Revision.logHandlers') => $this->config->logHandlers,
         ];
 
         return $this;
@@ -111,7 +105,7 @@ final class JsonLogHandler extends AbstractLogHandler
 
         $this->filesystem->dumpFile(
             $this->directory . $this->filename . $this->extension,
-            json_encode($json, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "\n"
+            json_encode($json, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "\n",
         );
     }
 }

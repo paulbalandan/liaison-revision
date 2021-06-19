@@ -73,8 +73,6 @@ final class UpdateCommand extends BaseCommand
     /**
      * Execute the update of the project.
      *
-     * @param array $params
-     *
      * @return void
      */
     public function run(array $params)
@@ -121,17 +119,15 @@ final class UpdateCommand extends BaseCommand
     /**
      * Presents a choice question for consolidation.
      *
-     * @param \Liaison\Revision\Application $app
-     *
      * @return bool false to terminate the process
      */
     public function consolidationChoice(Application $app): bool
     {
         $manager = $app->getFileManager();
         $updates = [
-            'createdFiles'  => \count($manager->createdFiles),
+            'createdFiles' => \count($manager->createdFiles),
             'modifiedFiles' => \count($manager->modifiedFiles),
-            'deletedFiles'  => \count($manager->deletedFiles),
+            'deletedFiles' => \count($manager->deletedFiles),
         ];
         $count = array_sum($updates);
 
@@ -158,6 +154,7 @@ final class UpdateCommand extends BaseCommand
         switch (CLI::prompt(CLI::color(lang('Revision.confirmQuestionPrompt'), 'yellow'), ['p', 'l', 'c', 'm', 'd', 'a'])) {
             case 'p':
                 return true;
+
             case 'l':
                 $this
                     ->listFiles($manager->createdFiles, lang('Revision.filesCreatedLabel'), $tbody)
@@ -167,6 +164,7 @@ final class UpdateCommand extends BaseCommand
                 ;
 
                 break;
+
             case 'c':
                 $this
                     ->listFiles($manager->createdFiles, lang('Revision.filesCreatedLabel'), $tbody)
@@ -174,6 +172,7 @@ final class UpdateCommand extends BaseCommand
                 ;
 
                 break;
+
             case 'm':
                 $this
                     ->listFiles($manager->modifiedFiles, lang('Revision.filesModifiedLabel'), $tbody)
@@ -181,6 +180,7 @@ final class UpdateCommand extends BaseCommand
                 ;
 
                 break;
+
             case 'd':
                 $this
                     ->listFiles($manager->deletedFiles, lang('Revision.filesDeletedLabel'), $tbody)
@@ -188,6 +188,7 @@ final class UpdateCommand extends BaseCommand
                 ;
 
                 break;
+
             case 'a':
                 return false;
         }
@@ -199,18 +200,14 @@ final class UpdateCommand extends BaseCommand
 
     /**
      * Presents a choice question for conflicts resolution and execution.
-     *
-     * @param \Liaison\Revision\Application $app
-     *
-     * @return bool
      */
     public function conflictsChoice(Application $app): bool
     {
         $manager = $app->getFileManager();
         $conflicts = [
-            'created'  => \count($manager->conflicts['created']),
+            'created' => \count($manager->conflicts['created']),
             'modified' => \count($manager->conflicts['modified']),
-            'deleted'  => \count($manager->conflicts['deleted']),
+            'deleted' => \count($manager->conflicts['deleted']),
         ];
         $count = array_sum($conflicts);
 
@@ -241,6 +238,7 @@ final class UpdateCommand extends BaseCommand
                 ;
 
                 break;
+
             case 'o':
                 foreach ($manager->conflicts as $status => $files) {
                     foreach ($files as $file) {
@@ -254,6 +252,7 @@ final class UpdateCommand extends BaseCommand
                 CLI::newLine();
 
                 return true;
+
             case 'b':
                 foreach ($manager->conflicts as $status => $files) {
                     foreach ($files as $file) {
@@ -267,10 +266,12 @@ final class UpdateCommand extends BaseCommand
                 CLI::newLine();
 
                 return true;
+
             case 's':
                 CLI::newLine();
 
                 return true;
+
             case 'r':
                 foreach ($manager->conflicts as $status => $files) {
                     foreach ($files as $file) {
@@ -284,6 +285,7 @@ final class UpdateCommand extends BaseCommand
                 CLI::newLine();
 
                 return true;
+
             case 'a':
                 CLI::newLine();
 
@@ -295,8 +297,6 @@ final class UpdateCommand extends BaseCommand
 
     /**
      * Writes a nice message before terminating.
-     *
-     * @param \Liaison\Revision\Application $app
      *
      * @return bool
      */
@@ -335,11 +335,6 @@ final class UpdateCommand extends BaseCommand
 
     /**
      * Presents individual choice questions for each file in conflict.
-     *
-     * @param string $file
-     * @param string $status
-     *
-     * @return bool
      */
     protected function conflictsResolutionChoice(string $file, string $status): bool
     {
@@ -376,12 +371,16 @@ final class UpdateCommand extends BaseCommand
                 CLI::write(trim(implode("\n", $coloredDiff)));
 
                 break;
+
             case 'o':
                 return $this->conflictsResolutionExecution($file, $status);
+
             case 'b':
                 return $this->conflictsResolutionExecution($file, $status, true);
+
             case 's':
                 return true;
+
             case 'a':
                 return false;
         }
@@ -391,12 +390,6 @@ final class UpdateCommand extends BaseCommand
 
     /**
      * Executes the mode of resolution for a conflict.
-     *
-     * @param string $file
-     * @param string $status
-     * @param bool   $safe
-     *
-     * @return bool
      */
     protected function conflictsResolutionExecution(string $file, string $status, bool $safe = false): bool
     {
@@ -429,11 +422,6 @@ final class UpdateCommand extends BaseCommand
 
     /**
      * Creates a backup file before overwriting or deleting the original file.
-     *
-     * @param string $own
-     * @param string $status
-     *
-     * @return bool
      */
     protected function createBackup(string $own, string $status): bool
     {
@@ -506,7 +494,6 @@ final class UpdateCommand extends BaseCommand
      * Creates an array of files with its status and diff count.
      *
      * @param string[]               $files
-     * @param string                 $status
      * @param null|array<int|string> $output
      *
      * @return $this

@@ -67,13 +67,11 @@ final class PublishConfigCommand extends BaseCommand
      */
     protected $options = [
         '--namespace' => 'Sets the root namespace. Defaults to "APP_NAMESPACE".',
-        '--force'     => 'Force overwrite existing file in destination.',
+        '--force' => 'Force overwrite existing file in destination.',
     ];
 
     /**
      * Execute the config generation.
-     *
-     * @param array $params
      *
      * @return void
      */
@@ -129,7 +127,7 @@ final class PublishConfigCommand extends BaseCommand
         return str_replace(
             [$search, $searchLicense, $searchExtends, $searchUse],
             [$replace, $replaceLicense, $replaceExtends, $replaceUse],
-            $this->renderTemplate($data)
+            $this->renderTemplate($data),
         );
     }
 }

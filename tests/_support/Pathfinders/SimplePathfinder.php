@@ -19,11 +19,11 @@ class SimplePathfinder extends AbstractPathfinder
 {
     protected $paths = [
         [
-            'origin'      => SYSTEMPATH . '../spark',
+            'origin' => SYSTEMPATH . '../spark',
             'destination' => '',
         ],
         [
-            'origin'      => SYSTEMPATH . '../app',
+            'origin' => SYSTEMPATH . '../app',
             'destination' => 'app',
         ],
     ];

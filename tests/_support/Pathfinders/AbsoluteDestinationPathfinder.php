@@ -19,7 +19,7 @@ class AbsoluteDestinationPathfinder extends AbstractPathfinder
 {
     protected $paths = [
         [
-            'origin'      => SYSTEMPATH . '../spark',
+            'origin' => SYSTEMPATH . '../spark',
             'destination' => ROOTPATH . 'spark',
         ],
     ];

@@ -18,6 +18,8 @@ use CodeIgniter\Test\Filters\CITestStreamFilter;
 
 /**
  * @internal
+ *
+ * @covers \Liaison\Revision\Commands\GitignoreCommand
  */
 final class GitignoreCommandTest extends CIUnitTestCase
 {

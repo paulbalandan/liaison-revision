@@ -22,7 +22,6 @@ interface LogManagerInterface
      * Passes the message to the handlers for proper handling.
      *
      * @param string|string[] $messages
-     * @param string          $level
      *
      * @return void
      */

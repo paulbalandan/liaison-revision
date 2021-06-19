@@ -27,23 +27,23 @@ final class DefaultPathfinder extends AbstractPathfinder
      */
     protected $paths = [
         [
-            'origin'      => SYSTEMPATH . '../app',
+            'origin' => SYSTEMPATH . '../app',
             'destination' => 'app',
         ],
         [
-            'origin'      => SYSTEMPATH . '../public',
+            'origin' => SYSTEMPATH . '../public',
             'destination' => 'public',
         ],
         [
-            'origin'      => SYSTEMPATH . '../writable',
+            'origin' => SYSTEMPATH . '../writable',
             'destination' => 'writable',
         ],
         [
-            'origin'      => SYSTEMPATH . '../spark',
+            'origin' => SYSTEMPATH . '../spark',
             'destination' => '',
         ],
         [
-            'origin'      => SYSTEMPATH . '../env',
+            'origin' => SYSTEMPATH . '../env',
             'destination' => '',
         ],
     ];

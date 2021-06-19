@@ -22,12 +22,6 @@ class NullLogHandler extends AbstractLogHandler
 {
     /**
      * Constructor.
-     *
-     * @param string                                        $directory
-     * @param string                                        $filename
-     * @param string                                        $extension
-     * @param null|\Liaison\Revision\Config\Revision        $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
      */
     public function __construct(
         ?Revision $config = null,

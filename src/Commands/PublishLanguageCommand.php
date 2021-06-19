@@ -69,14 +69,12 @@ final class PublishLanguageCommand extends BaseCommand
      * @var array<string, string>
      */
     protected $options = [
-        '--lang'  => 'The specific language/locale directory to publish to.',
+        '--lang' => 'The specific language/locale directory to publish to.',
         '--force' => 'Force overwrite existing file in destination.',
     ];
 
     /**
      * Execute the publication.
-     *
-     * @param array $params
      *
      * @return void
      */

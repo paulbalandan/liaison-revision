@@ -32,8 +32,6 @@ interface LogHandlerInterface
     /**
      * Sets the path to the specific log handler save directory.
      *
-     * @param string $directory
-     *
      * @return LogHandlerInterface
      */
     public function setDirectory(string $directory);
@@ -41,16 +39,12 @@ interface LogHandlerInterface
     /**
      * Sets the filename of the log file without its extension.
      *
-     * @param string $filename
-     *
      * @return LogHandlerInterface
      */
     public function setFilename(string $filename);
 
     /**
      * Sets the file extension of the log file.
-     *
-     * @param string $ext
      *
      * @return LogHandlerInterface
      */
@@ -65,11 +59,6 @@ interface LogHandlerInterface
 
     /**
      * Handles the logging of messages.
-     *
-     * @param string $level
-     * @param string $message
-     *
-     * @return int
      */
     public function handle(string $level, string $message): int;
 

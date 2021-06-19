@@ -52,12 +52,6 @@ abstract class AbstractLogHandler implements LogHandlerInterface
 
     /**
      * Constructor.
-     *
-     * @param \Liaison\Revision\Config\Revision        $config
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param string                                   $directory
-     * @param string                                   $filename
-     * @param string                                   $extension
      */
     public function __construct(
         Revision $config,

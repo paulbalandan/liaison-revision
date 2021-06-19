@@ -49,8 +49,8 @@ final class GitignoreCommand extends BaseCommand
      * @var array<string, string>
      */
     protected $options = [
-        '--allow-entry'      => 'Override config `$allowGitIgnoreEntry` to force allow write.',
-        '--disallow-entry'   => 'Override config `$allowGitIgnoreEntry` to force disallow write.',
+        '--allow-entry' => 'Override config `$allowGitIgnoreEntry` to force allow write.',
+        '--disallow-entry' => 'Override config `$allowGitIgnoreEntry` to force disallow write.',
         '--write-if-missing' => 'Write a new .gitignore if none is found.',
     ];
 
@@ -64,8 +64,6 @@ final class GitignoreCommand extends BaseCommand
     /**
      * Actually executes the command.
      *
-     * @param array $params
-     *
      * @return void
      */
     public function run(array $params)
@@ -73,7 +71,7 @@ final class GitignoreCommand extends BaseCommand
         /** @var \Liaison\Revision\Config\Revision */
         $config = config('Revision');
 
-        $allow = \array_key_exists('allow-entry', $params)   || (bool) CLI::getOption('allow-entry');
+        $allow = \array_key_exists('allow-entry', $params) || (bool) CLI::getOption('allow-entry');
         $deny = \array_key_exists('disallow-entry', $params) || (bool) CLI::getOption('disallow-entry');
 
         if ($allow && $deny) {

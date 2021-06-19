@@ -34,8 +34,6 @@ final class ComposerUpgrader implements UpgraderInterface
 
     /**
      * Constructor.
-     *
-     * @param null|\Liaison\Revision\Config\Revision $config
      */
     public function __construct(?Revision $config = null)
     {
@@ -45,10 +43,7 @@ final class ComposerUpgrader implements UpgraderInterface
     /**
      * Installs the project.
      *
-     * @param string   $rootPath
      * @param string[] $options
-     *
-     * @return int
      */
     public function install(string $rootPath, array $options = []): int
     {
@@ -85,8 +80,6 @@ final class ComposerUpgrader implements UpgraderInterface
      * Gets the path of the composer executable.
      *
      * @throws RevisionException
-     *
-     * @return string
      */
     private function findComposerPhar(): string
     {
@@ -98,7 +91,7 @@ final class ComposerUpgrader implements UpgraderInterface
             return sprintf(
                 '%s %s',
                 escapeshellarg($phpBinary),
-                escapeshellarg($composerLocal)
+                escapeshellarg($composerLocal),
             );
             // @codeCoverageIgnoreEnd
         }
@@ -115,10 +108,7 @@ final class ComposerUpgrader implements UpgraderInterface
     /**
      * Appends additional options to a command string.
      *
-     * @param string   $command
      * @param string[] $options
-     *
-     * @return string
      */
     private function applyCommandOptions(string $command, array $options): string
     {
@@ -144,12 +134,7 @@ final class ComposerUpgrader implements UpgraderInterface
     /**
      * Runs the command in a subprocess.
      *
-     * @param string $command
-     * @param string $cwd
-     *
      * @throws \Liaison\Revision\Exception\RevisionException
-     *
-     * @return int
      */
     private function runProcess(string $command, string $cwd): int
     {

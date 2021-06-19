@@ -31,12 +31,6 @@ final class PlaintextLogHandler extends AbstractLogHandler
 
     /**
      * Constructor.
-     *
-     * @param null|\Liaison\Revision\Config\Revision        $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param string                                        $directory
-     * @param string                                        $filename
-     * @param string                                        $extension
      */
     public function __construct(
         ?Revision $config = null,
@@ -139,7 +133,7 @@ final class PlaintextLogHandler extends AbstractLogHandler
 
         $this->filesystem->dumpFile(
             $this->directory . $this->filename . $this->extension,
-            $buffer
+            $buffer,
         );
     }
 }

@@ -59,9 +59,6 @@ abstract class AbstractPathfinder implements PathfinderInterface
 
     /**
      * Constructor.
-     *
-     * @param null|\Liaison\Revision\Config\Revision        $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
      */
     public function __construct(?Revision $config = null, ?Filesystem $filesystem = null)
     {

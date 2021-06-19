@@ -21,6 +21,8 @@ use Tests\Support\Pathfinders\SimplePathfinder;
 
 /**
  * @internal
+ *
+ * @covers \Liaison\Revision\Paths\AbstractPathfinder
  */
 final class AbstractPathfinderTest extends CIUnitTestCase
 {
@@ -28,11 +30,11 @@ final class AbstractPathfinderTest extends CIUnitTestCase
     {
         $finder = new SimplePathfinder();
         $subset1 = [
-            'origin'      => realpath(SYSTEMPATH . '../spark'),
+            'origin' => realpath(SYSTEMPATH . '../spark'),
             'destination' => 'spark',
         ];
         $subset2 = [
-            'origin'      => realpath(SYSTEMPATH . '../app/Config/App.php'),
+            'origin' => realpath(SYSTEMPATH . '../app/Config/App.php'),
             'destination' => 'app/Config/App.php',
         ];
         self::assertContains($subset1, $finder->getPaths());
@@ -68,10 +70,6 @@ final class AbstractPathfinderTest extends CIUnitTestCase
     }
 
     /**
-     * @param string $invalid
-     * @param string $type
-     * @param string $message
-     *
      * @dataProvider invalidPathsProvider
      */
     public function testInvalidIgnoredPaths(string $invalid, string $type = 'file', string $message = ''): void

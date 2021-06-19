@@ -52,11 +52,6 @@ final class DefaultConsolidator implements ConsolidatorInterface
 
     /**
      * Constructor.
-     *
-     * @param string                                        $workspace
-     * @param \Liaison\Revision\Files\FileManager           $fileManager
-     * @param null|\Liaison\Revision\Config\Revision        $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
      */
     public function __construct(
         string $workspace,

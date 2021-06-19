@@ -151,13 +151,13 @@ class Revision extends BaseConfig
             true, // bool $addLineNumbers
         ],
         'strictUniDiff' => [
-            'collapseRanges'      => true, // bool
+            'collapseRanges' => true, // bool
             'commonLineThreshold' => 6, // int >= 0
-            'contextLines'        => 3, // int > 0
-            'fromFile'            => null, // string
-            'fromFileDate'        => null, // null|string
-            'toFile'              => null, // string
-            'toFileDate'          => null, // null/string
+            'contextLines' => 3, // int > 0
+            'fromFile' => null, // string
+            'fromFileDate' => null, // null|string
+            'toFile' => null, // string
+            'toFileDate' => null, // null/string
         ],
         'diffOnly' => [
             "--- Original\n+++ New\n", // string $header

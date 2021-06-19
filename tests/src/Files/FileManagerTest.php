@@ -18,14 +18,12 @@ use Liaison\Revision\Files\FileManager;
 
 /**
  * @internal
+ *
+ * @covers \Liaison\Revision\Files\FileManager
  */
 final class FileManagerTest extends CIUnitTestCase
 {
     /**
-     * @param bool   $expected
-     * @param string $one
-     * @param string $two
-     *
      * @dataProvider providePathsToCompare
      */
     public function testAreIdenticalFiles(bool $expected, string $one, string $two): void

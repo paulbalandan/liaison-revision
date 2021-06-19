@@ -50,8 +50,6 @@ final class LogManager implements LogManagerInterface
 
     /**
      * Constructor.
-     *
-     * @param null|\Liaison\Revision\Config\Revision $config
      */
     public function __construct(?Revision $config = null)
     {

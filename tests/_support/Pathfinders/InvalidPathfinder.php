@@ -19,7 +19,7 @@ class InvalidPathfinder extends AbstractPathfinder
 {
     protected $paths = [
         [
-            'origin'      => SYSTEMPATH . '../foo/bar',
+            'origin' => SYSTEMPATH . '../foo/bar',
             'destination' => 'foo/bar',
         ],
     ];

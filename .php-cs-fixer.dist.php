@@ -22,14 +22,15 @@ $finder = Finder::create()
     ->append([__FILE__])
 ;
 
+$overrides = [];
 $options = [
-    'finder'    => $finder,
+    'finder' => $finder,
     'cacheFile' => 'build/.php-cs-fixer.cache',
 ];
 
-return Factory::create(new Nexus73(), [], $options)->forLibrary(
+return Factory::create(new Nexus73(), $overrides, $options)->forLibrary(
     'Liaison Revision',
     'John Paul E. Balandan, CPA',
     'paulbalandan@gmail.com',
-    2020
+    2020,
 );

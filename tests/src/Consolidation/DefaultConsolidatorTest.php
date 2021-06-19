@@ -21,6 +21,8 @@ use Tests\Support\Traits\PathsTrait;
 
 /**
  * @internal
+ *
+ * @covers \Liaison\Revision\Consolidation\DefaultConsolidator
  */
 final class DefaultConsolidatorTest extends CIUnitTestCase
 {

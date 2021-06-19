@@ -21,32 +21,29 @@ class LiveTestPathfinder extends AbstractPathfinder
 {
     protected $paths = [
         [
-            'origin'      => SYSTEMPATH . '../app',
+            'origin' => SYSTEMPATH . '../app',
             'destination' => 'app',
         ],
         [
-            'origin'      => SYSTEMPATH . '../public',
+            'origin' => SYSTEMPATH . '../public',
             'destination' => 'public',
         ],
         [
-            'origin'      => SYSTEMPATH . '../writable',
+            'origin' => SYSTEMPATH . '../writable',
             'destination' => 'writable',
         ],
         [
-            'origin'      => SYSTEMPATH . '../spark',
+            'origin' => SYSTEMPATH . '../spark',
             'destination' => '',
         ],
         [
-            'origin'      => SYSTEMPATH . '../env',
+            'origin' => SYSTEMPATH . '../env',
             'destination' => '',
         ],
     ];
 
     /**
      * Constructor.
-     *
-     * @param \Liaison\Revision\Config\Revision             $config
-     * @param null|\Symfony\Component\Filesystem\Filesystem $filesystem
      */
     public function __construct(Revision $config, ?Filesystem $filesystem = null)
     {
@@ -60,7 +57,7 @@ class LiveTestPathfinder extends AbstractPathfinder
 
         // Add something to ignore later
         $paths[] = [
-            'origin'      => $systemPath . '../composer.json',
+            'origin' => $systemPath . '../composer.json',
             'destination' => '',
         ];
 
