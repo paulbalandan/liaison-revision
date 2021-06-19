@@ -44,19 +44,14 @@ final class ComposerUpgrader implements UpgraderInterface
      * Installs the project.
      *
      * @param string[] $options
+     *
+     * @deprecated v1.0.4 This method is not part of the interface and Composer v2 uses `update` mainly.
+     *
+     * @codeCoverageIgnore
      */
     public function install(string $rootPath, array $options = []): int
     {
-        /**
-         * Default behavior now is to exclude non-system directory.
-         * Add `--prefer-source` to download these.
-         *
-         * @see https://github.com/codeigniter4/CodeIgniter4/pull/3438
-         */
-        $cmd = $this->findComposerPhar() . ' install --ansi --prefer-source --no-interaction';
-        $cmd = $this->applyCommandOptions($cmd, $options);
-
-        return $this->runProcess($cmd, $rootPath);
+        return $this->upgrade($rootPath, $options);
     }
 
     /**

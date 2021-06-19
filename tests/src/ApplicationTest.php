@@ -63,7 +63,7 @@ final class ApplicationTest extends CIUnitTestCase
     protected $filesystem;
 
     /**
-     * @var \Liaison\Revision\Upgrade\ComposerUpgrader
+     * @var \Liaison\Revision\Upgrade\UpgraderInterface
      */
     protected $upgrader;
 
@@ -117,7 +117,7 @@ final class ApplicationTest extends CIUnitTestCase
     public function testApplicationLifeCycleIntrospection(): void
     {
         // Install first the base version
-        $this->upgrader->install($this->config->rootPath);
+        $this->upgrader->upgrade($this->config->rootPath);
         self::assertDirectoryExists($this->config->rootPath . 'vendor');
 
         // Create an instance of Application
