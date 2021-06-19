@@ -14,10 +14,14 @@
          stopOnIncomplete="false"
          stopOnSkipped="false"
          verbose="true">
-    <coverage cacheDirectory="build/code-coverage" processUncoveredFiles="true">
+    <coverage cacheDirectory="build/code-coverage" processUncoveredFiles="true" ignoreDeprecatedCodeUnits="true">
         <include>
             <directory suffix=".php">src</directory>
         </include>
+
+        <exclude>
+            <directory>src/Language</directory>
+        </exclude>
 
         <report>
             <clover outputFile="build/logs/clover.xml"/>
