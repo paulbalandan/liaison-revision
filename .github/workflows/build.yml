@@ -13,18 +13,22 @@ on:
       - src/**
       - tests/**
       - .github/workflows/build.yml
+      - composer.json
+      - phpunit.xml.dist
   pull_request:
     branches:
       - develop
     paths:
       - src/**
       - tests/**
+      - .github/workflows/build.yml
+      - composer.json
+      - phpunit.xml.dist
 
 jobs:
   main:
     name: Build [PHP ${{ matrix.php-versions }}]
     runs-on: ubuntu-20.04
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
     strategy:
       fail-fast: false
