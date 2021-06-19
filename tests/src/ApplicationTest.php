@@ -31,6 +31,7 @@ use Tests\Support\Traits\PathsTrait;
  * @large
  *
  * @covers \Liaison\Revision\Application
+ * @covers \Liaison\Revision\Config\Revision
  */
 final class ApplicationTest extends CIUnitTestCase
 {
