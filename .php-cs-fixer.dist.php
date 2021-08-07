@@ -22,7 +22,16 @@ $finder = Finder::create()
     ->append([__FILE__])
 ;
 
-$overrides = [];
+$overrides = [
+    // @todo remove when bug is fixed
+    'class_attributes_separation' => [
+        'elements' => [
+            'const' => 'one',
+            'property' => 'one',
+            'method' => 'one',
+        ],
+    ],
+];
 $options = [
     'finder' => $finder,
     'cacheFile' => 'build/.php-cs-fixer.cache',
