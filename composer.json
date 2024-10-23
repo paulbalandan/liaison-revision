@@ -39,11 +39,6 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "extra": {
-        "branch-alias": {
-            "dev-develop": "1.x-dev"
-        }
-    },
     "autoload": {
         "psr-4": {
             "Liaison\\Revision\\": "src/"
